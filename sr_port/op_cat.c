@@ -15,14 +15,14 @@
 
 #include "stringpool.h"
 #include "op.h"
-#include <varargs.h>
+#include <stdarg.h>
 
 #define MAX_NUM_LEN 64
 
 GBLREF spdesc stringpool;
 
-void op_cat(va_alist)
-va_dcl
+void op_cat(int something, ...)
+//va_dcl
 {
 	va_list var, argbase;
 	mval *in, *dst, *src;
@@ -31,7 +31,7 @@ va_dcl
 	unsigned char *cp, *base;
 	error_def(ERR_MAXSTRLEN);
 
-	VAR_START(var);
+	va_start(var,something);
 	srcargs = va_arg(var,int4) - 1;
 	dst = va_arg(var, mval *);
 	VAR_COPY(argbase, var);

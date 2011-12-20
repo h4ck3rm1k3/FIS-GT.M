@@ -11,11 +11,11 @@
 
 #include "mdef.h"
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gtm_stdio.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include <errno.h>
 #include "gtm_stdlib.h"

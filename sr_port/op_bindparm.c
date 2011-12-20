@@ -19,15 +19,15 @@
 #include "stack_frame.h"
 #include "op.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 GBLREF mv_stent			*mv_chain;
 GBLREF unsigned char		*stackbase, *stacktop, *msp, *stackwarn;
 GBLREF symval			*curr_symval;
 GBLREF stack_frame		*frame_pointer;
 
-void op_bindparm(va_alist)
-va_dcl
+void op_bindparm(int something, ...)
+//va_dcl
 {
 	va_list		var;
 	uint4		mask;
@@ -49,7 +49,7 @@ va_dcl
 
 	for (mv_ent = mv_chain; MVST_PARM != mv_ent->mv_st_type; mv_ent = (mv_stent *)((char *)mv_ent + mv_ent->mv_st_next))
 		assert(mv_ent < (mv_stent *)frame_pointer);
-	VAR_START(var);
+	va_start(var,something);
 	frmc = va_arg(var, int4);
 	actc = mv_ent->mv_st_cont.mvs_parm.mvs_parmlist->actualcnt;
 	actp = mv_ent->mv_st_cont.mvs_parm.mvs_parmlist->actuallist;

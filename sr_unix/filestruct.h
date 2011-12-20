@@ -16,6 +16,8 @@
 #define GDS_LABEL 	"GDSDYNUNX02" /* This string must be of length GDS_LABEL_SZ */
 #define GDS_RPL_LABEL 	"GDSRPLUNX02" /* This string must be of length GDS_LABEL_SZ */
 
+typedef int key_t;
+
 typedef struct unix_db_info_struct
 {	sgmnt_addrs	s_addrs;
 	char		*fn;

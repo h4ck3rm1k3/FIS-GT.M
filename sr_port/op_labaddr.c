@@ -20,8 +20,9 @@
 #include "zbreak.h"
 
 USHBIN_ONLY(static LNR_TABENT *ind_lnr;)
-
-USHBIN_ONLY(LNR_TABENT  **) NON_USHBIN_ONLY(LNR_TABENT *)op_labaddr(rhdtyp *routine, mval *label, int4 offset)
+//lnr_tabent **op_labaddr(rhdtyp *routine, mval *label, int4 offset);
+//USHBIN_ONLY(LNR_TABENT  **) NON_USHBIN_ONLY(LNR_TABENT *)
+lnr_tabent ** op_labaddr(rhdtyp *routine, mval *label, int4 offset)
 {
 	rhdtyp		*real_routine, *routine_hdr;
 	LNR_TABENT	*answer, *first_line;

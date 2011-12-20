@@ -22,7 +22,7 @@
 #include "stringpool.h"
 #include "mv_stent.h"
 #include "fnname.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "op.h"
 #include "gvsub2str.h"
 
@@ -73,8 +73,8 @@ GBLREF unsigned char	*msp, *stackwarn, *stacktop;
 		dst->str.len++;								\
 	}
 
-void op_fnname(va_alist)
-va_dcl
+void op_fnname(int something, ...)
+//va_dcl
 {
 	int		space_needed;
 	int 		sub_count, depth_count, fnname_type;
@@ -92,7 +92,7 @@ va_dcl
 	/* Implementation note: $NAME does not edit check the result, such as if the key size exceeds the maximum for a global.
 	 * So, the result if used in other operations (such as SET, KILL) may generate run time errors (GVSUBOFLOW, etc) */
 
-	VAR_START(var);
+	va_start(var,something);
 	sub_count = va_arg(var, int);
 	finaldst = va_arg(var, mval *);
 	fnname_type = va_arg(var, int);

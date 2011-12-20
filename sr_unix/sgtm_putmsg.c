@@ -13,14 +13,14 @@
 
 #include "gtm_string.h"
 
-/* gcc/LinuxIA32 needs stdio.h before varargs.h until removed from error.h */
+/* gcc/LinuxIA32 needs stdio.h before stdarg.h until removed from error.h */
 /* gcc/Linux390 needs varargs before stdarg in stdio */
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #include "gtm_stdio.h"
 #else
 #include "gtm_stdio.h"
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "gdsroot.h"

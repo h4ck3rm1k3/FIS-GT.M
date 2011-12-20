@@ -14,11 +14,11 @@
 /* gcc/LinuxIA32 needs stdio.h before varargs until removed from error.h */
 /* gcc/Linux390 needs varargs before stdarg in stdio */
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gtm_stdio.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "gtm_putmsg_list.h"

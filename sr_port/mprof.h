@@ -126,15 +126,33 @@ void	crt_gbl(struct mprof_tree *p, int info_level);
 void	stack_leak_check(void);
 
 /* functions required for the transfer table manipulations*/
-int op_mproflinefetch(), op_mproflinestart();
-int op_mprofextexfun(), op_mprofextcall(), op_mprofexfun();
+
+//int op_mproflinefetch();
+//int op_mproflinestart();
+int op_mprofextexfun();
+int op_mprofextcall();
+int op_mprofexfun();
 int op_mprofcallb(), op_mprofcallw(), op_mprofcalll();
 int op_mprofcallspw(), op_mprofcallspl(), op_mprofcallspb();
-int op_mprofforlcldow(), op_mprofforlcldol(), op_mprofforlcldob(), op_mprofforloop();
-int op_linefetch(), op_linestart();
-int op_extexfun(), op_extcall(), op_exfun(), op_forlcldo();
-int op_callw(), op_calll(), op_callb();
-int op_callspw(), op_callspl(), op_callspb();
-int op_forlcldow(), op_forlcldol(), op_forlcldob(), op_forloop();
+int op_mprofforlcldow(), op_mprofforlcldol(), op_mprofforlcldob();
+
+//int op_mprofforloop();
+//int op_linefetch()
+//int op_linestart();
+int op_extexfun();
+int op_extcall();
+int op_callw();
+int op_calll(); 
+int op_callb();
+
+int op_exfun();
+int op_forlcldo();
+int op_callspw();
+int op_callspl();
+int op_callspb();
+int op_forlcldow();
+int op_forlcldol();
+int op_forlcldob();
+//int op_forloop();
 
 #endif

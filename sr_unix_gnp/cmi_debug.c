@@ -11,12 +11,12 @@
 #ifdef DEBUG
 #include "mdef.h"
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gtm_stdio.h"
 #include "cmidef.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 GBLDEF int cmi_debug_enabled = FALSE;

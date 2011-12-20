@@ -11,7 +11,7 @@
 
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "hashdef.h"
 #include "lv_val.h"

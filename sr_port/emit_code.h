@@ -43,7 +43,7 @@ int	gtm_reg(int vax_reg);
 #elif defined(__osf__)
 #  undef TRUTH_IN_REG
 #else
-# error UNSUPPORTED PLATFORM
+//# error UNSUPPORTED PLATFORM
 #endif
 
 #endif

@@ -22,6 +22,8 @@
 #endif
 #endif
 
+#include "types.h"
+
 #define CR_NOTVALID (-1)
 
 #define WC_MAX_BUFFS 64*1024
@@ -195,6 +197,8 @@ enum crit_ops
 	crit_ops_dr,		/* convert read to write */
 	crit_ops_nocrit		/* did a rel_crit when now_crit flag was off */
 };
+
+
 
 typedef struct
 {

@@ -14,13 +14,13 @@
 /* gcc/LinuxIA32 needs stdio before varargs until stdio.h removed from error.h */
 /* gcc/Linux390 needs varargs before stdio */
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #ifdef __GNUC__
 #include "gtm_stdio.h"
 #endif
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "gtm_string.h"
@@ -86,8 +86,8 @@ GBLREF boolean_t	gvdupsetnoop; /* if TRUE, duplicate SETs update journal but not
 #define ZDEFDEF 32767
 #define ZDEFMAX 65535
 
-void	op_view(va_alist)
-va_dcl
+void	op_view(int something, ...)
+//va_dcl
 {
 	int4		testvalue;
 	uint4		jnl_status;
@@ -125,7 +125,7 @@ va_dcl
 	error_def(ERR_TRACEON);
 	error_def(ERR_INVZDIRFORM);
 
-	VAR_START(var);
+	va_start(var,something);
 	numarg = va_arg(var, int4);
 	jnl_status = 0;
 	if (numarg < 1)

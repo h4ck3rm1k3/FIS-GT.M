@@ -16,7 +16,7 @@
 #include "hashdef.h"
 #include "lv_val.h"
 #include "op.h"
-#include <varargs.h>
+#include <stdarg.h>
 
 typedef struct
 {
@@ -29,8 +29,8 @@ GBLREF symval *curr_symval;
 GBLREF lv_val *active_lv;
 LITREF mident zero_ident;
 
-void op_xkill(va_alist)
-va_dcl
+void op_xkill(int something, ...)
+//va_dcl
 {
 	va_list		var;
 	int		n;
@@ -43,7 +43,7 @@ va_dcl
 
 	active_lv = (lv_val *)0;	/* if we get here, subscript set was successful.  clear active_lv to avoid later
 						cleanup problems */
-	VAR_START(var);
+	va_start(var,something);
 	n = va_arg(var, int4);
 	s = s_bot = &saved[0];
 	s_top = s + MAX_SAVED_LV;

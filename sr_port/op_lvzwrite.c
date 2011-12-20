@@ -25,11 +25,11 @@
 #include "zwrite.h"
 #include "op.h"
 #include "mvalconv.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "gtm_maxstr.h"
 
-void op_lvzwrite(va_alist)
-va_dcl
+void op_lvzwrite(int something, ...)
+//va_dcl
 {
 	va_list		var;
 	boolean_t	flag;
@@ -38,7 +38,7 @@ va_dcl
 	zshow_out	output, *out;
 	MAXSTR_BUFF_DECL(buff);
 
-	VAR_START(var);
+	va_start(var,something);
 	MAXSTR_BUFF_INIT;
 	count = va_arg(var, int4);
 	memset(&output, 0, sizeof(output));

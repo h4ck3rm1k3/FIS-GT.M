@@ -12,14 +12,14 @@
 #include "mdef.h"
 
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "fao_parm.h"
 #include "error.h"
 #include "op.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "mval2fao.h"
 

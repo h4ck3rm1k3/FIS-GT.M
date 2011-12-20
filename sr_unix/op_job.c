@@ -14,11 +14,11 @@
 /* LinuxIA32/gcc needs stdio before varargs due to stdarg */
 /* Linux390/gcc needs varargs first */
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #include "gtm_stdio.h"
 #else
 #include "gtm_stdio.h"
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include <sys/wait.h>

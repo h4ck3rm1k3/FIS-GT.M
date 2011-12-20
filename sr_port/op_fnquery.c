@@ -11,7 +11,7 @@
 
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 #include "gtm_string.h"
 
 #include "hashdef.h"
@@ -38,8 +38,8 @@ GBLREF mval		last_fnquery_return_varname;
 GBLREF mval		last_fnquery_return_sub[MAX_LVSUBSCRIPTS];
 GBLREF int		last_fnquery_return_subcnt;
 
-void op_fnquery (va_alist)
-va_dcl
+void op_fnquery (int something, ...)
+//va_dcl
 {
 	int			length;
 	mval		 	tmp_sbs;
@@ -59,7 +59,7 @@ va_dcl
 	error_def		(ERR_STACKOFLOW);
 	error_def		(ERR_STACKCRIT);
 
-	VAR_START(var);
+	va_start(var,something);
 	sbscnt = va_arg(var, int4) - 3;
 	dst = va_arg(var, mval *);
 	varname = va_arg(var, mval *);

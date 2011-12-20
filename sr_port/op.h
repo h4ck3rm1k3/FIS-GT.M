@@ -12,6 +12,9 @@
 #ifndef OP_INCLUDED
 #define OP_INCLUDED
 
+
+
+
 boolean_t op_gvqueryget(mval *key, mval *val);
 int op_dt_get(void);
 void op_fnzdate(mval *src, mval *fmt, mval *mo_str, mval *day_str, mval *dst);
@@ -29,11 +32,11 @@ int op_zalloc2(int4 timeout, uint4 auxown);
 int op_zallocate(int timeout);
 void op_unwind(void);
 void op_break(void);
-void op_lvpatwrite();
+void op_lvpatwrite(int,...)/*AUTO*/;
 void op_killall(void);
 void op_gvzwithdraw(void);
 void op_gvkill(void);
-void op_cat();
+void op_cat(int,...);
 void op_close(mval *v, mval *p);
 void op_commarg(mval *v, unsigned char argcode);
 void op_decrlock(int4 timeout);
@@ -46,23 +49,23 @@ void op_fnj2(mval *src,int len,mval *dst);
 void op_fnj3(mval *src,int width,int fract,mval *dst);
 void op_fnlvname(mval *src, mval *dst);
 void op_fnlvnameo2(mval *src,mval *dst,mval *direct);
-void op_fnfgncal();
+void op_fnfgncal(int,...)/*AUTO*/;
 #ifdef __sun
-int op_fnfgncal_rpc();	/* typ to keep the compiler happy as set into xfer_table, which is int */
+int op_fnfgncal_rpc(int,...)/*AUTO*/;	/* typ to keep the compiler happy as set into xfer_table, which is int */
 #endif
 void op_fngvget(mval *v, mval *def);
 void op_fngetjpi(mint jpid, mval *kwd, mval *ret);
 void op_fnlvprvname(mval *src, mval *dst);
-void op_fnname();
+void op_fnname(int,...)/*AUTO*/;
 void op_fnqlength(mval *name, mval *subscripts);
 void op_fnqsubscript(mval *name, int seq, mval *subscript);
 void op_fnrandom(int4 interval, mval *ret);
 void op_fnreverse(mval *src, mval *dst);
 void op_fnstack1(int level, mval *result);
 void op_fnstack2(int level, mval *info, mval *result);
-void op_fnview();
+void op_fnview(int,...);
 void op_fnpiece(mval *src, mval *del, int first, int last, mval *dst, boolean_t srcisliteral);
-void op_fnquery();
+void op_fnquery(int,...)/*AUTO*/;
 void op_fntext(mval *label, int int_exp, mval *rtn, mval *ret);
 void op_fnzbitand(mval *dst, mval *bitstr1, mval *bitstr2);
 void op_fnzbitcoun(mval *dst, mval *bitstr);
@@ -75,14 +78,14 @@ void op_fnzsigproc(int processid, int signum, mval *retcode);
 void op_fnzlkid(mint boolex, mval *retval);
 void op_fnzqgblmod(mval *v);
 void op_fnztrnlnm(mval *name,mval *table,int4 ind,mval *mode,mval *case_blind,mval *item,mval *ret);
-void op_fnzcall();
+void op_fnzcall(int,...)/*AUTO*/;
 void op_fnzpid(mint boolexpr,mval *ret);
 void op_fnzpriv(mval *prv,mval *ret);
 void op_fngetsyi(mval *keyword,mval *node,mval *ret);
 void op_gvdata(mval *v);
-void op_gvextnam();
-void op_gvnaked();
-void op_gvname();
+void op_gvextnam(int, ...);
+void op_gvnaked(int,...);
+void op_gvname(int,...);
 void op_gvnext(mval *v);
 void op_gvorder(mval *v);
 void op_gvo2(mval *dst,mval *direct);
@@ -94,13 +97,13 @@ void op_hang(mval *num);
 void op_hardret(void);
 void op_horolog(mval *s);
 int op_incrlock(int timeout);
-void op_iocontrol();
+void op_iocontrol(int, ...);
 void op_indrzshow(mval *s1,mval *s2);
 void op_iretmval(mval *v);
-int op_job();
+int op_job(int,...)/*AUTO*/;
 void op_killall(void);
 void op_lkinit(void);
-void op_lkname();
+void op_lkname(int,...)/*AUTO*/;
 void op_mul(mval *u, mval *v, mval *p);
 void op_newvar(uint4 arg1);
 void op_newintrinsic(int intrtype);
@@ -118,17 +121,17 @@ void op_svget(int varnum, mval *v);
 void op_svput(int varnum, mval *v);
 void op_tcommit(void);
 void op_trollback(int rb_levels);
-void op_tstart();
+void op_tstart(int,...);//TODO
 void op_unlock(void);
 void op_use(mval *v, mval *p);
-void op_view();
+void op_view(int,...);
 void op_write(mval *v);
 void op_wteol(int4 n);
 void op_wtff(void);
 void op_wtone(unsigned char c);
 void op_wttab(mint x);
-void op_xkill();
-void op_xnew();
+void op_xkill(int,...)/*AUTO*/;
+void op_xnew(int,...);
 void op_zattach(mval *);
 void op_zcompile(mval *v);
 void op_zcont(void);
@@ -137,7 +140,7 @@ void op_zdeallocate(int4 timeout);
 void op_zedit(mval *v, mval *p);
 void op_zhelp_xfr(mval *subject, mval *lib);
 void op_zlink(mval *v, mval *quals);
-void op_zmess();
+void op_zmess(int,...)/*AUTO*/;
 void op_zprevious(mval *v);
 void op_zprint(mval *rtn,mval *start_label,int start_int_exp,mval *end_label,int end_int_exp);
 void op_zst_break(void);
@@ -146,26 +149,26 @@ void op_zsystem(mval *v);
 void op_ztcommit(int4 n);
 void op_ztstart(void);
 #ifdef UNIX
-int op_fetchintrrpt(), op_startintrrpt(), op_forintrrpt();
+int op_fetchintrrpt(int,...)/*AUTO*/, op_startintrrpt(int,...)/*AUTO*/, op_forintrrpt(int,...)/*AUTO*/;
 #elif defined(VMS)
-void op_fetchintrrpt(), op_startintrrpt(), op_forintrrpt();
+void op_fetchintrrpt(int,...)/*AUTO*/, op_startintrrpt(int,...)/*AUTO*/, op_forintrrpt(int,...)/*AUTO*/;
 #else
 #error unsupported platform
 #endif
-int op_forchk1(), op_forloop();
-int op_zstepfetch(), op_zstepstart(), op_zstzbfetch(), op_zstzbstart();
-int op_mproflinestart(), op_mproflinefetch(), op_mprofforloop();
-int op_linefetch(), op_linestart(), op_zbfetch(), op_zbstart(), op_ret(), op_retarg();
-int opp_ret();
-int op_zst_fet_over(), op_zst_st_over(), op_zstzb_st_over(), opp_zstepret(), opp_zstepretarg();
-int op_zstzb_fet_over(), opp_zst_over_ret(), opp_zst_over_retarg();
+int op_forchk1(int,...)/*AUTO*/, op_forloop(int,...)/*AUTO*/;
+int op_zstepfetch(int,...)/*AUTO*/, op_zstepstart(int,...)/*AUTO*/, op_zstzbfetch(int,...)/*AUTO*/, op_zstzbstart(int,...)/*AUTO*/;
+int op_mproflinestart(int,...)/*AUTO*/, op_mproflinefetch(int,...)/*AUTO*/, op_mprofforloop(int,...)/*AUTO*/;
+int op_linefetch(int,...)/*AUTO*/, op_linestart(int,...)/*AUTO*/, op_zbfetch(int,...)/*AUTO*/, op_zbstart(int,...)/*AUTO*/, op_ret(int,...)/*AUTO*/, op_retarg(int,...)/*AUTO*/;
+int opp_ret(int,...)/*AUTO*/;
+int op_zst_fet_over(int,...)/*AUTO*/, op_zst_st_over(int,...)/*AUTO*/, op_zstzb_st_over(int,...)/*AUTO*/, opp_zstepret(int,...)/*AUTO*/, opp_zstepretarg(int,...)/*AUTO*/;
+int op_zstzb_fet_over(int,...)/*AUTO*/, opp_zst_over_ret(int,...)/*AUTO*/, opp_zst_over_retarg(int,...)/*AUTO*/;
 #ifndef __MVS__
-void fetch();
+void fetch(int,...);
 #else
-void gtm_fetch();
+void gtm_fetch(int,...)/*AUTO*/;
 #endif
 void add_mvals(mval *u, mval *v, int subtraction, mval *result);
-void op_bindparm();
+void op_bindparm(int,...);
 void op_add(mval *u, mval *v, mval *s);
 void op_sub(mval *u, mval *v, mval *s);
 void op_cvtparm(int iocode, mval *src, mval *dst);
@@ -174,7 +177,7 @@ void op_dt_false(void);
 void op_dt_store(int truth_value);
 void op_dt_true(void);
 void op_fnascii(int4 num, mval *in, mval *out);
-void op_fnchar();
+void op_fnchar(int,...);
 void op_fnget2(mval *dst, mval *src, mval *defval);
 void op_fngetdvi(mval *device, mval *keyword, mval *ret);
 void op_fngetlki(mval *lkid_mval, mval *keyword, mval *ret);
@@ -194,7 +197,7 @@ void op_fnzparse(mval *file, mval *field, mval *def1, mval *def2, mval *type, mv
 void op_fnzsqlexpr(mval *value, mval *target);
 void op_fnzsqlfield(int findex, mval *target);
 void op_gvsavtarg(mval *v);
-void op_gvzwrite();
+void op_gvzwrite(int,...); //todo ansi
 void op_idiv(mval *u, mval *v, mval *q);
 void op_igetsrc(mval *v);
 int op_lock2(int4 timeout, unsigned char laflag);
@@ -207,12 +210,12 @@ void op_indlvadr(mval *target);
 void op_indlvarg(mval *v,mval *dst);
 void op_indlvnamadr(mval *target);
 void op_indmerge(mval *glvn_mv, mval *arg1_or_arg2);
-void op_indname();
+void op_indname(int,...)/*AUTO*/;
 void op_indpat(mval *v, mval *dst);
 void op_indo2(mval *dst, mval *target, mval *value);
 void op_indset(mval *target, mval *value);
 void op_indtext(mval *lab, mint offset, mval *rtn, mval *dst);
-void op_lvzwrite();
+void op_lvzwrite(int,...); // todo ansi
 void op_nullexp(mval *v);
 int op_open_dummy(mval *v, mval *p, int t, mval *mspace);
 void op_setextract(mval *src, mval *expr, int schar, int echar, mval *dst);

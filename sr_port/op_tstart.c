@@ -39,7 +39,7 @@
 #include "gtm_caseconv.h"
 #include "gvcst_tp_init.h"
 #include "dpgbldir.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "longset.h"		/* needed for cws_insert.h */
 #include "cws_insert.h"		/* for cw_stagnate_reinitialized */
 
@@ -96,8 +96,8 @@ static  struct gv_orig_key_struct *gv_orig_key_ptr;
 /*** temporary ***/
 GBLREF int4	    		dollar_zmaxtptime;
 
-void	op_tstart(va_alist)
-va_dcl
+void	op_tstart(int something,...)
+//va_dcl
 {
 	bool			serial,			/* whether SERIAL keyword was present */
 				new;
@@ -155,7 +155,7 @@ va_dcl
 		rts_error(VARLSTCNT(4) ERR_TPMIXUP, 2, "An M", "a fenced logical");
 	if (dollar_tlevel + 1 >= TP_MAX_NEST)
 		rts_error(VARLSTCNT(1) ERR_TPTOODEEP);
-	va_start(varlst);
+	va_start(varlst,something);
 	dollar_t = va_arg(varlst, int);
 	serial = va_arg(varlst, int);
 	tid = va_arg(varlst, mval *);

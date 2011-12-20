@@ -13,7 +13,7 @@
 #include "hashdef.h"
 #include "lv_val.h"
 #include "sbs_blk.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "collseq.h"
 #include "stringpool.h"
 #include "do_xform.h"
@@ -23,8 +23,8 @@ GBLREF collseq		*local_collseq;
 
 #define IS_INTEGER 0
 
-lv_val	*op_srchindx(va_alist)
-va_dcl
+lv_val	*op_srchindx(int something, ...)
+//va_dcl
 {
 	int			cur_subscr;
 	int                     length;
@@ -37,7 +37,7 @@ va_dcl
        	sbs_search_status      	status;
 	mval			*key;
 
-	VAR_START(var);
+	va_start(var,something);
 	argcnt = va_arg(var, int4);
 	lv = va_arg(var, lv_val *);
 

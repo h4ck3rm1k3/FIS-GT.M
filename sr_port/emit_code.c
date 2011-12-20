@@ -8,7 +8,7 @@
  *	the license, please stop and do not read further.	*
  *								*
  ****************************************************************/
-
+#ifdef SKIP
 #include "mdef.h"
 
 #include <fcntl.h>
@@ -1603,3 +1603,4 @@ void	emit_call_xfer(int xfer)
 	ocnt_ref_opr->oprval.offset = offset;
 	ocnt_ref_seen = FALSE;
 }
+#endif // SKIP

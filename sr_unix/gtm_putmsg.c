@@ -11,7 +11,7 @@
 
 #include "mdef.h"
 #include "util.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "gtmmsg.h"
 #include "gtm_putmsg_list.h"
 

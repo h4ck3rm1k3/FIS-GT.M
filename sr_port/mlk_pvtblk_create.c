@@ -18,13 +18,13 @@
 #endif
 
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gtm_limits.h"	/*for GTM_ENV_TRANSLATE */
 
 #include "error.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gdsroot.h"
 #include "gtm_facility.h"

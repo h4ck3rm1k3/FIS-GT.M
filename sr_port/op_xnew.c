@@ -18,14 +18,14 @@
 #include "op.h"
 #include "rtnhdr.h"
 #include "stack_frame.h"
-#include <varargs.h>
+#include <stdarg.h>
 
 GBLREF symval		*curr_symval;
 GBLREF unsigned char	*stackbase, *msp;
 LITREF mident		zero_ident;
 
-void op_xnew(va_alist) /* SHOULD BE MODIFIED TO USE AN EXISTING POINTER TO SYMTAB */
-va_dcl
+void op_xnew(int something,...) /* SHOULD BE MODIFIED TO USE AN EXISTING POINTER TO SYMTAB */
+//va_dcl
 {
 	va_list var;
 	unsigned int argcnt;
@@ -35,7 +35,7 @@ va_dcl
 	ht_entry *q,*r;
 	bool new;
 
-	VAR_START(var);
+	va_start(var,something);
 	argcnt = va_arg(var, int4);
 	shift = symbinit();
 	for (; argcnt-- > 0 ; )

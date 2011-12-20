@@ -14,6 +14,8 @@
 
 #define FTOK_SEM_PER_ID 3
 
+typedef unsigned short u_short;
+
 union   semun {
 	int     val;
 	struct  semid_ds *buf;

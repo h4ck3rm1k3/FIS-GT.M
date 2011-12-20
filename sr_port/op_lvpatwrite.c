@@ -23,13 +23,13 @@
 #include "gdsbt.h"
 #include "gdsfhead.h"
 #include "zwrite.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "op.h"
 #include "mvalconv.h"
 #include "gtm_maxstr.h"
 
-void op_lvpatwrite(va_alist)
-va_dcl
+void op_lvpatwrite(int something, ...)
+//va_dcl
 {
 	va_list		var;
 	boolean_t	flag, local_buff;
@@ -38,7 +38,7 @@ va_dcl
 	zshow_out	output, *out;
 	MAXSTR_BUFF_DECL(buff);
 
-	VAR_START(var);
+	va_start(var,something);
 	count = va_arg(var, int4);
 	arg1 = va_arg(var, int4);
 	local_buff = FALSE;

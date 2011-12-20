@@ -27,7 +27,7 @@
 
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "rtnhdr.h"
 #include "stack_frame.h"

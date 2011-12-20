@@ -15,13 +15,13 @@
 
 #include "compiler.h"
 #include "stringpool.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "op.h"
 
 GBLREF spdesc stringpool;
 
-void op_indname(va_alist)
-va_dcl
+void op_indname(int something, ...)
+//va_dcl
 {
 	va_list	var, sublst;
 	mval *dst, *src;
@@ -33,7 +33,7 @@ va_dcl
 	error_def(ERR_STRINGOFLOW);
 	error_def(ERR_VAREXPECTED);
 
-	VAR_START(var);
+	va_start(var,something);
 	argcnt = va_arg(var, int4);
 	dst = va_arg(var, mval *);
 

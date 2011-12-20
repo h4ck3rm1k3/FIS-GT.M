@@ -16,13 +16,13 @@
 /* gcc/LinuxIA32 needs stdio before varargs until stdio.h removed from error.h */
 /* gcc/Linux390 needs varargs before stdio */
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gtm_stdio.h"
 #include <errno.h>
 #include "gtm_stdlib.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "gtm_ctype.h"

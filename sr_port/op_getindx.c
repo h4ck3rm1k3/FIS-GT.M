@@ -11,7 +11,7 @@
 
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "hashdef.h"
 #include "lv_val.h"
@@ -28,8 +28,8 @@ GBLREF collseq		*local_collseq;
 GBLREF bool		undef_inhibit;
 LITREF mval		literal_null ;
 
-lv_val	*op_getindx(va_alist)
-va_dcl
+lv_val	*op_getindx(int something, ...)
+//va_dcl
 {
 	mval			tmp_sbs;
 	int			cur_subscr;
@@ -45,7 +45,7 @@ va_dcl
 	mval			*key;
 	int			arg1;
 
-	VAR_START(var);
+	va_start(var,something);//TODO
 	argcnt = va_arg(var, int4);
 	start = va_arg(var, lv_val *);
 

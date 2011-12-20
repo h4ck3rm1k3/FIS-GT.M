@@ -89,6 +89,7 @@ typedef struct clb_stat_struct
 /* need fd_set */
 #include <sys/time.h>
 #endif
+#include "types.h"
 
 struct CLB
 {

@@ -20,7 +20,7 @@
 #include "gtm_limits.h"	/* for GTM_ENV_TRANSLATE */
 
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "error.h"	/* for GTM_ENV_TRANSLATE */
@@ -41,7 +41,7 @@
 #include "mv_stent.h"		/* for COPY_SUBS_TO_GVCURRKEY macro */
 
 #ifndef EARLY_VARARGS
-#include <varargs.h>	/* needs to be after the above include files otherwise linux/x86 gcc complains */
+#include <stdarg.h>	/* needs to be after the above include files otherwise linux/x86 gcc complains */
 #endif
 
 /*the header files below are for environment translation*/
@@ -62,8 +62,7 @@ GBLREF gd_addr		*gd_header;
 
 static int	extnam_str_alloc = 0;
 
-void op_gvextnam(va_alist)
-va_dcl
+void op_gvextnam( int something, ...)
 {
 	va_list		var;
 	int		count, len;
@@ -76,7 +75,7 @@ va_dcl
 	error_def(ERR_GVSUBOFLOW);
 	error_def(ERR_GVIS);
 
-	VAR_START(var);
+	va_start(var,something);
 	count = va_arg(var,int4);
 	val1 = va_arg(var, mval *);
 	val2 = va_arg(var, mval *);

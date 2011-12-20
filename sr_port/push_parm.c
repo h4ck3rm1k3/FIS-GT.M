@@ -17,14 +17,14 @@
 #include "compiler.h"
 #include "underr.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 GBLREF mv_stent		*mv_chain;
 GBLREF unsigned char	*msp, *stackbase, *stackwarn, *stacktop;
 GBLREF symval		*curr_symval;
 
-void push_parm(va_alist)
-va_dcl
+void push_parm(int something,...)
+//va_dcl
 {
 	va_list		var;
 	int		truth_value;
@@ -38,7 +38,7 @@ va_dcl
 	error_def	(ERR_STACKOFLOW);
 	error_def	(ERR_STACKCRIT);
 
-	VAR_START(var);
+	va_start(var,something);
 	totalcnt = va_arg(var, unsigned int);
 	assert(4 <= totalcnt);
 	truth_value = va_arg(var, int);

@@ -14,7 +14,7 @@
 #include "gtm_string.h"
 
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include <errno.h>
@@ -22,7 +22,7 @@
 #include "gtm_stdlib.h"
 
 #ifndef EARLY_VARARGS
-#include "varargs.h"
+#include "stdarg.h"
 #endif
 #include "stringpool.h"
 #include "copy.h"

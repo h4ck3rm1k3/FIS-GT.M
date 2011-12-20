@@ -12,6 +12,6 @@
 #ifndef  __UNDERR_H__
 #define  __UNDERR_H__
 
-void underr();
+void underr(int,...);
 
 #endif

@@ -17,11 +17,11 @@
 #include "cmidef.h"
 #include "cmmdef.h"
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "gtm_stdio.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "error.h"
 #include "util.h"

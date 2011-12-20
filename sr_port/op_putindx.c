@@ -13,7 +13,7 @@
 
 #include "gtm_string.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "hashdef.h"
 #include "lv_val.h"
@@ -27,8 +27,8 @@ GBLDEF lv_val		*active_lv;
 GBLDEF bool		lv_null_subs = TRUE;
 GBLREF collseq		*local_collseq;
 
-lv_val	*op_putindx(va_alist)
-va_dcl
+lv_val	*op_putindx(int something, ...)
+//va_dcl
 {
 	int	subs_level;
 	mval	tmp_sbs;
@@ -44,7 +44,7 @@ va_dcl
 	boolean_t is_canonical;
 	error_def(ERR_LVNULLSUBS);
 
-	VAR_START(var);
+	va_start(var,something);
 	argcnt = va_arg(var, int4);
 	start = va_arg(var, lv_val *);
 	if (NULL != start->tp_var)		/* if this variable is marked as a Transaction Processing protected variable, */

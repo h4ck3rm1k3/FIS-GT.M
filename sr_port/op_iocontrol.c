@@ -15,7 +15,7 @@
 
 #include "stringpool.h"
 #include "io.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "op.h"
 
 /* THIS VERSION OF OP_IOCONTROL FORMATS MNENOMIC SPACE COMMANDS IN A
@@ -25,8 +25,8 @@
 GBLREF spdesc		stringpool;
 GBLREF io_pair		io_curr_device;
 
-void op_iocontrol(va_alist)
-va_dcl
+void op_iocontrol(int something, ...)
+//va_dcl
 {
 	va_list var, sav_var;
 	mval *vp;
@@ -37,7 +37,7 @@ va_dcl
 	mstr val;
 	error_def(ERR_CTLMNEMAXLEN);
 
-	VAR_START(var);
+	var_start(var,something);
 	n = va_arg(var, int4);
 	VAR_COPY(sav_var, var);
 	for (count = 0 ; count < n ; count++)

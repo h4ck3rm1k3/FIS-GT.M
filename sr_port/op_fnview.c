@@ -12,7 +12,7 @@
 #include "mdef.h"
 
 #ifdef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 
 #include "gtm_string.h"
@@ -34,7 +34,7 @@
 #include "collseq.h"
 #include "error.h"
 #ifndef EARLY_VARARGS
-#include <varargs.h>
+#include <stdarg.h>
 #endif
 #include "op.h"
 #include "patcode.h"
@@ -65,8 +65,8 @@ GBLREF boolean_t	gvdupsetnoop; /* if TRUE, duplicate SETs update journal but not
 LITREF mval literal_zero;
 LITREF mval literal_one;
 
-void	op_fnview(va_alist)
-va_dcl
+void	op_fnview(int something, ...)
+//va_dcl
 {
 	va_list		var;
 	mval		*dst;
@@ -87,7 +87,7 @@ va_dcl
 	error_def(ERR_VIEWFN);
 
 
-	VAR_START(var);
+	va_start(var,something);
 	numarg = va_arg(var, int4);
 	if (numarg < 2)
 		GTMASSERT;

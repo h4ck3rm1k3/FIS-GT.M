@@ -10,7 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "gtm_string.h"
 #include "cmd_qlf.h"
 #include "compiler.h"
@@ -29,8 +29,8 @@ GBLREF bool 			shift_gvrefs, run_time, dec_nofac;
 GBLREF char			cg_phase;
 GBLREF io_pair			io_curr_device, io_std_device;
 
-void stx_error(va_alist)
-va_dcl
+void stx_error(int something,...)
+//va_dcl
 {
 	va_list	args, sav_arg;
 	int	in_error, cnt, arg1, arg2;
@@ -53,7 +53,7 @@ va_dcl
 	error_def(ERR_CENOINDIR);
 
 	flush_pio();
-	va_start(args);
+	va_start(args,something);
 	in_error = va_arg(args, int);
 	shift_gvrefs = FALSE;
 	if (run_time)

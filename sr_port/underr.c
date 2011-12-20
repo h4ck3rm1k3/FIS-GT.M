@@ -12,7 +12,7 @@
 #include "mdef.h"
 
 #include "underr.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "hashdef.h"
 #include "lv_val.h"
 #include "undx.h"
@@ -20,8 +20,8 @@
 GBLDEF bool	undef_inhibit = 0;
 LITREF mval	literal_null;
 
-void	underr (va_alist)
-va_dcl
+void	underr (int something,...)
+//va_dcl
 {
 	mval		*start;
 	mident		name;
@@ -29,7 +29,7 @@ va_dcl
 	va_list		var;		/* this is a dummy so we can pass a va_list to undx */
 	error_def(ERR_UNDEF);
 
-	va_start (var);
+	va_start (var,something);
 	start = va_arg(var, mval *);
 	if (start && undef_inhibit)
 		*start = literal_null;

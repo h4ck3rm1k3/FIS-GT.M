@@ -11,15 +11,15 @@
 
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "mlk_pvtblk_create.h"
 
-void	op_lkname(va_alist)
-va_dcl
+void	op_lkname(int something, ...)
+//va_dcl
 {
 	va_list	var;
 
-	VAR_START(var);
+	va_start(var,something);
 	mlk_pvtblk_create(var);
 }

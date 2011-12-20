@@ -13,6 +13,7 @@
 #define _CALLER_ID_H__
 
 #include <sys/types.h>
+#include "types.h"
 caddr_t caller_id(void);
 
 #endif

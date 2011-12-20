@@ -11,7 +11,7 @@
 
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "rtnhdr.h"
 #include "stack_frame.h"
@@ -21,18 +21,18 @@
 GBLREF stack_frame *frame_pointer;
 
 #ifndef __MVS__
-void fetch(va_alist)
+void fetch(int something, ...)
 #else
-void gtm_fetch(va_alist)
+void gtm_fetch(int something, ...)
 #endif
-va_dcl
+//va_dcl
 {
 	va_list		var;
 	unsigned int 	cnt, indx;
 	stack_frame	*fp;
 	mval		**mvpp;
 
-	VAR_START(var);
+	va_start(var,something);
 	cnt = va_arg(var, int4);
 	fp = frame_pointer;
 	if (0 < cnt)

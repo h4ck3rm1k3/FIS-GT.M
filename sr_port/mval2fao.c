@@ -25,7 +25,7 @@
 #include "gtm_string.h"
 
 #include "fao_parm.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "underr.h"
 #include "mvalconv.h"
 #include "mval2fao.h"

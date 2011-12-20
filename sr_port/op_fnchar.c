@@ -21,13 +21,13 @@
 #include "gtm_unistd.h"
 #endif
 #include "op.h"
-#include <varargs.h>
+#include <stdarg.h>
 #include "ebc_xlat.h"
 
 GBLREF spdesc stringpool;
 
-void op_fnchar(va_alist)
-va_dcl
+void op_fnchar(int something, ...)
+//va_dcl
 {
 	va_list var;
 	int cnt, ch;
@@ -39,7 +39,7 @@ va_dcl
 	unsigned char	*tmp_ptr;
 	unsigned int	tmp_len;
 
-	VAR_START(var);
+	va_start(var,something);
 	cnt = va_arg(var, int4) - 2;
 
 	if (stringpool.free + cnt > stringpool.top)

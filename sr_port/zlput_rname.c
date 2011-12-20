@@ -99,14 +99,14 @@ bool zlput_rname (rhdtyp *hdr)
 			if (fp->rvector == old_rhead)
 				return FALSE;
 		zr_remove(old_rhead); /* get rid of the now inactive breakpoints and release any private code section */
-		NON_USHBIN_ONLY(
+		/*	NON_USHBIN_ONLY(
 			hdr->old_rhead_ptr = (int4)old_rhead;
 			if (!old_rhead->old_rhead_ptr)
 			{
 			        fix_pages((unsigned char *)old_rhead, (unsigned char *)LNRTAB_ADR(old_rhead)
 					  + (sizeof(LNR_TABENT) * old_rhead->lnrtab_len));
 			}
-		)
+			)*/
 		USHBIN_ONLY(
 			if (!old_rhead->shlib_handle)
 		        {	/* Migrate text literals pointing into text area we are about to throw away into the stringpool.

@@ -97,10 +97,10 @@ void lvzwr_var(lv_val *lv, int4 n);
 unsigned char   *format_lvname(lv_val *start, unsigned char *buff, int size);
 unsigned char *format_key_lv_val(lv_val *lvpin, unsigned char *buff, int size);
 
-lv_val *op_srchindx();
-lv_val *op_m_srchindx();
-lv_val *op_putindx();
-lv_val *op_getindx();
+lv_val *op_srchindx(int,...);
+lv_val *op_m_srchindx(int,...);
+lv_val *op_putindx(int,...);
+lv_val *op_getindx(int,...);
 
 boolean_t lcl_arg1_is_desc_of_arg2(lv_val *cur, lv_val *ref);
 

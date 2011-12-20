@@ -36,7 +36,7 @@
 #include "sgnl.h"
 #include "mvalconv.h"
 #include "tp_set_sgm.h"
-#include <varargs.h>
+#include <stdarg.h>
 
 GBLREF short            dollar_tlevel;
 GBLREF gd_addr		*gd_header;
@@ -49,8 +49,8 @@ GBLREF sgm_info         *first_sgm_info;
 GBLREF bool		transform;
 GBLREF mstr		extnam_str;
 
-void op_gvnaked(va_alist)
-va_dcl
+void op_gvnaked(int something, ...)
+//va_dcl
 {
 	va_list		var;
 	int		count, len;
@@ -78,7 +78,7 @@ va_dcl
 			gvcst_root_search();
 	}
 
-	VAR_START(var);
+	va_start(var,something);
 	gv_currkey->end = gv_currkey->prev;
 	is_null = FALSE;
 	was_null = FALSE;

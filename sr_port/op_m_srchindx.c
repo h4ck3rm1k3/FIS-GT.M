@@ -29,7 +29,7 @@
  */
 #include "mdef.h"
 
-#include <varargs.h>
+#include <stdarg.h>
 
 #include "hashdef.h"
 #include "lv_val.h"
@@ -38,8 +38,8 @@
 #include "lvname_info.h"
 #include "callg.h"
 
-lv_val* op_m_srchindx(va_alist)
-va_dcl
+lv_val* op_m_srchindx(int something, ...)
+//va_dcl
 {
 
 	va_list			var;
@@ -48,7 +48,7 @@ va_dcl
 
 	if (!lvn_info)
 		lvn_info = (lvname_info_ptr) malloc(sizeof(struct lvname_info_struct));
-	VAR_START(var);
+	va_start(var,something);
 	lvn_info->total_lv_subs = va_arg(var, int4);
 	lvn_info->start_lvp = va_arg(var, lv_val *);  	/* process arg[1] */
 	for (cur_subscr = 0;  cur_subscr < lvn_info->total_lv_subs - 1;  cur_subscr++)

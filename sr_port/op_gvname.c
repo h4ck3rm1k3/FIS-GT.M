@@ -35,7 +35,7 @@
 #include "sgnl.h"
 #include "mvalconv.h"
 #include "tp_set_sgm.h"
-#include <varargs.h>
+#include <stdarg.h>
 
 GBLDEF bool		gv_curr_subsc_null;
 GBLDEF gd_addr		*gd_targ_addr = 0;
@@ -53,8 +53,8 @@ GBLREF short		dollar_tlevel;
 GBLREF bool		transform;
 GBLREF mstr		extnam_str;
 
-void op_gvname(va_alist)
-va_dcl
+void op_gvname(int something, ...)
+//va_dcl
 {
 	int		count, len;
 	bool		was_null, is_null;
@@ -71,7 +71,7 @@ va_dcl
 	if (!gd_header)
 		gvinit();
 	gd_targ_addr = gd_header;
-	VAR_START(var);
+	va_start(var,something);
 	count = va_arg(var, int) - 1;
 	val = va_arg(var, mval *);
 	if ((gd_header->maps == gd_map) && gv_currkey && (0 == gv_currkey->base[val->str.len]) &&

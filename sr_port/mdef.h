@@ -190,7 +190,7 @@ void gtm_assert ( int file_name_len, char file_name[], int line_no);
 #ifdef UNIX
 int rts_error();
 #endif
-void stx_error();
+void stx_error(int,...);
 void dec_err();
 void ins_errtriple(int4 in_error);
 
@@ -719,7 +719,7 @@ void mcfree(void);
 
 int4 getprime(int4 n);
 
-void push_parm();
+void push_parm(int,...);//TODO ansi
 void suspend(void);
 mval *push_mval(mval *arg1);
 void mval_lex(mval *v, mstr *output);
