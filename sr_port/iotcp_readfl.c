@@ -10,7 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
-
+#include "types.h"
 #include <errno.h>
 #include "gtm_stdio.h"
 #include <time.h>

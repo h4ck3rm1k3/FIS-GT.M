@@ -1,3 +1,5 @@
+#ifndef INC_filestruct_h
+#define INC_filestruct_h
 /****************************************************************
  *								*
  *	Copyright 2001, 2004 Sanchez Computer Associates, Inc.	*
@@ -16,7 +18,10 @@
 #define GDS_LABEL 	"GDSDYNUNX02" /* This string must be of length GDS_LABEL_SZ */
 #define GDS_RPL_LABEL 	"GDSRPLUNX02" /* This string must be of length GDS_LABEL_SZ */
 
+//typedef int key_t;
+#ifndef   key_t
 typedef int key_t;
+#endif
 
 typedef struct unix_db_info_struct
 {	sgmnt_addrs	s_addrs;
@@ -57,3 +62,5 @@ typedef struct unix_file_info_struct
 
 #define WRT_STRT_PNDNG (unsigned short)65534 /* the code assumes this is non-zero, even,
 					and that VMS never uses its value for iosb.cond */
+
+#endif

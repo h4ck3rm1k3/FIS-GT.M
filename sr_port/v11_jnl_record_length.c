@@ -8,7 +8,7 @@
  *	the license, please stop and do not read further.	*
  *								*
  ****************************************************************/
-
+#include "types.h"
 #include "v11_mdef.h"
 #include "v11_gdsroot.h"
 #include "v11_gdsbt.h"

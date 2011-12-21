@@ -9,8 +9,8 @@
  *								*
  ****************************************************************/
 
+#include "types.h"
 #include "mdef.h"
-
 #include "gtm_string.h"
 #if defined(UNIX)
 #include "gtm_aio.h"

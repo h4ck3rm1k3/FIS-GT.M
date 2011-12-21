@@ -58,6 +58,7 @@ static int fcntl_res;
 #include "stringpool.h"
 #include "iosocketdef.h"
 #include "min_max.h"
+#include "types.h"
 #define	TIMEOUT_INTERVAL	200000
 GBLREF	io_pair 		io_curr_device;
 GBLREF	bool			out_of_time;

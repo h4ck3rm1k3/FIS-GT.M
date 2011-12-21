@@ -13,7 +13,7 @@
 
 #include "gtm_string.h"
 
-#include <sys/types.h>
+#include "types.h"
 
 #include "mmseg.h"
 

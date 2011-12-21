@@ -10,8 +10,8 @@
  ****************************************************************/
 
 #include "mdef.h"
+#  include "types.h"
 
-#include <sys/types.h>
 
 #include "mmseg.h"
 

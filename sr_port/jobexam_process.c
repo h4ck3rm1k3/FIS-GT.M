@@ -11,7 +11,7 @@
 
 #include "mdef.h"
 
-#include <sys/types.h>
+#include "types.h"
 #include <unistd.h>
 #include <signal.h>
 

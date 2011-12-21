@@ -12,7 +12,7 @@
  /* General repository for global variable definitions. This keeps us from
    pulling in modules and all their references when all we wanted was the
    global data def.. */
-
+#include "types.h"
 #include "mdef.h"
 
 #include "gtm_inet.h"
@@ -21,7 +21,7 @@
 #include "gtm_unistd.h"
 
 #include <limits.h>
-#include <signal.h>
+
 #include <netinet/in.h>		/* Required for gtmsource.h */
 #ifdef __MVS__
 #include <time.h>      /* required for fd_set */

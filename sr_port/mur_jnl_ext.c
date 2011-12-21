@@ -70,6 +70,14 @@ void	mur_extract_set(fi_type *fi, jnl_record *rec, pini_list_struct *plst)
 		{
 			if (IS_TUPD(rectype))
 			{
+
+			  // TODO :
+			  int tmp =*(caddr_t)(&muext_code[MUEXT_TSTART][0]);
+			  murgbl.extr_buff[extract_len++]= tmp			    ; 
+			  murgbl.extr_buff[extract_len++]= *((caddr_t)(&muext_code[MUEXT_TSTART][0])+1); 
+			  murgbl.extr_buff[extract_len++]= '\\';
+
+
 				EXT2BYTES(&muext_code[MUEXT_TSTART][0]); /* TSTART */
 			} else /* if (IS_FUPD(rectype)) */
 			{

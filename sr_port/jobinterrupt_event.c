@@ -19,7 +19,7 @@
 #include "mdef.h"
 
 #ifdef UNIX
-#  include <signal.h>
+#  include "types.h"
 #else
 #  include <ssdef.h>
 #  include "efn.h"

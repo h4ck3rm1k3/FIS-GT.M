@@ -19,7 +19,8 @@
 
 #include "mdef.h"
 
-#include <signal.h>
+
+#include "types.h"
 
 #include "gtm_string.h"
 #include "gtm_stdio.h"
@@ -29,6 +30,7 @@
 #include "iosp.h"
 #include "stringpool.h"
 #include "jobinterrupt_init.h"
+
 #include "jobinterrupt_event.h"
 
 GBLREF	mval	dollar_zinterrupt;
