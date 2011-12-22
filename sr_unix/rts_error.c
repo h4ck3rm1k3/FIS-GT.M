@@ -40,8 +40,8 @@ GBLREF boolean_t	dont_want_core;
  * ----------------------------------------------------------------------------------------
  */
 
-int rts_error(va_alist)
-va_dcl
+int rts_error(int foo,...)
+
 {
 	int 		argcnt, msgid;
 	va_list		var, varl;
@@ -57,7 +57,7 @@ va_dcl
 	if (-1 == gtm_errno)
 		gtm_errno = errno;
 
-	VAR_START(var);
+	va_start(var, foo);
 	VAR_COPY(varl, var);
 	argcnt = va_arg(varl, int);
 	msgid = va_arg(varl, int);

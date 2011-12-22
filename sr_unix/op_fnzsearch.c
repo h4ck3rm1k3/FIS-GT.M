@@ -15,6 +15,11 @@
 #include "gtm_dirent.h"
 
 #include <errno.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include "gtm_stat.h"
 
 #include "io.h"
@@ -267,7 +272,7 @@ void dir_srch (parse_blk *pfil)
 						STAT_FILE(compare.str.addr, &statbuf, stat_res);
 						if (-1 == stat_res)
 							continue;
-						if (!(statbuf.st_mode & S_IFDIR))
+						if (!(S_ISDIR(statbuf.st_mode) ))
 							continue;
 						/* put in results tree */
 						tmp = op_putindx(VARLSTCNT(2) dir2, &compare);

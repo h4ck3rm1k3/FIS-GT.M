@@ -10,7 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
-#include <signal.h>
+#include "types.h"
 #include "mu_outofband_setup.h"
 #include "mupip_ctrl.h"
 

@@ -11,7 +11,8 @@
 
 #ifndef UTIL_OUT_PRINT_VAPARM
 #define UTIL_OUT_PRINT_VAPARM
-
+#include "types.h"
+#include "../sr_port/types.h"
 void util_out_print_vaparm(caddr_t message, int flush, va_list var, int faocnt);
 
 #endif

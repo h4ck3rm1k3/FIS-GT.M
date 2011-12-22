@@ -31,8 +31,8 @@ GBLDEF bool dec_nofac;
 #define OPER		4
 #define SPRINT		5
 
-void dec_err(va_alist)
-va_dcl
+void dec_err(int foo,...)
+
 {
 	va_list		var;
 	uint4		i, j, count, argcnt, err;
@@ -42,7 +42,7 @@ va_dcl
 	mstr		msgstr;
 
 	util_out_print(0, RESET, 0);	/* reset the buffer */
-	VAR_START(var);
+	va_start(var,foo);
 	argcnt = va_arg(var, int4);
 	assert (argcnt >= 1);
 	err = va_arg(var, uint4);

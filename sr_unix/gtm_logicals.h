@@ -11,7 +11,7 @@
 
 /* gtm_logicals.h - Environment variables. */
 /* Needs gtm_stdio.h */
-
+#include <stdio.h>
 #define DEFAULT_GTM_TMP		P_tmpdir
 #define GTM_DEBUG_LEVEL_ENVLOG	"$gtmdbglvl"
 #define GTM_FULLBLOCKWRITES	"$gtm_fullblockwrites"

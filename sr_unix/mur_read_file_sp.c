@@ -16,7 +16,6 @@
 #include "gtm_stat.h"
 #include "gtm_string.h"
 #include "eintr_wrappers.h"
-#include "gtm_aio.h"
 #include "gtmio.h"
 #include "gdsroot.h"
 #include "gdsbt.h"
@@ -33,6 +32,8 @@
 #include "iosp.h"
 #include "copy.h"
 #include "gtmmsg.h"
+#include "types.h"
+#include "gtm_aio.h"
 
 GBLREF	mur_read_desc_t	mur_desc;
 GBLREF	jnl_ctl_list	*mur_jctl;

@@ -140,13 +140,12 @@ boolean_t d_c_cli_negated(char *str)
  * 	FALSE otherwise
  *----------------------------------------------
  */
-boolean_t cli_check_any2(va_alist)
-va_dcl
+boolean_t cli_check_any2(int foo,...)
 {
 	va_list var, varl;
 	int argcnt, oper, state = 0;
 
-	VAR_START(var);
+	va_start(var,foo);
 	argcnt = va_arg(var, int);
 	oper = 0;
 	while(argcnt)

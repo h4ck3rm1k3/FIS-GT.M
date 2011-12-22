@@ -12,6 +12,8 @@
 /* The mupip exit handler called on all exits from mupip */
 #include "mdef.h"
 
+#include "types.h"
+#include "../sr_port/types.h"
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/sem.h>

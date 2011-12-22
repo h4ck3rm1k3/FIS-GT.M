@@ -15,7 +15,7 @@
 void cli_err_strcat(char *str);
 boolean_t d_c_cli_present(char *str);
 boolean_t d_c_cli_negated(char *str);
-boolean_t cli_check_any2();
+boolean_t cli_check_any2(int, ...);
 boolean_t check_disallow(CLI_ENTRY *pparm);
 
 #define CLI_DIS_CHECK_N_RESET	if (disallow_return_value) return TRUE; *cli_err_str_ptr = '\0';

@@ -8,12 +8,16 @@
  *	the license, please stop and do not read further.	*
  *								*
  ****************************************************************/
+#include <stdio.h>
+# define P_tmpdir	"/tmp"
 
 #include "mdef.h"
 
 #include <errno.h>
 #include <string.h>
 #include <sys/un.h>
+
+
 
 #include "gtm_stdio.h"
 #include "gtm_ipc.h"

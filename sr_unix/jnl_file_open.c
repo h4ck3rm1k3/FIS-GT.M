@@ -9,6 +9,16 @@
  *								*
  ****************************************************************/
 
+#define __USE_POSIX199309  1 
+#define __USE_UNIX98 1
+#define __USE_XOPEN 1
+#define __USE_XOPEN2K8 1
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+
+
 #include "mdef.h"
 #include <sys/statvfs.h>
 
@@ -34,6 +44,8 @@
 #include "lockconst.h"
 #include "aswp.h"
 #include "is_file_identical.h"
+
+
 
 error_def(ERR_JNLFILOPN);
 error_def(ERR_JNLMOVED);

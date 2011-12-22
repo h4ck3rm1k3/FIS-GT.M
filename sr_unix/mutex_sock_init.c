@@ -9,6 +9,9 @@
  *								*
  ****************************************************************/
 
+#include <stdio.h>
+# define P_tmpdir	"/tmp"
+
 #include "mdef.h"
 #ifndef MUTEX_MSEM_WAKE
 #include <sys/ipc.h>

@@ -188,10 +188,10 @@ void gtm_assert ( int file_name_len, char file_name[], int line_no);
 #define GTMASSERT	(gtm_assert(CALLFROM))
 
 #ifdef UNIX
-int rts_error();
+int rts_error(int,...);
 #endif
 void stx_error(int,...);
-void dec_err();
+void dec_err(int,...);
 void ins_errtriple(int4 in_error);
 
 int4 timeout2msec(int4 timeout);
