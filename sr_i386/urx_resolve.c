@@ -10,11 +10,13 @@
  ****************************************************************/
 
 #include "mdef.h"
-#include "rtnhdr.h"
+//#include "rtnhdr.h"
+#include "../sr_unix_nsb/rtnhdr.h"
 #include "urx.h"
 
 GBLDEF urx_rtnref		urx_anchor;
 
+//void urx_resolve(rhdtyp *rtn, lab_tabent *lbl_tab, lab_tabent *lbl_top);
 void urx_resolve (rhdtyp *rtn, lent *lbl_tab, lent *lbl_top)
 {
 	urx_rtnref	*rp0, *rp1;

@@ -158,7 +158,7 @@ GBLREF spdesc stringpool;
 
 void emit_addr(int4 refaddr, int4 offset, int4 *result)
 {
-	struct rel_table *newrel;
+	struct rel_table_masscomp *newrel;
 
 	if (run_time)
 	{
@@ -189,7 +189,7 @@ void emit_addr(int4 refaddr, int4 offset, int4 *result)
 
 void emit_pidr(int4 refoffset, int4 data_offset, int4 *result)
 {
-	struct rel_table *newrel;
+	struct rel_table_masscomp *newrel;
 
 	assert(!run_time);
 	refoffset += code_size;
@@ -215,8 +215,8 @@ void emit_pidr(int4 refoffset, int4 data_offset, int4 *result)
 
 void emit_reference(uint4 refaddr, mstr *name, uint4 *result)
 {
-	struct sym_table *sym;
-	struct rel_table *newrel;
+	struct sym_table_masscomp *sym;
+	struct rel_table_masscomp *newrel;
 
 	sym = define_symbol(0, *name, 0);
 	assert(sym);
@@ -314,11 +314,11 @@ void set_psect(unsigned char psect,unsigned char offset)
  *		given name and value in the given psect.
  */
 
-static struct sym_table *symbols;
-struct sym_table *define_symbol(unsigned char psect, mstr name, int4 value)
+static struct sym_table_masscomp *symbols;
+struct sym_table_masscomp *define_symbol(unsigned char psect, mstr name, int4 value)
 {
 	int cmp;
-	struct sym_table *sym, *sym1, *newsym;
+	struct sym_table_masscomp *sym, *sym1, *newsym;
 
 	sym = symbols;
 	sym1 = 0;
@@ -330,7 +330,7 @@ struct sym_table *define_symbol(unsigned char psect, mstr name, int4 value)
 		sym = sym->next;
 	}
 	if (cmp || !sym)
-	{	newsym = (struct sym_table *) mcalloc(sizeof(struct sym_table) + name.len);
+	{	newsym = (struct sym_table_masscomp *) mcalloc(sizeof(struct sym_table_masscomp) + name.len);
 		newsym->name_len = name.len + 1;
 		memcpy(&newsym->name[0], name.addr, name.len);
 		newsym->name[ name.len ] = 0;
@@ -360,8 +360,8 @@ struct sym_table *define_symbol(unsigned char psect, mstr name, int4 value)
 void resolve_sym(void)
 {
 	uint4 symnum;
-	struct sym_table *sym;
-	struct rel_table *rel;
+	struct sym_table_masscomp *sym;
+	struct rel_table_masscomp *rel;
 
 	symnum = 0;
 	sym = symbols;
@@ -400,7 +400,7 @@ void output_relocation(void)
 void output_symbol(void)
 {
 	uint4 string_length;
-	struct sym_table *sym;
+	struct sym_table_masscomp *sym;
 
 	string_length = sizeof(int4);
 	sym = symbols;

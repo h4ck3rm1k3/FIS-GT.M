@@ -15,6 +15,7 @@
 
 #include "error.h"
 #include "rtnhdr.h"
+#include "../sr_unix_nsb/rtnhdr.h" // for lbl_tables
 #include "op.h"
 #include "i386.h"
 #include "inst_flush.h"
@@ -40,7 +41,8 @@
  */
 rhdtyp *make_cimode(void)
 {
-	static rhdtyp	*base_address = NULL;
+  //rhead_struct_sr_unix_nsb
+	static rhdtyp_sr_unix_nsb	*base_address = NULL;
 	lbl_tables	*lbl;
 	int		*lnr;
 	unsigned char	*code;

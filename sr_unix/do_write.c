@@ -17,6 +17,8 @@
 
 #include "gtm_stdio.h"
 #include "do_write.h"
+#include "types.h"
+#include <sys/types.h>
 
 #define MAX_WRITE_RETRY 2
 

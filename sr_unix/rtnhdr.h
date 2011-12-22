@@ -194,7 +194,8 @@ rhdtyp *make_dmode(void);
 void comp_lits(rhdtyp *rhead);
 rhdtyp  *op_rhdaddr(mval *name, rhdtyp *rhd);
 lnr_tabent **op_labaddr(rhdtyp *routine, mval *label, int4 offset);
-void urx_resolve(rhdtyp *rtn, lab_tabent *lbl_tab, lab_tabent *lbl_top);
+void urx_resolve2 (rhdtyp *rtn, lab_tabent *lbl_tab, lab_tabent *lbl_top);
+
 char *rtnlaboff2entryref(char *entryref_buff, mstr *rtn, mstr *lab, int offset);
 
 #endif

@@ -24,7 +24,7 @@ uint4	a_drsize;	/* size of data relocation */
 /*
  * Format of a relocation datum.
  */
-struct relocation_info {
+struct relocation_info_masscomp {
 	int	r_address;	/* address which is relocated */
 unsigned int	r_symbolnum:24,	/* local symbol ordinal */
 		r_pcrel:1, 	/* was relocated pc relative already */
@@ -33,9 +33,9 @@ unsigned int	r_symbolnum:24,	/* local symbol ordinal */
 		r_pad:4;		/* nothing, yet */
 };
 
-struct rel_table {
-	struct rel_table	*next, *resolve;
-	struct relocation_info r;
+struct rel_table_masscomp {
+	struct rel_table_masscomp	*next, *resolve;
+	struct relocation_info_masscomp r;
 };
 
 /*
@@ -43,7 +43,7 @@ struct rel_table {
  * and should be used if you aren't interested the a.out header
  * or relocation information.
  */
-struct	nlist {
+struct	nlist_masscomp {
 	int4	n_strx;		/* index into file string table */
 unsigned char	n_type;		/* type flag, i.e. N_TEXT etc; see below */
 	char	n_other;	/* unused */
@@ -51,10 +51,10 @@ unsigned char	n_type;		/* type flag, i.e. N_TEXT etc; see below */
 uint4	n_value;	/* value of this symbol (or sdb offset) */
 };
 
-struct sym_table {
-	struct sym_table *next;
-	struct nlist n;
-	struct rel_table *resolve;
+struct sym_table_masscomp {
+	struct sym_table_masscomp *next;
+	struct nlist_masscomp n;
+	struct rel_table_masscomp *resolve;
 	unsigned short name_len;
 	unsigned char name[1];
 };

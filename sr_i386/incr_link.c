@@ -18,12 +18,15 @@
 #include <string.h>
 
 #include "rtnhdr.h"
+#include "../sr_unix_nsb/rtnhdr.h"
 #include "compiler.h"
 #include "urx.h"
 #include "objlabel.h"	/* needed for masscomp.h */
 #include "masscomp.h"
 #include "gtmio.h"
 #include "incr_link.h"
+
+extern const int sys_nerr;
 
 /* INCR_LINK - read and process a mumps object module.  Link said module to
  	currently executing image */
@@ -40,7 +43,7 @@ void zl_error(int4 file, int4 err, int4 len, char *addr);
 
 bool incr_link(int file_desc)
 {
-	rhdtyp	*hdr, *old_rhead;
+	rhdtyp_sr_unix_nsb	*hdr, *old_rhead;
 	int code_size, save_errno;
 	int4 rhd_diff,lab_miss_off,*olnt_ent,*olnt_top, read_size;
 	mident		module_name;
@@ -96,7 +99,7 @@ bool incr_link(int file_desc)
 		else
 			zl_error(file_desc, ERR_INVOBJ, RTS_ERROR_TEXT("reading code"));
 
-	hdr = (rhdtyp *)code;
+	hdr = (rhdtyp_sr_unix_nsb *)code;
 	if (memcmp(&hdr->jsb[0], "GTM_CODE", sizeof(hdr->jsb)))
 		zl_error(file_desc, ERR_INVOBJ, RTS_ERROR_TEXT("missing GTM_CODE"));
 
@@ -116,7 +119,7 @@ bool incr_link(int file_desc)
 	}
 	urx_add (&urx_lcl_anchor);
 
-	old_rhead = (rhdtyp *) hdr->old_rhead_ptr;
+	old_rhead = (rhdtyp_sr_unix_nsb *) hdr->old_rhead_ptr;
 	lbt_bot = (lbl_tables *) ((char *)hdr + hdr->labtab_ptr);
 	lbt_top = lbt_bot + hdr->labtab_len;
 	while (old_rhead)
@@ -149,7 +152,7 @@ bool incr_link(int file_desc)
 		old_rhead->current_rhead_ptr = rhd_diff;
 		old_rhead->temp_mvals = hdr->temp_mvals;
 		old_rhead->temp_size = hdr->temp_size;
-		old_rhead = (rhdtyp *) old_rhead->old_rhead_ptr;
+		old_rhead = (rhdtyp_sr_unix_nsb *) old_rhead->old_rhead_ptr;
 	}
 	urx_resolve (hdr, lbt_bot, lbt_top);
 	return TRUE;
@@ -168,13 +171,13 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 {
 	res_list *res_root, *new_res, *res_temp, *res_temp1;
 	char *symbols, *sym_temp, *sym_temp1, *symtop, *res_addr;
-	struct relocation_info rel[RELREAD];
+	struct relocation_info_masscomp rel[RELREAD];
 	struct nlist syms[10];
 	int	numrel, rel_read, i, string_size, sym_size;
 	size_t	status;
 	mident	rtnid, labid;
 	mstr	rtn_str;
-	rhdtyp	*rtn;
+	rhdtyp_sr_unix_nsb	*rtn;
 	lent	*label, *labtop;
 	bool	labsym;
 	urx_rtnref	*urx_rp;

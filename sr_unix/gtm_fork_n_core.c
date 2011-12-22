@@ -27,6 +27,9 @@
 #endif
 #include "gtmmsg.h"
 
+#include "types.h"
+#include <sys/types.h>
+
 GBLREF boolean_t	created_core;		/* core file was created */
 GBLREF boolean_t	core_in_progress;
 GBLREF int4		exi_condition;

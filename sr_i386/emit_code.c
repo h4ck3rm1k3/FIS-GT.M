@@ -797,7 +797,10 @@ void emit_trip(generic_op op, oprtype *opr, bool val_output, unsigned char use_r
 				break;
 			case OC_CDLIT:
 				if (cg_phase == CGP_APPROX_ADDR)
-					define_symbol(GTM_LITERALS, *ct->operand[0].oprval.cdlt, 0);
+				  {
+				    mstr * val=ct->operand[0].oprval.cdlt;
+				    define_symbol(GTM_LITERALS, *val, 0);
+				  }
 				emit_op_alit(op, use_reg);
 				code_idx += sizeof(int4);
 				break;

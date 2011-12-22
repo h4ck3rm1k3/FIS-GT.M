@@ -9,8 +9,8 @@
  *								*
  ****************************************************************/
 
-#ifndef __RTNHDR_H__
-#define __RTNHDR_H__
+#ifndef __sr_unix_nsb_RTNHDR__H__
+#define __sr_unix_nsb_RTNHDR__H__
 
 /* rtnhdr.h - routine header */
 #include "cache.h"
@@ -41,7 +41,7 @@
 	current version.
 */
 
-typedef struct	rhead_struct
+typedef struct	rhead_struct_sr_unix_nsb
 {
 	char		jsb[RHEAD_JSB_SIZE];
 	mstr		src_full_name;		/* (updated) full source name of current module version */
@@ -65,7 +65,7 @@ typedef struct	rhead_struct
 	int4		*linkage_ptr;		/* (updated) address of linkage Psect of current module version */
 	unsigned char	*literal_ptr;		/* (updated) address of literal Psect of current module version */
 #endif
-} rhdtyp;
+} rhdtyp_sr_unix_nsb;
 
 /* Although the names change from _ptr to _off is politically correct, (they ARE offsets, not pointers),
    there is a lot of old code, espcially platform dependent code, that still deals with _ptr that we
@@ -86,8 +86,8 @@ typedef struct	rhead_struct
 #define LINKAGE_ADR(rtnhdr) ((caddr_t)(rtnhdr)->linkage_ptr)
 #define PTEXT_ADR(rtnhdr) ((unsigned char *)((char *)(rtnhdr) + (rtnhdr)->ptext_off))
 #define PTEXT_END_ADR(rtnhdr) ((unsigned char *)((char *)(rtnhdr) + (rtnhdr)->vartab_off))
-#define CURRENT_RHEAD_ADR(rtnhdr) ((rhdtyp *)((char *)(rtnhdr) + (rtnhdr)->current_rhead_off))
-#define OLD_RHEAD_ADR(rtnhdr) ((rhdtyp *)((char *)(rtnhdr) + (rtnhdr)->old_rhead_off))
+#define CURRENT_RHEAD_ADR(rtnhdr) ((rhdtyp_sr_unix_nsb *)((char *)(rtnhdr) + (rtnhdr)->current_rhead_off))
+#define OLD_RHEAD_ADR(rtnhdr) ((rhdtyp_sr_unix_nsb *)((char *)(rtnhdr) + (rtnhdr)->old_rhead_off))
 #define LINE_NUMBER_ADDR(rtnhdr, lnr_tabent_ptr) ((unsigned char *)((char *)(rtnhdr) + *(lnr_tabent_ptr)))
 #define LABENT_LNR_ENTRY(rtnhdr, lab_tabent_ptr) ((LNR_TABENT *)((char *)(rtnhdr) + (lab_tabent_ptr)->lab_ln_ptr))
 #define LABEL_ADDR(rtnhdr, lab_tabent_ptr)(CODE_BASE_ADDR(rtnhdr) + *(LABENT_LNR_ENTRY(rtnhdr, lab_tabent_ptr)))
@@ -112,7 +112,7 @@ typedef struct	rhead_struct
 #define LABENT_LNR_OFFSET lab_ln_ptr
 #define RTNENT_RT_ADR rt_ptr
 
-typedef struct ihead_struct
+typedef struct ihead_struct_rhdtyp_sr_unix_nsb
 {
 	cache_entry	*indce;
 	int4		vartab_off;
@@ -121,9 +121,9 @@ typedef struct ihead_struct
 	int4		temp_size;
 	int4		fixup_vals_off;
 	int4		fixup_vals_num;
-} ihdtyp;
+} ihdtyp_rhdtyp_sr_unix_nsb;
 
-void indir_lits(ihdtyp *ihead);
+void indir_lits_rhdtyp_sr_unix_nsb(ihdtyp_rhdtyp_sr_unix_nsb *ihead);
 
 typedef mident	vent;
 
@@ -137,7 +137,7 @@ typedef struct
 typedef struct
 {
 	mident	rt_name;
-	rhdtyp	*rt_ptr;
+	rhdtyp_sr_unix_nsb	*rt_ptr;
 } rtn_tables;
 
 typedef struct
@@ -147,16 +147,16 @@ typedef struct
 } lbl_tables;
 
 int get_src_line(mval *routine, mval *label, int offset, mstr **srcret);
-unsigned char *find_line_start(unsigned char *in_addr, rhdtyp *routine);
-int4 *find_line_addr(rhdtyp *routine, mstr *label, short int offset);
-rhdtyp *find_rtn_hdr(mstr *name);
-bool zlput_rname(rhdtyp *hdr);
-rhdtyp *make_dmode(void);
-void comp_lits(rhdtyp *rhead);
-rhdtyp  *op_rhdaddr(mval *name, rhdtyp *rhd);
-LNR_TABENT *op_labaddr(rhdtyp *routine, mval *label, int4 offset);
-VMS_ONLY(void urx_resolve(rhdtyp *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top);)
-UNIX_ONLY(void urx_resolve(rhdtyp *rtn, lent *lbl_tab, lent *lbl_top);)
+unsigned char *find_line_start_rhd_typ_sr_unix_nsb(unsigned char *in_addr, rhdtyp_sr_unix_nsb *routine);
+int4 *find_line_addr_rhdtyp_sr_unix_nsb(rhdtyp_sr_unix_nsb *routine, mstr *label, short int offset);
+rhdtyp_sr_unix_nsb *find_rtn_hdr_rhdtyp_sr_unix_nsb(mstr *name);
+bool zlput_rname_rhdtyp_sr_unix_nsb(rhdtyp_sr_unix_nsb *hdr);
+rhdtyp_sr_unix_nsb *make_dmode_rhdtyp_sr_unix_nsb(void);
+void comp_lits_rhdtyp_sr_unix_nsb(rhdtyp_sr_unix_nsb *rhead);
+rhdtyp_sr_unix_nsb  *op_rhdaddr_rhdtyp_sr_unix_nsb(mval *name, rhdtyp_sr_unix_nsb *rhd);
+LNR_TABENT *op_labaddr_rhdtyp_sr_unix_nsb(rhdtyp_sr_unix_nsb *routine, mval *label, int4 offset);
+VMS_ONLY(void urx_resolve_rhdtyp_sr_unix_nsb(rhdtyp_sr_unix_nsb *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top);)
+UNIX_ONLY(void urx_resolve_rhdtyp_sr_unix_nsb(rhdtyp_sr_unix_nsb *rtn, lent *lbl_tab, lent *lbl_top);)
 char *rtnlaboff2entryref(char *entryref_buff, mstr *rtn, mstr *lab, int offset);
 
 #endif

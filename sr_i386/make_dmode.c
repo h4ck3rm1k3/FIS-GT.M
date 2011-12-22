@@ -14,7 +14,8 @@
 #include "gtm_string.h"
 
 #include "error.h"
-#include "rtnhdr.h"
+//#include "rtnhdr.h"
+#include "../sr_unix_nsb/rtnhdr.h"
 #include "op.h"
 #include "i386.h"
 #include "inst_flush.h"
@@ -24,20 +25,20 @@
 #define CODE_SIZE	3*CALL_SIZE
 #define CODE_LINES	3
 
-rhdtyp *make_dmode(void)
+rhdtyp_sr_unix_nsb *make_dmode(void)
 {
-	rhdtyp		*base_address;
+	rhdtyp_sr_unix_nsb		*base_address;
 	lbl_tables	*lbl;
 	int		*lnr;
 	unsigned char	*code;
 						/* dummy code + label entry + line entries */
-	base_address = (rhdtyp *)malloc(sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
-	memset(base_address,0,sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES*sizeof(int4));
+	base_address = (rhdtyp_sr_unix_nsb *)malloc(sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
+	memset(base_address,0,sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES*sizeof(int4));
 	MEMCPY_LIT(&base_address->routine_name, GTM_DMOD);
-	base_address->ptext_ptr = sizeof(rhdtyp);
+	base_address->ptext_ptr = sizeof(rhdtyp_sr_unix_nsb);
 	base_address->vartab_ptr =
-		base_address->labtab_ptr = sizeof(rhdtyp) + CODE_SIZE;	/* hdr + code */
-	base_address->lnrtab_ptr = sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables);
+		base_address->labtab_ptr = sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE;	/* hdr + code */
+	base_address->lnrtab_ptr = sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables);
 	base_address->labtab_len = 1;
 	base_address->lnrtab_len = CODE_LINES;
 	code = (unsigned char *) base_address + base_address->ptext_ptr;
@@ -60,6 +61,6 @@ rhdtyp *make_dmode(void)
 	*lnr++ = base_address->ptext_ptr + 2 * CALL_SIZE;
 	assert(code - ((unsigned char *)base_address + base_address->ptext_ptr) == CODE_SIZE);
 	zlput_rname(base_address);
-	inst_flush(base_address, sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
+	inst_flush(base_address, sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
 	return base_address;
 }

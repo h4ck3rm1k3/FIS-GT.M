@@ -21,7 +21,8 @@
 #include "gtm_stdlib.h"
 #include <unistd.h>
 #include <sys/wait.h>
-#include <signal.h>
+
+#include "types.h"
 #include <sys/types.h>
 #include <errno.h>
 

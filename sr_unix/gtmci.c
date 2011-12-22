@@ -74,9 +74,7 @@ static callin_entry_list* get_entry(const char* call_name)
 	return entry;
 }
 
-int gtm_ci (c_rtn_name, va_alist)
-const char* c_rtn_name;
-va_dcl
+int gtm_ci (const char* c_rtn_name, ...)
 {
 	va_list			var, save_var;
 	callin_entry_list	*entry;
@@ -127,7 +125,7 @@ va_dcl
 	param_blk.labaddr = USHBIN_ONLY(&)lnr_entry;
 	param_blk.argcnt = entry->argcnt;
 
-	VAR_START(var);
+	va_start(var,c_rtn_name);
 	VAR_COPY(save_var, var);
 	has_return = (xc_void == entry->return_type) ? 0 : 1;
 	if (has_return)
