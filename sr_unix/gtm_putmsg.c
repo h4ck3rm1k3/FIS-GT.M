@@ -23,21 +23,20 @@
 
 
 void
-gtm_putmsg(va_alist)
-va_dcl
+gtm_putmsg(int foo,...)
+
 {
 	va_list	var;
 
-	VAR_START(var);
+	va_start(var,foo);
 	gtm_putmsg_list(var);
 	util_out_print("",TRUE);
 }
 
-void gtm_putmsg_noflush(va_alist)
-va_dcl
+void gtm_putmsg_noflush(int foo,...)
 {
 	va_list var;
 
-	VAR_START(var);
+	va_start(var,foo);
 	gtm_putmsg_list(var);
 }

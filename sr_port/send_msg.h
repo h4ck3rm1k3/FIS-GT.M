@@ -12,6 +12,6 @@
 #ifndef SEND_MSG_included
 #define SEND_MSG_included
 
-void send_msg();
+void send_msg(va_alist_hack);
 
 #endif /* SEND_MSG_included */

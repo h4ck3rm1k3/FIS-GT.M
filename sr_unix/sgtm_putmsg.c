@@ -48,8 +48,7 @@ GBLREF	va_list	last_va_list_ptr;
 *   This routine is a variation on the unix version of rts_error, and has an identical interface.
 */
 
-void sgtm_putmsg(va_alist)
-va_dcl
+void sgtm_putmsg(int foo,...)
 {
 	va_list	var;
 	int	arg_count, dummy, fao_actual, fao_count, i, msg_id;
@@ -57,7 +56,7 @@ va_dcl
 	mstr	msg_string;
 	int	util_outbufflen;
 
-	VAR_START(var);
+	va_start(var,foo);
 	out_str = va_arg(var, char *);
 	arg_count = va_arg(var, int);
 

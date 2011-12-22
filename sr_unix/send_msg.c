@@ -10,6 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
+#include "varargs.h"
 
 /* gcc/LinuxIA32 needs stdio.h before varargs until removed from error.h */
 /* gcc/Linux390 needs varargs before stdarg */
@@ -49,15 +50,15 @@ GBLREF va_list	last_va_list_ptr;
 
 /* This routine is a variation on the unix version of rts_error, and has an identical interface */
 
-void send_msg(va_alist)
-va_dcl
+void send_msg(va_alist_hack)
+
 {
         va_list var;
         int     arg_count, dummy, fao_actual, fao_count, i, msg_id;
         char    msg_buffer[1024];
         mstr    msg_string;
 
-        VAR_START(var);
+        VAR_START_HACK(var);
         arg_count = va_arg(var, int);
         assert(arg_count > 0);
         util_out_print(NULL, RESET);

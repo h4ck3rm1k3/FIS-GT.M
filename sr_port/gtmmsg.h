@@ -13,12 +13,12 @@
 #define GTMMSG_H_INCLUDED
 
 
-void gtm_putmsg();
+void gtm_putmsg(int,...);
 #ifdef VMS
 void gtm_getmsg(uint4 msgnum, mstr *msgbuf);
 #elif defined(UNIX)
 void gtm_getmsg(int4 msgnum, mstr *msgbuf);
-void gtm_putmsg_noflush();
+void gtm_putmsg_noflush(int,...);
 #else
 #error Unsupported platform
 #endif

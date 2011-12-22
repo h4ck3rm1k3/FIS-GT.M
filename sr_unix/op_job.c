@@ -10,7 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
-
+extern const int sys_nerr;
 /* LinuxIA32/gcc needs stdio before varargs due to stdarg */
 /* Linux390/gcc needs varargs first */
 #ifdef EARLY_VARARGS
@@ -71,8 +71,7 @@ void	job_timer_handler(void)
  * Job command main entry point
  * ---------------------------------------------------
  */
-int	op_job(va_alist)
-va_dcl
+int	op_job(int foo,...)
 {
 	va_list		var, save;
 	int4		argcnt, i;
@@ -100,7 +99,7 @@ va_dcl
 	error_def(ERR_TEXT);
 	error_def(ERR_JOBFAIL);
 
-	VAR_START(var);
+	va_start(var,foo);
 	argcnt = va_arg(var, int4);
 	assert(argcnt >= 5);
 	label = va_arg(var, mval *);

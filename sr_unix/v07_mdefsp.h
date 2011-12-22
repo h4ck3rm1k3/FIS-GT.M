@@ -70,7 +70,7 @@ typedef struct
 #define DEFINE_MVAL_LITERAL(TYPE, EXPONENT, SIGN, LENGTH, ADDRESS, MANT_LOW, MANT_HIGH) \
 	{TYPE, SIGN, EXPONENT, LENGTH, ADDRESS, MANT_LOW, MANT_HIGH}
 
-#define VAR_START(a)	va_start(a)
+//#define VAR_START(a)	va_start(a,foo)
 #define VARLSTCNT(a)	a,		/* push count of arguments*/
 
 #ifndef GTSQL    /* these cannot be used within SQL */

@@ -247,12 +247,7 @@ static int	extarg_getsize(void *src, enum xc_types typ, mval *dst)
 	}
 }
 
-void	op_fnfgncal (n_mvals, dst, package, extref, mask, argcnt, va_alist)
-uint4	n_mvals;
-mval	*dst, *package, *extref;
-uint4	mask;
-int4	argcnt;
-va_dcl
+void	op_fnfgncal (uint4 n_mvals, mval *dst, mval *package, mval *extref, uint4 mask, int4 argcnt, ...)
 {
 	va_list		var, save_var;
 	int		i;
@@ -279,7 +274,7 @@ va_dcl
 
 	/* As we may have to pass the M input parameters more than once, save the
 	current var_args var pointer */
-	VAR_START(var);
+	va_start(var,argcnt);
 	VAR_COPY(save_var, var);
 	assert(n_mvals == argcnt + 5);
 	assert(MV_IS_STRING(package));	/* package and routine are literal strings */

@@ -38,7 +38,10 @@
 #include "dpgbldir.h"
 #include "sgnl.h"
 #include "mvalconv.h"
+
+typedef int testtest;
 #include "mv_stent.h"		/* for COPY_SUBS_TO_GVCURRKEY macro */
+typedef int testtest2;
 
 #ifndef EARLY_VARARGS
 #include <stdarg.h>	/* needs to be after the above include files otherwise linux/x86 gcc complains */

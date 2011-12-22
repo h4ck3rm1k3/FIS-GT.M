@@ -10,6 +10,8 @@
  ****************************************************************/
 
 #include "mdef.h"
+#include "types.h"
+#include "../sr_port/types.h"
 
 #include <sys/ioctl.h>
 #include <errno.h>

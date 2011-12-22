@@ -123,7 +123,7 @@ typedef struct
 	{TYPE, EXPONENT, SIGN, 0xffff, LENGTH, ADDRESS, MANT_LOW, MANT_HIGH}
 #endif
 
-#define VAR_START(a)	va_start(a)
+//#define VAR_START(a)	va_start(a,foo)
 #define VARLSTCNT(a)	a,		/* push count of arguments*/
 
 #ifndef GTSQL    /* these cannot be used within SQL */

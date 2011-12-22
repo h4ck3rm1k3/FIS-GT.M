@@ -11,6 +11,6 @@
 #ifndef __SGTM_PUTMSG_H__
 #define __SGTM_PUTMSG_H__
 
-void		sgtm_putmsg();
+void		sgtm_putmsg(int,...);
 
 #endif

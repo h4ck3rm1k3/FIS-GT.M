@@ -9,34 +9,35 @@
  *								*
  ****************************************************************/
 
-typedef struct
+typedef struct mvs_ntab_struct_test
 {
 	mident		*nam_addr;
 	struct lv_val_struct	**lst_addr;
 	struct lv_val_struct	*save_value;
 } mvs_ntab_struct;
 
-typedef struct
+
+typedef struct mvs_pval_struct_test
 {
 	struct lv_val_struct	*mvs_val;
 	mvs_ntab_struct mvs_ptab;
 } mvs_pval_struct;
 
-typedef struct
+typedef struct mvs_nval_struct_test
 {
 	struct lv_val_struct	*mvs_val;
 	mvs_ntab_struct mvs_ptab;
 	mident		name;
 } mvs_nval_struct;
 
-typedef struct
+typedef struct parm_blk_test
 {
 	uint4	mask;
 	unsigned short	actualcnt;
 	struct lv_val_struct	*actuallist[1];
 } parm_blk;
 
-typedef struct
+typedef struct mvs_parm_struct_test
 {
 	bool		save_truth;
 	mval		*ret_value;

@@ -49,7 +49,8 @@ void op_fnj2(mval *src,int len,mval *dst);
 void op_fnj3(mval *src,int width,int fract,mval *dst);
 void op_fnlvname(mval *src, mval *dst);
 void op_fnlvnameo2(mval *src,mval *dst,mval *direct);
-void op_fnfgncal(int,...)/*AUTO*/;
+void op_fnfgncal (uint4 n_mvals, mval *dst, mval *package, mval *extref, uint4 mask, int4 argcnt, ...);
+
 #ifdef __sun
 int op_fnfgncal_rpc(int,...)/*AUTO*/;	/* typ to keep the compiler happy as set into xfer_table, which is int */
 #endif
@@ -77,7 +78,7 @@ void op_fnzjobexam(mval *prelimSpec, mval *finalSpec);
 void op_fnzsigproc(int processid, int signum, mval *retcode);
 void op_fnzlkid(mint boolex, mval *retval);
 void op_fnzqgblmod(mval *v);
-void op_fnztrnlnm(mval *name,mval *table,int4 ind,mval *mode,mval *case_blind,mval *item,mval *ret);
+
 void op_fnzcall(int,...)/*AUTO*/;
 void op_fnzpid(mint boolexpr,mval *ret);
 void op_fnzpriv(mval *prv,mval *ret);
@@ -114,9 +115,10 @@ void op_setp1(mval *src, int delim, mval *expr, int ind, mval *dst);
 void op_setpiece(mval *src, mval *del, mval *expr, int4 first, int4 last, mval *dst);
 void op_fnzsetprv(mval *prv,mval *ret);
 void op_fnztrnlnm(mval *name,mval *table,int4 ind,mval *mode,mval *case_blind,mval *item,mval *ret);
+
 void op_setzbrk(mval *rtn, mval *lab, int offset, mval *act, int cnt);
 void op_sqlinddo(mstr *m_init_rtn);
-void op_sub(mval *u, mval *v, mval *s);
+
 void op_svget(int varnum, mval *v);
 void op_svput(int varnum, mval *v);
 void op_tcommit(void);
@@ -171,6 +173,7 @@ void add_mvals(mval *u, mval *v, int subtraction, mval *result);
 void op_bindparm(int,...);
 void op_add(mval *u, mval *v, mval *s);
 void op_sub(mval *u, mval *v, mval *s);
+
 void op_cvtparm(int iocode, mval *src, mval *dst);
 void op_dmode(void);
 void op_dt_false(void);

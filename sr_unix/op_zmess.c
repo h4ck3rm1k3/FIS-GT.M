@@ -25,8 +25,7 @@
 
 #define FAO_BUFFER_SPACE 2048
 
-void op_zmess(va_alist)
-va_dcl
+void op_zmess(va_alist_hack)
 {
 	va_list		var;
 	const err_ctl	*ectl;
@@ -36,7 +35,7 @@ va_dcl
 	unsigned int	errnum, cnt, j;
 	int		faocnt;
 
-	VAR_START(var);
+	VAR_START_HACK(var);
 	cnt = va_arg(var, int);
 	errnum = va_arg(var, int);
 	cnt--;

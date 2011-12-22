@@ -10,7 +10,8 @@
  ****************************************************************/
 
 /* Define signal information structures and routines */
-
+#include "types.h"
+#include "../sr_port/types.h"
 #ifdef __sparc
 #  include <sys/siginfo.h>
 #  include <ucontext.h>

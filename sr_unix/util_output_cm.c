@@ -10,6 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
+#include "varargs.h"
 
 #include "gtm_string.h"
 
@@ -37,8 +38,7 @@ static unsigned char outbuff[OUT_BUFF_SIZE];
 static unsigned char *outptr;
 GBLREF unsigned char *util_outptr;
 
-void util_cm_print(va_alist)
-va_dcl
+void util_cm_print(va_alist_hack)
 {
 	va_list		var;
 	struct CLB	*lnk ;
@@ -47,7 +47,7 @@ va_dcl
 	char		flush;
 	int4		status, msglen, i;
 
-	VAR_START(var);
+	VAR_START_HACK(var);
 	lnk = va_arg(var, struct CLB *);
 	code = va_arg(var, int);
 	message = va_arg(var, char *);

@@ -29,6 +29,10 @@
 
 #include "gtm_stdio.h"
 #include "error.h"
+
+#include "types.h"
+#include "../sr_port/types.h"
+
 #include "gtmsiginfo.h"
 #include "gtmimagename.h"
 #include "gt_timer.h"
