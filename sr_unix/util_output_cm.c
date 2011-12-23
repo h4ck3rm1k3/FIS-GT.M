@@ -38,7 +38,7 @@ static unsigned char outbuff[OUT_BUFF_SIZE];
 static unsigned char *outptr;
 GBLREF unsigned char *util_outptr;
 
-void util_cm_print(va_alist_hack)
+void util_cm_print(int foo, ...)
 {
 	va_list		var;
 	struct CLB	*lnk ;

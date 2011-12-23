@@ -50,7 +50,7 @@ void util_in_open(void *);
 #define HEX8		8
 #define HEX16		16
 
-void util_cm_print(va_alist_hack);
+void util_cm_print(int foo, ...);
 void util_exit_handler(void);
 void util_out_close(void);
 void util_out_print(int foo,...);

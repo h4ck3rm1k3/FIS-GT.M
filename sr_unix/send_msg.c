@@ -50,7 +50,7 @@ GBLREF va_list	last_va_list_ptr;
 
 /* This routine is a variation on the unix version of rts_error, and has an identical interface */
 
-void send_msg(va_alist_hack)
+void send_msg(int foo, ...)
 
 {
         va_list var;
