@@ -27,6 +27,10 @@
 #include "gtmio.h"
 #include "mmemory.h"
 #include "obj_file.h"
+#include "obj_filesp.h"
+#include "masscomp.h"
+#include "rtnhdr2.h"
+#include "rtnhdr.h"
 
 GBLDEF char		object_file_name[MAX_FBUFF + 1];
 GBLDEF short		object_name_len;
@@ -70,7 +74,7 @@ void	emit_link_reference(int4 refoffset, mstr *name)
 	struct sym_table	*sym;
 	struct rel_table	*newrel;
 
-	sym = define_symbol(GTM_LINKAGE, name);
+	sym = define_symbol2(GTM_LINKAGE, name);
 	assert(sym);
 	if ((N_TEXT | N_EXT) != sym->n.n_type)
 	{
@@ -160,7 +164,7 @@ void	buff_flush(void)
  *	Description:  Buffers a definition of a global symbol with the
  *		given name in the given psect.
  */
-struct sym_table *define_symbol(unsigned char psect, mstr *name)
+struct sym_table *define_symbol2(unsigned char psect, mstr *name)
 {
 	int4			cmp;
 	struct sym_table	*sym, *sym1, *newsym;
@@ -358,7 +362,7 @@ int4	find_linkage(mstr* name)
 	struct linkage_entry	*newlnk;
 	struct sym_table	*sym;
 
-	sym = define_symbol(GTM_LITERALS, name);
+	sym = define_symbol2(GTM_LITERALS, name);
 
 	if (-1 == sym->linkage_offset)
 	{

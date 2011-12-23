@@ -59,16 +59,21 @@ GBLDEF  int	GTM_LINES;			/* number of rows */
 #pragma convlit(suspend)
 #endif
 static	int	gtm_auto_right_margin = 0;
+
+static int text1=1;
+static	char	gtm_cursor_down[] =  "^M" ;
+static int text2=1;
 static	char	gtm_clr_eos[] = "[J";
 static	char	gtm_clr_eol[] = "[K";
-static	int	gtm_columns = 80;
 static	char	gtm_cursor_address[] = "[%i%p1%d;%p2%dH";
-static	char	gtm_cursor_down[] = "";
-static	char	gtm_cursor_left[] = "";
+static	char	gtm_cursor_left[] =  "\b" ;
+
+static	int	gtm_columns = 80;
+
 static	char	gtm_cursor_right[] = "OC";
 static	char	gtm_cursor_up[] = "OA";
 static	int	gtm_eat_newline_glitch = 1;
-static	char	gtm_key_backspace[] = "";
+static	char	gtm_key_backspace[] = "\b";
 static	char	gtm_key_dc[] = "";
 static	char	gtm_key_down[] = "OB";
 static	char	gtm_key_left[] = "OD";

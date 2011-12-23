@@ -26,6 +26,7 @@
 #include <unistd.h>
 
 #include "gtmsiginfo.h"
+const int EIP = 100; // TODO : this is just a hack
 
 /* OS/390 (R7) does not define SI_USER but for code expansions purposes, define the value it uses
    in its place */

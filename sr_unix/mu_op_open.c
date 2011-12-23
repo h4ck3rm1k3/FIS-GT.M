@@ -11,6 +11,10 @@
 
 #include "mdef.h"
 
+#define __USE_XOPEN 1 
+#define __USE_XOPEN2K8 2
+#include <fcntl.h>
+
 #include "gtm_fcntl.h"
 #include "gtm_stdio.h"
 #include "gtm_string.h"

@@ -14,11 +14,13 @@
 #include "util.h"
 #include "dse_puttime.h"
 
+  //void	util_out_print();
+
 #define TIME_SIZE	(2 + 1 + 2 + 1 + 2 + 1 + 2)	/* hh:mm:ss:dd */
 /*	display uint4 *, representing a time value in millisec */
 void dse_puttime(int_ptr_t time, char *c, bool flush)
 {
-	void	util_out_print();
+
 	char 	outbuf[TIME_SIZE * 4];		/* Leave room for unexpected values */
 
 	SPRINTF(outbuf,"%2.2d:%02.2d:%02.2d:%02.2d", *time / 3600000,

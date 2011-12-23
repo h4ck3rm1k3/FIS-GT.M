@@ -10,6 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
+#define __need_timespec 1
 #include <time.h>
 #include "sleep.h"
 

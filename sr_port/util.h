@@ -53,7 +53,7 @@ void util_in_open(void *);
 void util_cm_print(va_alist_hack);
 void util_exit_handler(void);
 void util_out_close(void);
-void util_out_print();
+void util_out_print(int foo,...);
 void util_out_send_oper(char *addr, unsigned int len);
 void util_out_write(unsigned char *addr, unsigned int len);
 

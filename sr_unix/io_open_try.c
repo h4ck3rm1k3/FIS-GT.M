@@ -8,6 +8,10 @@
  *	the license, please stop and do not read further.	*
  *								*
  ****************************************************************/
+#define BSD_SOURCE 1
+#define _XOPEN_SOURCE 501 
+#define _XOPEN_SOURCE_EXTENDED 1
+
 
 #include "mdef.h"
 
@@ -40,6 +44,12 @@
 #include "stringpool.h"
 
 #define  LOGNAME_LEN 255
+
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 LITREF	unsigned char		io_params_size[];
 GBLREF	dev_dispatch_struct	io_dev_dispatch[];

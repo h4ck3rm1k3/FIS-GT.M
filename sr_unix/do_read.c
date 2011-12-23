@@ -13,6 +13,8 @@
 
 #include <unistd.h>
 #include <signal.h>
+#include "types.h"
+#include "../sr_port/types.h"
 #include <errno.h>
 
 #include "gtm_stdio.h"

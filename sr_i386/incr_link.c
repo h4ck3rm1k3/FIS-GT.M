@@ -26,6 +26,8 @@
 #include "gtmio.h"
 #include "incr_link.h"
 
+static int x;
+
 extern const int sys_nerr;
 
 /* INCR_LINK - read and process a mumps object module.  Link said module to
@@ -41,7 +43,7 @@ GBLREF unsigned char *zl_lab_err;
 bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *code);
 void zl_error(int4 file, int4 err, int4 len, char *addr);
 
-bool incr_link(int file_desc)
+bool incr_link1(int file_desc)
 {
 	rhdtyp_sr_unix_nsb	*hdr, *old_rhead;
 	int code_size, save_errno;

@@ -10,6 +10,9 @@
  ****************************************************************/
 
 #include "mdef.h"
+#define __USE_MISC 1
+#include "types.h"
+#include "../sr_port/types.h"
 #include "gtm_unistd.h"
 #include "gtmci_signals.h"
 #include "gtmsiginfo.h"

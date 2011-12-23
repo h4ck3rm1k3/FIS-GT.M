@@ -16,7 +16,9 @@
 #include "incr_link_sp.h"
 bool incr_link(int file_desc, zro_ent *zro_entry);
 #else
-bool incr_link(int file_desc);
+bool incr_link1(int file_desc);
+#include "../sr_unix/zroutinessp.h"
+bool	incr_link (int file_desc, zro_ent *zro_entry);
 #endif
 
 #endif /* INCR_LINK_INCLUDED */

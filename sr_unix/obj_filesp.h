@@ -15,10 +15,13 @@
 typedef struct linkage_entry
 {
 	struct linkage_entry	*next;
-	struct sym_table_masscomp	*symbol;
+  //	struct sym_table_masscomp	*symbol;
+	struct sym_table	        *symbol;
 } linkage_entry;
 
-struct sym_table_masscomp *define_symbol2(unsigned char psect, mstr *name);
+// used in obj_file.c
+
+struct sym_table *define_symbol2(unsigned char psect, mstr *name);
 struct sym_table_masscomp *define_symbol(unsigned char psect, mstr name, int4 value);
 void comp_linkages(void);
 void resolve_sym (void);

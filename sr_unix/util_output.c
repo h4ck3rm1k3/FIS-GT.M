@@ -25,6 +25,10 @@
 #include "gtm_syslog.h"
 #include <errno.h>
 
+
+#include "types.h"
+#include "../sr_port/types.h"
+
 #include "io.h"
 #include "error.h"
 #include "fao_parm.h"
@@ -479,14 +483,13 @@ void	util_out_print_vaparm(caddr_t message, int flush, va_list var, int faocnt)
 
 }
 
-void	util_out_print(va_alist)
-va_dcl
+void	util_out_print(int foo,...)
 {
 	va_list	var;
 	caddr_t	message;
 	int	flush;
 
-	va_start(var);
+	va_start(var,foo);
 	message = va_arg(var, caddr_t);
 	flush = va_arg(var, int);
 
