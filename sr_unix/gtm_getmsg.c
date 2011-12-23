@@ -16,7 +16,7 @@
 #endif
 #include "error.h"
 #include "gtmmsg.h"
-extern const int sys_nerr;
+
 
 GBLREF bool	dec_nofac;
 /* sys_nerr and sys_errlist defined in stdio for linux */

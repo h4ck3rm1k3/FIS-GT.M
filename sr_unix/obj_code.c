@@ -103,7 +103,7 @@ void	obj_code (uint4 src_lines, uint4 checksum)
 	/* Define the routine name global symbol. */
 	rname_mstr.addr = module_name;
 	rname_mstr.len = mid_len((mident *)module_name);
-	define_symbol(GTM_MODULE_DEF_PSECT, &rname_mstr);
+	define_symbol2(GTM_MODULE_DEF_PSECT, &rname_mstr);
 
 	memset(&rhead, 0, sizeof(rhead));
 	alloc_reg();
@@ -272,7 +272,7 @@ void	cg_lab(mlabel *mlbl, char *do_emit)
 		} else
 		{	/* 1st pass, do the definition but no emissions */
 			mlabel2xtern(&glob_name, (mident *)module_name, &mlbl->mvname);
-			define_symbol(GTM_CODE, &glob_name);
+			define_symbol2(GTM_CODE, &glob_name);
 		}
 	}
 	return;

@@ -72,6 +72,8 @@
 #include "fnpc.h"
 #include "mmseg.h"
 #ifndef VMS
+
+#include <bits/sigstack.h>
 # include "gtmsiginfo.h"
 #endif
 #include "gtmimagename.h"

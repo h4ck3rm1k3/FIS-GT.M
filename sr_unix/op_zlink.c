@@ -213,7 +213,7 @@ void op_zlink (mval *v, mval *quals)
 		POLL_OBJECT_FILE(objnamebuf, obj_desc);
 		if (obj_desc == -1)
 			rts_error(VARLSTCNT(5) ERR_ZLINKFILE, 2, dollar_zsource.len, dollar_zsource.addr, errno);
-		if (USHBIN_ONLY(!incr_link(obj_desc, NULL)) NON_USHBIN_ONLY(!incr_link(obj_desc)))
+		if (USHBIN_ONLY(!incr_link(obj_desc, NULL)) NON_USHBIN_ONLY(!incr_link1(obj_desc)))
 			rts_error(VARLSTCNT(5) ERR_ZLINKFILE, 2, dollar_zsource.len, dollar_zsource.addr, ERR_VERSION);
 		status = close (obj_desc);
 		if (status == -1)
@@ -335,7 +335,7 @@ void op_zlink (mval *v, mval *quals)
 		POLL_OBJECT_FILE(objnamebuf, obj_desc);
 		if (obj_desc == -1)
 			rts_error(VARLSTCNT(5) ERR_ZLINKFILE, 2, objnamelen, objnamebuf, errno);
-		status = USHBIN_ONLY(incr_link(obj_desc, NULL)) NON_USHBIN_ONLY(incr_link(obj_desc));
+		status = USHBIN_ONLY(incr_link(obj_desc, NULL)) NON_USHBIN_ONLY(incr_link1(obj_desc));
 		if (!status)	/* due only to version mismatch, so recompile */
 		{
 			status = close (obj_desc);
@@ -362,7 +362,7 @@ void op_zlink (mval *v, mval *quals)
 			POLL_OBJECT_FILE(object_file_name, obj_desc);
 			if (obj_desc == -1)
 				rts_error(VARLSTCNT(5) ERR_ZLINKFILE, 2, objnamelen, objnamebuf, errno);
-			if (USHBIN_ONLY(!incr_link(obj_desc, NULL)) NON_USHBIN_ONLY(!incr_link(obj_desc)))
+			if (USHBIN_ONLY(!incr_link(obj_desc, NULL)) NON_USHBIN_ONLY(!incr_link1(obj_desc)))
 				GTMASSERT;
 		}
 		status = close (obj_desc);

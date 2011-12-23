@@ -21,6 +21,9 @@ int4 literal_offset(int4 offset);
 int4 find_linkage(mstr* name);
 void drop_object_file(void);
 void close_object_file(void);
+#include "rtnhdr.h"
+#include "rtnhdr2.h"
+
 void create_object_file(rhdtyp *rhead);
 void obj_init(void);
 #endif

@@ -32,6 +32,11 @@
 #include "../sr_unix/mdefsp.h"
 typedef uint4 mach_inst; //TODO hack
 
+const int NATIVE_HDR_LEN=1000;
+
+const int COFFHDRLEN=1000;
+
+
 #define RELOCATE(field, type, base) field = (type)((unsigned char *)(field) + (unsigned int)(base))
 #define RELREAD 50			/* number of relocation entries to buffer */
 

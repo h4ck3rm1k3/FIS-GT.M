@@ -401,6 +401,7 @@ void		omi_dump_pkt (omi_conn *);
 int		get_ping_rsp  P(());
 int		icmp_ping     P((int conn));
 int		init_ping     P(());
+typedef unsigned short u_short;
 int		in_cksum      P((u_short *addr, int len));
 
 #undef P

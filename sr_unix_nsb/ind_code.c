@@ -13,6 +13,7 @@
 #include "compiler.h"
 #include "objlabel.h"
 #include "rtnhdr.h"
+#include "rtnhdr2.h"
 #include "cgp.h"
 #include "stringpool.h"
 #include "copy.h"

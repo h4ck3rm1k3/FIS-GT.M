@@ -10,7 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
-extern const int sys_nerr;
+
 /* LinuxIA32/gcc needs stdio before varargs due to stdarg */
 /* Linux390/gcc needs varargs first */
 #ifdef EARLY_VARARGS

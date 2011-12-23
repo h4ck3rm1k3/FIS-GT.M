@@ -51,7 +51,7 @@ static  char	ext_source_line[MAX_SRC_LINE];
 static  char	*ext_table_file_name;
 static  bool	star_found;
 
-static  void 	ext_stx_error();
+static  void 	ext_stx_error(int, ...);
 static 	int 	scan_array_bound(char **b,int curr_type);
 const static int parm_space_needed[] =
 {
@@ -675,8 +675,7 @@ callin_entry_list*	citab_parse (void)
 	return entry_ptr;
 }
 
-static void ext_stx_error(va_alist)
-va_dcl
+static void ext_stx_error(int foo, ...)
 {
 	va_list	args, sav_arg;
 	char	*ext_table_name;
@@ -686,7 +685,7 @@ va_dcl
 	error_def(ERR_EXTSRCLIN);
 	error_def(ERR_EXTSRCLOC);
 
-	va_start(args);
+	va_start(args,foo);
 	in_error = va_arg(args, int);
 	ext_table_name = va_arg(args, char *);
 

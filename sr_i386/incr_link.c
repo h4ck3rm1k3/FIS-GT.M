@@ -26,9 +26,6 @@
 #include "gtmio.h"
 #include "incr_link.h"
 
-static int x;
-
-extern const int sys_nerr;
 
 /* INCR_LINK - read and process a mumps object module.  Link said module to
  	currently executing image */

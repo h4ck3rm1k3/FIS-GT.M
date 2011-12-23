@@ -51,21 +51,21 @@ void	cg_lab (mlabel *l, int4 base);
 
 void	obj_code (uint4 src_lines, uint4 checksum)
 {
-	rhdtyp		rhead;
-	mline		*mlx, *mly;
-	vent		*vptr;
-	mstr		rname_mstr;
-	error_def(ERR_TEXT);
-	assert(!run_time);
-	obj_init();
-
-
-	/* Define the routine name global symbol. */
-	rname_mstr.addr = module_name;
-	rname_mstr.len = mid_len((mident *)module_name);
-	define_symbol(GTM_MODULE_DEF_PSECT, rname_mstr, 0);
-
-	memset(&rhead, 0, sizeof(rhead));
+  rhdtyp_sr_unix_nsb		rhead;
+  mline		*mlx, *mly;
+  vent		*vptr;
+  mstr		rname_mstr;
+  error_def(ERR_TEXT);
+  assert(!run_time);
+  obj_init();
+  
+  
+  /* Define the routine name global symbol. */
+  rname_mstr.addr = module_name;
+  rname_mstr.len = mid_len((mident *)module_name);
+  define_symbol(GTM_MODULE_DEF_PSECT, rname_mstr, 0);
+  
+  memset(&rhead, 0, sizeof(rhead));
 	alloc_reg();
 	jmp_opto();
 	curr_addr = sizeof(rhdtyp);
@@ -84,7 +84,7 @@ void	obj_code (uint4 src_lines, uint4 checksum)
 	if (!(cmd_qlf.qlf & CQ_OBJECT))
 		return;
 
-	rhead.ptext_ptr = sizeof(rhead);
+	rhead.ptext_ptr = sizeof(rhead); //rhdtyp_sr_unix_nsb
 	rhead.checksum = checksum;
 	rhead.vartab_ptr = code_size;
 	rhead.vartab_len = mvmax;

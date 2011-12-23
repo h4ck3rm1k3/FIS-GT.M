@@ -12,6 +12,20 @@
 #ifndef MDEF_included
 #define MDEF_included
 
+/// definitions for linux 
+#define _LARGEFILE64_SOURCE 1 
+#define _FILE_OFFSET_BITS   64
+#define _BSD_SOURCE         1
+#define _XOPEN_SOURCE       500 
+#define _POSIX_C_SOURCE     199506L 
+#define  FULLBLOCKWRITES    1
+#define _GNU_SOURCE         1 
+#define __USE_POSIX199309 1
+#define __USE_XOPEN 1
+#define __USE_XOPEN2K 1
+
+////////////////////////////
+
 /* mstr needs to be defined before including "mdefsp.h".  */
 #ifndef __vax
 typedef struct
@@ -820,5 +834,10 @@ typedef uint4 		off_jnl_t;
 #define QWCHANGE_IS_READER_CONSISTENT(FROM8, TO8)	(((non_native_uint8 *)&(FROM8))->value[msb_index]	\
 							 == ((non_native_uint8 *)&(TO8))->value[msb_index])
 #endif
+
+
+#define __USE_MISC 1
+#include "types.h"
+#include "../sr_port/types.h"
 
 #endif /* MDEF_included */
