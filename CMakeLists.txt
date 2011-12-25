@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (GT.M)
 SET(CMAKE_C_FLAGS "-std=c99  -Wall -pedantic  -g3 --save-temps ")
-SET(CMAKE_CXX_FLAGS "-std=c99  -Wall -pedantic  -g3 --save-temps ")
+SET(CMAKE_CXX_FLAGS "-std=c++0x  -Wall -pedantic  -g3 --save-temps ")
 
 
 include_directories("sr_unix")

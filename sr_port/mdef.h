@@ -253,7 +253,7 @@ int4 timeout2msec(int4 timeout);
 #define	JNL_STR_LEN(csd)		(csd)->jnl_file_name, (csd)->jnl_file_len
 #define	JNL_LEN_STR(csd)		(csd)->jnl_file_len, (csd)->jnl_file_name
 
-#define	FAB_LEN_STR(fab)		(fab)->fab$b_fns, (fab)->fab$l_fna
+#define	FAB_LEN_STR(fab)		(fab)->fab_b_fns, (fab)->fab_l_fna
 /* *********************************************************************************************************** */
 
 

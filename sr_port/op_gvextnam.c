@@ -85,6 +85,7 @@ void op_gvextnam( int something, ...)
 	MV_FORCE_STR(val1);
 	GTM_ENV_TRANSLATE(val1, val2);
 
+
 	assert(!extnam_str_alloc || (NULL != extnam_str.addr));
 	if (val1->str.len)
 	{
