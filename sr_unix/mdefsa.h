@@ -29,8 +29,13 @@
 #define GTM_IMAGE_NAME		"mumps"
 #define GTM_IMAGE_NAMELEN	(sizeof(GTM_IMAGE_NAME) - 1)
 #define	DIR_SEPARATOR		'/'
+
+/*
+removing shared object..... do we really need this?
+
 #define	GTMSECSHR_NAME		"gtmsecshr"
 #define GTMSECSHR_NAMELEN	(sizeof(GTMSECSHR_NAME) - 1)
+
 
 #ifdef __hpux
 #define GTMSHR_IMAGE_NAME	"libgtmshr.sl"
@@ -39,6 +44,7 @@
 #else
 #define GTMSHR_IMAGE_NAME	"libgtmshr.so"
 #endif
+*/
 
 #define GTM_MAIN_FUNC		"gtm_main"
 

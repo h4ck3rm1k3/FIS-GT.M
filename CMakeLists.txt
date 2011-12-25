@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (GT.M)
-SET(CMAKE_C_FLAGS "-std=c99  -Wall -pedantic  -save-temps")
+SET(CMAKE_C_FLAGS "-std=c99  -Wall -pedantic  -g3 ")
 
 
 include_directories("sr_unix")
@@ -18,11 +18,13 @@ file(GLOB mumps_SRC
     "./sr_unix_cm/*.c"
     "./sr_unix_gnp/*.c"
     "./sr_unix_nsb/*.c"
-    "./sr_i386/*.s"
+
 
 )
 
+#    "./sr_i386/*.s"
 
+SET_SOURCE_FILES_PROPERTIES(${mumps_SRC} PROPERTIES LANGUAGE CXX)
 
 add_executable(mumps ${mumps_SRC})
 target_link_libraries(mumps dl m)

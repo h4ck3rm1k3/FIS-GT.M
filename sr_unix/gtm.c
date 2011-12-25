@@ -10,7 +10,7 @@
  ****************************************************************/
 
 #include "mdef.h"
-
+#define NOLIBGTMSHR 1
 #include "gtm_stdio.h"
 #include "gtm_string.h"
 #include "gtm_stdlib.h"
@@ -39,6 +39,8 @@ int main (int argc, char **argv, char **envp)
 #endif
 {
 	int		status;
+
+
 #ifndef NOLIBGTMSHR
 	char		gtmshr_file[PATH_MAX];
 	char_ptr_t	fptr;
@@ -58,6 +60,8 @@ int main (int argc, char **argv, char **envp)
 		return ERR_GTMDISTUNDEF;
 	}
 	dir_len = strlen(fptr);
+
+
 	if (PATH_MAX <= dir_len + STR_LIT_LEN(GTMSHR_IMAGE_NAME) + 1)
 	{
 		FPRINTF(stderr, "%%GTM-E-DISTPATHMAX, $gtm_dist path is greater than maximum (%u)\n",
@@ -87,6 +91,7 @@ int main (int argc, char **argv, char **envp)
 			FPRINTF(stderr, "%%GTM-E-TEXT, %s\n", fptr);
 		return ERR_DLLNORTN;
 	}
+
 #endif
 	status = gtm_main(argc, argv, envp);
 	return status;

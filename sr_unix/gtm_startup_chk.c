@@ -44,8 +44,12 @@ static int		plen = 0;
 static char 		mbuff[MAX_FBUFF];
 static parse_blk	pblk;
 
+#define NOLIBGTMSHR 1
+
 int gtm_chk_dist(char *image)
 {
+#ifndef NOLIBGTMSHR
+
 	char		*ptr1;
 	char		pre_buff[MAX_FBUFF];
 	char		*prefix;
@@ -122,15 +126,21 @@ int gtm_chk_dist(char *image)
 	if (GETENV("gtm_environment_init"))
 		gtm_environment_init = TRUE;
 
+#endif
 	return 0;
 }
 
 int gtm_chk_image(void)
 {
+
+#ifndef NOLIBGTMSHR
 	error_def(ERR_IMAGENAME);
 
 	if (memcmp(pblk.l_name, GTM_IMAGE_NAME, GTM_IMAGE_NAMELEN))
 		rts_error(VARLSTCNT(6) ERR_IMAGENAME, 4, LEN_AND_LIT(GTM_IMAGE_NAME), pblk.b_name, pblk.l_name);
 
+#endif
 	return 0;
 }
+
+
