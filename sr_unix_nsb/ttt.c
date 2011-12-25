@@ -13,7 +13,7 @@
 #include "vxi.h"
 #include "vxt.h"
 #include "xfer_enum.h"
-LITDEF short ttt[3461] = {
+LITDEF short ttt_nsb[3461] = {
 
 /*    0 */	0,0,0,0,268,2939,2531,483,
 /*    8 */	1931,2516,2555,1636,346,2889,1745,2656,

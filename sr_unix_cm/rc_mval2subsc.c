@@ -52,7 +52,7 @@ static readonly unsigned char neg_code[100] =
 	0x6e, 0x6d, 0x6c, 0x6b, 0x6a, 0x69, 0x68, 0x67, 0x66, 0x65
 };
 
-unsigned char *mval2subsc( mval *v , gv_key *g )
+unsigned char *mval2subsc_cm( mval *v , gv_key *g )
 {
         char            buf1[256];
 	mstr		mstr_buf1;

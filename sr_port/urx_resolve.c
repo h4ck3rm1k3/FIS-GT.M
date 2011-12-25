@@ -16,7 +16,7 @@
 
 GBLDEF urx_rtnref		urx_anchor;
 
-void urx_resolve(rhdtyp *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top)
+void urx_resolve_port(rhdtyp *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top)
 {
 	urx_rtnref	*rp0, *rp1;
 	urx_labref	*lp0, *lp1;

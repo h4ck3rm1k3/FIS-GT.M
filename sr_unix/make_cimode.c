@@ -29,7 +29,7 @@
  * Before GTM$CI executes, it is assumed that the global 'param_list' has been populated with
  * argument/return mval *.
  */
-rhdtyp *make_cimode(void)
+rhdtyp *make_cimode_sr_unix(void)
 {
 	static rhdtyp	*base_address = NULL;
 

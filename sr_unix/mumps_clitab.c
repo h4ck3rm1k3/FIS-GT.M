@@ -43,7 +43,7 @@ static readonly CLI_ENTRY mumps_qual[] = {
 { 0 }
 };
 
-GBLDEF CLI_ENTRY cmd_ary[] = {
+GBLDEF CLI_ENTRY cmd_ary_mumps[] = {
 { "MUMPS", 0, mumps_qual, mumps_parm, 0, 0, 0, VAL_DISALLOWED, 1, 0, VAL_LIST, 0},
 { 0 }
 };

@@ -57,7 +57,7 @@ static readonly CLI_ENTRY show_qual[] = {
  * dispatched to, and the qualifier sub-tables, containing all legal qualifiers.
  */
 
-GBLDEF CLI_ENTRY cmd_ary[] = {
+GBLDEF CLI_ENTRY cmd_ary_lke_cmd[] = {
 	{ "CLEAR",  lke_clear,  clear_qual, 0, 0, 0, 0, VAL_NOT_REQ,    2, 0, VAL_STR, 0},
 	{ "EXIT",   lke_exit,   0,          0, 0, 0, 0, VAL_DISALLOWED, 0, 0, 0,       0},
 	{ "HELP",   lke_help,   0,          0, 0, 0, 0, VAL_NOT_REQ,    5, 0, 0,       0},

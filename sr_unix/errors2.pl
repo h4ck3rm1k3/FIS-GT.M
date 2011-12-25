@@ -195,6 +195,6 @@ zwr_output_buff
 
 ))
 {
-    print "void $err () { };\n";
+    print "void $err () { }\n";
     $count++;
 }

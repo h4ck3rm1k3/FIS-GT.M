@@ -22,4 +22,7 @@ file(GLOB mumps_SRC
 
 )
 
+
+
 add_executable(mumps ${mumps_SRC})
+target_link_libraries(mumps dl m)

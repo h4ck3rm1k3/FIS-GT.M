@@ -30,7 +30,7 @@ GBLREF	triple		*expr_start,
 error_def(ERR_ACTOFFSET);
 
 
-int m_do(void)
+int m_do_nsb(void)
 {
 	triple		tmpchain, *oldchain, *obp, *ref0,
 			*triptr, *ref1, *calltrip, *routineref, *labelref;

@@ -29,7 +29,7 @@ GBLREF mlabel	*mlabtab;
 GBLREF command_qualifier cmd_qlf;
 GBLREF uint4	gtmDebugLevel;
 
-int resolve_ref(int errknt)
+int resolve_ref_nsb(int errknt)
 {
 	triple	*x,*y,*z;
 	tbp	*p;
@@ -195,7 +195,7 @@ int resolve_ref(int errknt)
    necessary to make sure no OC_PASSTHRUs remain in the parameter chain to get turned into OC_NOOPs that will
    cause GTMASSERTs in emit_code.
 */
-void resolve_tref(triple *curtrip, oprtype *opnd)
+void resolve_tref_nsb(triple *curtrip, oprtype *opnd)
 {
 	triple	*tripref;
 	tbp	*tripbp;

@@ -20,7 +20,7 @@
 
 GBLREF char	window_token;
 
-int exfunc (oprtype *a)
+int exfunc_nsb (oprtype *a)
 {
 	triple		*ref0, *calltrip, *masktrip, *counttrip,*funret;
 	triple		*triptr;

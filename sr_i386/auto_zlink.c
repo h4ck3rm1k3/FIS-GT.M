@@ -24,7 +24,7 @@
 #define XFER_LONG_SZ	6
 #define INST_SZ		1
 
-rhdtyp *auto_zlink (unsigned char *pc, int4 *line)
+rhdtyp *auto_zlink_i386 (unsigned char *pc, int4 *line)
 {
 	unsigned char	*adj_pc;	/* address of PEA rtnref offset */
 	mstr		rname;

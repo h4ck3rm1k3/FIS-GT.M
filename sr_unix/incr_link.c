@@ -343,7 +343,7 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 }
 
 
-boolean_t addr_fix (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
+boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 {
 	res_list		*res_root, *new_res, *res_temp, *res_temp1;
 	unsigned char		*symbols, *sym_temp, *sym_temp1, *symtop, *res_addr;
@@ -585,7 +585,7 @@ boolean_t addr_fix (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 /* Release the resolution chain .. Called as part of an error since normal processing will
    have already released all elements on this chain.
 */
-void	res_free (res_list *root)
+void	res_free_generic (res_list *root)
 {
 	res_list	*temp;
 
@@ -606,7 +606,7 @@ void	res_free (res_list *root)
 
 /* ZL_ERROR - perform cleanup and signal errors found in zlinking a mumps object module */
 
-void	zl_error (int4 file, zro_ent *zroe, int4 err, int4 len, char *addr, int4 len2, char *addr2)
+void	zl_error_generic (int4 file, zro_ent *zroe, int4 err, int4 len, char *addr, int4 len2, char *addr2)
 {
 	if (!shlib)
 	{	/* Only non shared library links have these areas to free */

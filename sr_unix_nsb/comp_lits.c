@@ -22,7 +22,7 @@ GBLREF unsigned short source_name_len;
 
 GBLDEF uint4 lits_size, lit_addrs;
 
-void comp_lits(rhdtyp * rhead)
+void comp_lits_nsb(rhdtyp * rhead)
 {
 	uint4 offset, cnt;
 	uint4  align_pad;

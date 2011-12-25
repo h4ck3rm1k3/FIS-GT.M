@@ -47,9 +47,9 @@ GBLDEF int4		curr_addr, code_size;
 GBLREF char		cg_phase;	/* code generation phase */
 GBLREF char		cg_phase_last;	/* previous code generation phase */
 
-void	cg_lab (mlabel *l, int4 base);
+void	cg_lab_nsb (mlabel *l, int4 base);
 
-void	obj_code (uint4 src_lines, uint4 checksum)
+void	obj_code_nsb (uint4 src_lines, uint4 checksum)
 {
   rhdtyp_sr_unix_nsb		rhead;
   mline		*mlx, *mly;
@@ -114,7 +114,7 @@ void	obj_code (uint4 src_lines, uint4 checksum)
 	/* Label table: */
 	if (mlabtab)
 	{
-		walktree((mvar *)mlabtab, cg_lab, (char *)rhead.lnrtab_ptr);
+		walktree((mvar *)mlabtab, cg_lab_nsb, (char *)rhead.lnrtab_ptr);
 	}
 
 	/* External entry definitions: */
@@ -150,7 +150,7 @@ void	obj_code (uint4 src_lines, uint4 checksum)
 
 GBLREF char		module_name[];
 
-void	cg_lab (mlabel *l, int4 base)
+void	cg_lab_nsb (mlabel *l, int4 base)
 {
 	mstr	glob_name;
 	int4	value;

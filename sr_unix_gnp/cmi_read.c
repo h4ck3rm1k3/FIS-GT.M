@@ -13,7 +13,7 @@
 #include "cmidef.h"
 #include "eintr_wrappers.h"
 
-cmi_status_t cmi_read(struct CLB *lnk)
+cmi_status_t cmi_read_gnp(struct CLB *lnk)
 {
 	sigset_t oset;
 	cmi_status_t status;

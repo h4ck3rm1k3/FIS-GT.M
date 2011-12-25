@@ -53,7 +53,7 @@ static struct rel_table		*link_rel, *link_rel_end; /* Linkage relocation entries
 static struct linkage_entry	*linkage_first, *linkage_last;
 static struct sym_table		*symbols;
 
-void	drop_object_file(void)
+void	drop_object_file_generic(void)
 {
         if (0 < object_file_des)
         {
@@ -100,7 +100,7 @@ void	emit_link_reference(int4 refoffset, mstr *name)
  *
  *	Args:  buffer of executable code, and byte count to be output.
  */
-void	emit_immed(char *source, uint4 size)
+void	emit_immed_generic(char *source, uint4 size)
 {
 	short int 	write;
 	error_def(ERR_STRINGOFLOW);
@@ -134,7 +134,7 @@ void	emit_immed(char *source, uint4 size)
  *
  *	Output partially or completely filled buffer
  */
-void	buff_emit(void)
+void	buff_emit_generic(void)
 {
 	int	stat;
 	error_def(ERR_OBJFILERR);
@@ -205,7 +205,7 @@ struct sym_table *define_symbol2(unsigned char psect, mstr *name)
 }
 
 
-void	resolve_sym (void)
+void	resolve_sym_generic (void)
 {
 	uint4			symnum;
 	struct sym_table	*sym;
@@ -227,7 +227,7 @@ void	resolve_sym (void)
 
 
 /* Output the relocation table for the linkage section */
-void	output_relocation (void)
+void	output_relocation_generic (void)
 {
 	struct rel_table	*rel;
 
@@ -237,7 +237,7 @@ void	output_relocation (void)
 
 
 /* Size that output_symbol() below will eventually generate */
-int	output_symbol_size(void)
+int	output_symbol_size_generic(void)
 {
 	uint4			string_length;
 	struct sym_table	*sym;
@@ -256,7 +256,7 @@ int	output_symbol_size(void)
 /* Symbol string table output. Consists of a series of null terminated
    strings in symbol number order.
 */
-void	output_symbol(void)
+void	output_symbol_generic(void)
 {
 	uint4			string_length;
 	struct sym_table	*sym;
@@ -277,7 +277,7 @@ void	output_symbol(void)
  *
  *	Description:	Initialize symbol list, relocation information, linkage Psect list, linkage_size.
  */
-void	obj_init(void)
+void	obj_init_generic(void)
 {
 	lnkrel_cnt = 0;
 	link_rel = link_rel_end = NULL;
@@ -296,7 +296,7 @@ void	obj_init(void)
  *	Description: Define the symbols and relocation entries we will need to create
  *		     the linkage section when this module is linked in.
  */
-void	comp_linkages(void)
+void	comp_linkages_generic(void)
 {
 	mstr			name;
 	struct linkage_entry	*linkagep;
@@ -312,7 +312,7 @@ void	comp_linkages(void)
 }
 
 
-void	emit_literals(void)
+void	emit_literals_generic(void)
 {
 	uint4		offset, padsize;
 	mliteral	*p;
@@ -357,7 +357,7 @@ void	emit_literals(void)
  *
  *	Description:	Returns the offset into the linkage Psect of a global symbol.
  */
-int4	find_linkage(mstr* name)
+int4	find_linkage_generic(mstr* name)
 {
 	struct linkage_entry	*newlnk;
 	struct sym_table	*sym;
@@ -391,7 +391,7 @@ int4	find_linkage(mstr* name)
  *
  *	Description:	Return offset to literal from literal Psect base register.
  */
-int4	literal_offset(int4 offset)
+int4	literal_offset_generic(int4 offset)
 {
 	/* If we have no offset assigned yet, assume a really big offset. */
 	if (-1 == offset)

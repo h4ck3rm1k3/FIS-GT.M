@@ -312,7 +312,7 @@ static readonly CLI_ENTRY dse_shift_qual[] = {
 { 0 }
 };
 
-GBLDEF CLI_ENTRY cmd_ary[] = {
+GBLDEF CLI_ENTRY cmd_ary_dse_cmd[] = {
 { "ADD",          dse_adrec,      dse_add_qual,      0, 0, cli_disallow_dse_add,    0, VAL_DISALLOWED, 0, 0, 0, 0 },
 { "ALL",          dse_all,        dse_all_qual,      0, 0, cli_disallow_dse_all,    0, VAL_DISALLOWED, 0, 0, 0, 0 },
 { "BUFFER_FLUSH", dse_flush,      0,                 0, 0, 0,                       0, VAL_DISALLOWED, 0, 0, 0, 0 },

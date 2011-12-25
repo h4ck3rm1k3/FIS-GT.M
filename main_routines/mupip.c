@@ -7,6 +7,8 @@
  *	under a license.  If you do not know the terms of	*
  *	the license, please stop and do not read further.	*
  *								*
+http://tinco.pair.com/bhaskar/gtm/doc/books/ao/OpenVMS_manual/ch05.html
+The M Peripheral Interchange Program (MUPIP) is a utility used for GT.M database management, database journaling, and database replication.
  ****************************************************************/
 
 #include "mdef.h"

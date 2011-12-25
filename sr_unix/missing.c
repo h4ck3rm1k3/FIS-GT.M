@@ -22,6 +22,10 @@
 #include "gtmmsg.h"
 #include "have_crit.h"
 
+
+//void merrors_ctl () { }
+//void pow () { }
+err_ctl			merrors_ctl;
 void CMERR_CMINTQUE () { }
 void GET_RTNHDR_ADDR () { }
 void LABADDR_PV_OFF () { }
@@ -33,30 +37,52 @@ void aio_error64 () { }
 void aio_read64 () { }
 void aio_return64 () { }
 void aswp () { }
+void authenticate () { }
 void blkdlist () { }
 void call_dm () { }
 void callg () { }
 void ci_restart () { }
+void cli_get_string_token () { }
+void cli_gettoken () { }
+void cli_is_assign () { }
+void cli_is_dcm () { }
+void cli_is_hex () { }
+void cli_is_qualif () { }
+void cli_lex_in_ptr () { }
+void cli_lex_setup () { }
+void cli_look_next_string_token () { }
+void cli_look_next_token () { }
+void cli_str_setup () { }
+void cli_strupper () { }
+void cli_token_buf () { }
 void cmerrors_ctl () { }
 void cmierrors_ctl () { }
+void comp_linkages () { }
 void compswap () { }
-void dlclose () { }
-void dlerror () { }
-void dlopen () { }
-void dlsym () { }
+void conn_timeout () { }
+void curr_entry () { }
+//void dlclose () { }
+//void dlerror () { }
+//void dlopen () { }
+//void dlsym () { }
 void dm_start () { }
 void follow () { }
 void gdeerrors_ctl () { }
 void gtcm_action_pending () { }
+void gtcm_ast_avail () { }
+void gtcm_exi_condition () { }
 void gtcm_exi_handler () { }
+void gtcm_gnp_server_log () { }
 void gtcm_init_ast () { }
 void gtcm_int_unpack () { }
 void gtcm_jnl_switched () { }
 void gtcm_link_accept () { }
+void gtcm_ltime () { }
 void gtcm_neterr () { }
 void gtcm_read_ast () { }
 void gtcm_remove_from_action_queue () { }
 void gtcm_shutdown_ast () { }
+void gtcm_stime () { }
 void gtcm_write_ast () { }
 void gtcmd_cst_init () { }
 void gtcml_chkreg () { }
@@ -83,16 +109,30 @@ void gtcmtr_zprevious () { }
 void gtcmtr_zwithdraw () { }
 void gtm_ret_code () { }
 void gvcmy_close () { }
+void history () { }
 void jsb_action () { }
 void make_mode () { }
-//void merrors_ctl () { }
-err_ctl			merrors_ctl;
 void mint2mval () { }
 void mum_tstart () { }
 void mutex_lockr () { }
 void mval2bool () { }
 void mval2mint () { }
 void mval2num () { }
+void omi_brecv () { }
+void omi_bsent () { }
+void omi_conns () { }
+void omi_debug () { }
+void omi_errno () { }
+void omi_exitp () { }
+void omi_nerrs () { }
+void omi_nxact () { }
+void omi_nxact2 () { }
+void omi_pid () { }
+void omi_pkdbg () { }
+void omi_pklog () { }
+void omi_pklog_addr () { }
+void omi_service () { }
+void one_conn_per_inaddr () { }
 void op_callb () { }
 void op_calll () { }
 void op_callspb () { }
@@ -197,11 +237,15 @@ void opp_zst_over_ret () { }
 void opp_zst_over_retarg () { }
 void opp_zstepret () { }
 void opp_zstepretarg () { }
-//void pow () { }
+void output_symbol_size () { }
+void patch_curr_blk () { }
+void ping_keepalive () { }
 void pseudo_ret () { }
+void psock () { }
 void put_tsiz () { }
 void setupterm () { }
 void shrink_trips () { }
+void skip_white_space () { }
 void tigetflag () { }
 void tigetnum () { }
 void tigetstr () { }
@@ -210,4 +254,3 @@ void tputs () { }
 void var_start () { }
 void zl_lab_err () { }
 void zwr_output_buff () { }
-

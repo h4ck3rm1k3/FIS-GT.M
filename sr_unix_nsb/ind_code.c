@@ -33,7 +33,7 @@ GBLREF spdesc	stringpool,indr_stringpool;
 
 GBLDEF unsigned char	*runtime_base;
 
-void	ind_code(mstr *obj)
+void	ind_code_nsb(mstr *obj)
 {
 	VAR_TABENT	*vptr;
 	ihdtyp		*itext;

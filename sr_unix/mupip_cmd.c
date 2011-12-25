@@ -511,7 +511,7 @@ static	CLI_PARM	mup_upgrade_parm[] = {
 	{ "", "" }
 };
 
-GBLDEF	CLI_ENTRY	cmd_ary[] = {
+GBLDEF	CLI_ENTRY	cmd_ary_mupip_cmd[] = {
 { "BACKUP",    mupip_backup,  mup_backup_qual,    mup_backup_parm,    0, cli_disallow_mupip_backup,    0, VAL_DISALLOWED, 2, 0, 0, 0 },
 { "CONVERT",   mupip_cvtpgm,  mup_convert_qual,   mup_convert_parm,   0, 0,                            0, VAL_DISALLOWED, 2, 0, 0, 0 },
 { "CREATE",    mupip_create,  mup_create_qual,    0,                  0, 0,                            0, VAL_DISALLOWED, 0, 0, 0, 0 },

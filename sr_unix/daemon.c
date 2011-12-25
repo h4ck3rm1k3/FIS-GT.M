@@ -11,7 +11,7 @@
 
 /* daemon.c - GT.M runtime database daemon (runs as gtm_dmna).  */
 
-main()
+main_daemon()
 {
 	return; /* Not used anymore */
 }

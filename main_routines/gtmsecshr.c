@@ -121,12 +121,12 @@ void clean_client_sockets(char *path)
 }
 
 /* For gtmsecshr, override this routine since crit doesn't exist here */
-uint4 have_crit(uint4 crit_state)
+uint4 have_crit_empty(uint4 crit_state)
 {
 	return 0;
 }
 /* For gtmsecshr, override this routine so no fork is done */
-void gtm_fork_n_core(void)
+void gtm_fork_n_core_empty(void)
 {
 }
 
