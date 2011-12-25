@@ -12,6 +12,10 @@
 #ifndef MDEF_included
 #define MDEF_included
 
+
+// lets compile this with CXX compiler
+#define CXXCOMPILE 1
+
 /// definitions for linux 
 #define _LARGEFILE64_SOURCE 1 
 #define _FILE_OFFSET_BITS   64
@@ -78,7 +82,12 @@ typedef unsigned short mstr_len_t;
 	typedef int		boolean_t;
 #	endif
 #endif
+
+
+#ifndef CXXCOMPILE
 typedef char		bool;
+#endif
+
 typedef unsigned char	mreg;
 typedef int4		mint;
 

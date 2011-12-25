@@ -23,7 +23,7 @@ GBLREF io_log_name *io_root_log_name;
 
 io_log_name *get_log_name(mstr *v, bool insert)
 {
-        io_log_name	*l, *prev, *new;
+        io_log_name	*l, *prev, *new_obj;
         int4		stat;
         short		index, v_len;
         unsigned char	buf[LOGNAME_LEN];
@@ -48,14 +48,14 @@ io_log_name *get_log_name(mstr *v, bool insert)
         if (insert == INSERT)
         {
                 assert(prev != 0);
-                new =(io_log_name *) malloc(sizeof(*new) + v_len);
-                memset(new, 0, sizeof(*new) - 1);
-                new->len = v_len;
-                memcpy(new->dollar_io, buf, v_len);
-		new->dollar_io[v_len] = 0;
-                prev->next = new;
-                new->next = l;
-                return new;
+                new_obj =(io_log_name *) malloc(sizeof(*new_obj) + v_len);
+                memset(new_obj, 0, sizeof(*new_obj) - 1);
+                new_obj->len = v_len;
+                memcpy(new_obj->dollar_io, buf, v_len);
+		new_obj->dollar_io[v_len] = 0;
+                prev->next = new_obj;
+                new_obj->next = l;
+                return new_obj;
         }
        	assert(insert == NO_INSERT);
        	return 0;
