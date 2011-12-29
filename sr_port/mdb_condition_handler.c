@@ -96,7 +96,7 @@ GBLREF short		dollar_tlevel;
 GBLREF mval		dollar_ztrap;
 GBLREF sgmnt_addrs	*cs_addrs;
 GBLREF volatile bool	neterr_pending;
-GBLREF int		(* volatile xfer_table[])();
+GBLREF int		(* volatile xfer_table[])(int,...);
 GBLREF unsigned short	proc_act_type;
 GBLREF mval		**ind_result_array, **ind_result_sp;
 GBLREF mval		**ind_source_array, **ind_source_sp;
@@ -219,6 +219,7 @@ CONDITION_HANDLER(mdb_condition_handler)
 		 * ---------------------------------------------------------------------
 		 */
 		neterr_pending = TRUE;
+		//TODO 
 		xfer_table[xf_linefetch] = op_fetchintrrpt;
 		xfer_table[xf_linestart] = op_startintrrpt;
 		xfer_table[xf_forchk1] = op_startintrrpt;

@@ -727,8 +727,9 @@ void double2s(double *dp, mval *v);
 
 int skpc(char c, int length, char *string);
 
-void *gtm_malloc(size_t size);
-void gtm_free(void *addr);
+void *gtm_malloc_intern(size_t size);
+void gtm_free_intern(void *addr);
+
 int gtm_memcmp (const void *, const void *, size_t);
 #ifdef DEBUG
 void printMallocInfo(void);

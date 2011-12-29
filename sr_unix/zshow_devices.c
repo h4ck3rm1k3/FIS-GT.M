@@ -300,8 +300,8 @@ void zshow_devices(zshow_out *output)
 					}
 					break;
 				case gtmsocket:
-					delim_buff_sm = (sm_uc_ptr_t) malloc(MAX_DELIM_LEN);
-					delim.addr = (char *) malloc(MAX_DELIM_LEN * 7);
+					delim_buff_sm = (sm_uc_ptr_t) gtm_malloc_intern(MAX_DELIM_LEN);
+					delim.addr = (char *) gtm_malloc_intern(MAX_DELIM_LEN * 7);
 					delim_len = 0;
 					ZS_STR_OUT(&v, socket_text);
 					dsocketptr = (d_socket_struct *)l->iod->dev_sp;

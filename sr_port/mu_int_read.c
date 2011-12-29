@@ -34,7 +34,7 @@ uchar_ptr_t mu_int_read(block_id blk)
 		return 0;
 	fc = gv_cur_region->dyn.addr->file_cntl;
 	fc->op = FC_READ;
-	fc->op_buff = (uchar_ptr_t)malloc(mu_int_data.blk_size);
+	fc->op_buff = (uchar_ptr_t)gtm_malloc_intern(mu_int_data.blk_size);
 	fc->op_len = mu_int_data.blk_size;
 	fc->op_pos = mu_int_ovrhd + (mu_int_data.blk_size / DISK_BLOCK_SIZE * blk);
 	dbfilop(fc);

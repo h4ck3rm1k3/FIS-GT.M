@@ -48,7 +48,7 @@ short iott_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 	ioptr = dev_name->iod;
 	if (ioptr->state == dev_never_opened)
 	{
-		dev_name->iod->dev_sp = (void *)malloc(sizeof(d_tt_struct) + sizeof(struct termios));
+		dev_name->iod->dev_sp = (void *)gtm_malloc_intern(sizeof(d_tt_struct) + sizeof(struct termios));
 		memset(dev_name->iod->dev_sp, 0, sizeof(d_tt_struct) + sizeof(struct termios));
 		tt_ptr = (d_tt_struct *)dev_name->iod->dev_sp;
 		tt_ptr->ttio_struct = (struct termios *)((char *)tt_ptr + sizeof(d_tt_struct));
@@ -56,7 +56,7 @@ short iott_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 		tt_ptr->enbld_outofbands.x = 0;
 		tt_ptr->term_ctrl &= (~TRM_NOECHO);
 		tt_ptr->mask_term.mask[0] = TERM_MSK;
-		tt_ptr->ttybuff = (char *)malloc(IOTT_BUFF_LEN);
+		tt_ptr->ttybuff = (char *)gtm_malloc_intern(IOTT_BUFF_LEN);
 	}
 	tt_ptr = (d_tt_struct *)dev_name->iod->dev_sp;
 	p_offset = 0;

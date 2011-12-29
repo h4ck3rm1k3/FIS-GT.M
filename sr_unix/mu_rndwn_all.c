@@ -91,7 +91,7 @@ int mu_rndwn_all(void)
 		gtm_putmsg(VARLSTCNT(8) ERR_SYSCALL, 5, RTS_ERROR_LITERAL("POPEN()"), CALLFROM, save_errno);
                 return ERR_MUNOTALLSEC;
         }
-	fname = (char *)malloc(MAX_FN_LEN + 1);
+	fname = (char *)gtm_malloc_intern(MAX_FN_LEN + 1);
 	while (NULL != (FGETS(entry, sizeof(entry), pf, fgets_res)) && entry[0] != '\n')
 	{
 		tmp_exit_status = SS_NORMAL;
@@ -106,7 +106,7 @@ int mu_rndwn_all(void)
 						gv_cur_region->dyn.addr->fname);
 			} else
 				exit_status = ERR_MUNOTALLSEC;
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 		} else if (tmp_exit_status == SS_NORMAL &&
 				validate_replpool_shm_entry(entry, (replpool_id_ptr_t)&replpool_id, &tmp_exit_status, &shmid))
 		{
@@ -125,7 +125,7 @@ int mu_rndwn_all(void)
 			exit_status = tmp_exit_status;
 	}
 	pclose(pf);
-	free(fname);
+	gtm_free_intern(fname);
 	return exit_status;
 }
 
@@ -154,12 +154,12 @@ boolean_t validate_db_shm_entry(char *entry, char *fname, int *exit_stat)
 		 * (with no fileheader related information at hand) */
 		if (NODE_LOCAL_SPACE + BACKUP_BUFFER_SIZE > parm_buff->sgmnt_siz)
 		{
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		if (IPC_PRIVATE != parm_buff->key)
 		{
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		/* we do not need to lock the shm for reading the rundown information as
@@ -168,7 +168,7 @@ boolean_t validate_db_shm_entry(char *entry, char *fname, int *exit_stat)
 		 */
 		if (-1 == (sm_long_t)(start_addr = (sm_uc_ptr_t) do_shmat(parm_buff->shmid, 0, SHM_RND)))
 		{
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		nl_addr = (node_local_ptr_t)start_addr;
@@ -178,7 +178,7 @@ boolean_t validate_db_shm_entry(char *entry, char *fname, int *exit_stat)
 		if (-1 == Stat(fname, &st_buff))		/* check if there is any such file */
 		{
 			shmdt((void *)start_addr);
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		if (memcmp(nl_addr->label, GDS_LABEL, GDS_LABEL_SZ - 1))
@@ -189,7 +189,7 @@ boolean_t validate_db_shm_entry(char *entry, char *fname, int *exit_stat)
 				*exit_stat = ERR_MUNOTALLSEC;
 			}
 			shmdt((void *)start_addr);
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		if (memcmp(nl_addr->now_running, gtm_release_name, gtm_release_name_len + 1))
@@ -198,14 +198,14 @@ boolean_t validate_db_shm_entry(char *entry, char *fname, int *exit_stat)
 					TRUE, fname_len, fname, gtm_release_name_len, gtm_release_name,
 					LEN_AND_STR(nl_addr->now_running));
 			shmdt((void *)start_addr);
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			*exit_stat = ERR_MUNOTALLSEC;
 			return FALSE;
 		}
 	}else
 		return FALSE;
 	shmdt((void *)start_addr);
-	free(parm_buff);
+	gtm_free_intern(parm_buff);
 	return TRUE;
 }
 
@@ -235,12 +235,12 @@ boolean_t validate_replpool_shm_entry(char *entry, replpool_id_ptr_t replpool_id
 		/* if (parm_buff->sgmnt_siz < (sizeof(replpool_identifier) + MIN(MIN_JNLPOOL_SIZE, MIN_RECVPOOL_SIZE))) */
 		if (parm_buff->sgmnt_siz < MIN(MIN_JNLPOOL_SIZE, MIN_RECVPOOL_SIZE))
 		{
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		if (IPC_PRIVATE != parm_buff->key)
 		{
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		/* we do not need to lock the shm for reading the rundown information as
@@ -249,7 +249,7 @@ boolean_t validate_replpool_shm_entry(char *entry, replpool_id_ptr_t replpool_id
 		 */
 		if (-1 == (sm_long_t)(start_addr = (sm_uc_ptr_t) do_shmat(parm_buff->shmid, 0, SHM_RND)))
 		{
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		memcpy((void *)replpool_id, (void *)start_addr, sizeof(replpool_identifier));
@@ -261,14 +261,14 @@ boolean_t validate_replpool_shm_entry(char *entry, replpool_id_ptr_t replpool_id
 				*exit_stat = ERR_MUNOTALLSEC;
 			}
 			shmdt((void *)start_addr);
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		assert(JNLPOOL_SEGMENT == replpool_id->pool_type || RECVPOOL_SEGMENT == replpool_id->pool_type);
 		if(JNLPOOL_SEGMENT != replpool_id->pool_type && RECVPOOL_SEGMENT != replpool_id->pool_type)
 		{
 			shmdt((void *)start_addr);
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		/*
@@ -284,12 +284,12 @@ boolean_t validate_replpool_shm_entry(char *entry, replpool_id_ptr_t replpool_id
 		if (-1 == fd)
 		{
 			shmdt((void *)start_addr);
-			free(parm_buff);
+			gtm_free_intern(parm_buff);
 			return FALSE;
 		}
 		close(fd);
 		shmdt((void *)start_addr);
-		free(parm_buff);
+		gtm_free_intern(parm_buff);
 		return TRUE;
 	}
 	return FALSE;
@@ -303,7 +303,7 @@ shm_parms *get_shm_parm(char *entry)
 	shm_parms	*parm_buff;
 	struct shmid_ds	shm_buf;
 
-	parm_buff = (shm_parms *)malloc(sizeof(shm_parms));
+	parm_buff = (shm_parms *)gtm_malloc_intern(sizeof(shm_parms));
 
 	parm = parse_shm_entry(entry, SHMID);
 	CONVERT_TO_NUM(shmid);
@@ -315,7 +315,7 @@ shm_parms *get_shm_parm(char *entry)
 	 */
 	if (-1 == shmctl(parm_buff->shmid, IPC_STAT, &shm_buf))
 	{
-		free(parm_buff);
+		gtm_free_intern(parm_buff);
 		return NULL;
 	}
 	parm_buff->sgmnt_siz = shm_buf.shm_segsz;
@@ -355,7 +355,7 @@ char *parse_shm_entry(char *entry, int which_field)
 		assert(FALSE);
 		return NULL;
 	}
-	parm = (char *)malloc(MAX_PARM_LEN);
+	parm = (char *)gtm_malloc_intern(MAX_PARM_LEN);
 	memset(parm, 0, MAX_PARM_LEN);
 	while(entry[indx1] && entry[indx1] != ' ')
 		parm[indx2++] = entry[indx1++];

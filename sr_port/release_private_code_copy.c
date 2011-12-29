@@ -21,7 +21,7 @@ void release_private_code_copy(rhdtyp *rtn)
 		assert(NULL != rtn->shared_ptext_adr);
 
 		adjust_frames(rtn->ptext_adr, rtn->ptext_end_adr, rtn->shared_ptext_adr);
-		free(rtn->ptext_adr);
+		gtm_free_intern(rtn->ptext_adr);
 		rtn->ptext_end_adr = rtn->shared_ptext_adr + (rtn->ptext_end_adr - rtn->ptext_adr);
 		rtn->ptext_adr = rtn->shared_ptext_adr;
 		rtn->shared_ptext_adr = NULL;

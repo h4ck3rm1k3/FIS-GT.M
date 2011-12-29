@@ -107,10 +107,10 @@ void iosocket_close(io_desc *iod, mval *pp)
 		socketptr = dsocketptr->socket[ii];
 		tcp_routines.aa_close(socketptr->sd);
 		iosocket_delimiter((unsigned char *)NULL, 0, socketptr, TRUE); /* free the delimiter space */
-		free(socketptr->buffer);
+		gtm_free_intern(socketptr->buffer);
 		if (NULL != socketptr->zff.addr)
-			free(socketptr->zff.addr);
-		free(socketptr);
+			gtm_free_intern(socketptr->zff.addr);
+		gtm_free_intern(socketptr);
 		if (dsocketptr->current_socket >= ii)
 			dsocketptr->current_socket--;
 		for (jj = ii + 1; jj <= dsocketptr->n_socket - 1; jj++)

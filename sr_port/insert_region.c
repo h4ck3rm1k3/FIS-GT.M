@@ -99,12 +99,12 @@ tp_region	*insert_region(	gd_region	*reg,
 		}
 	  	if (NULL == reg->dyn.addr->file_cntl)
 	    	{
-	      		reg->dyn.addr->file_cntl = malloc(sizeof(file_control));
+	      		reg->dyn.addr->file_cntl = gtm_malloc_intern(sizeof(file_control));
               		memset(reg->dyn.addr->file_cntl, 0, sizeof(file_control));
 	    	}
 	  	if (NULL == reg->dyn.addr->file_cntl->file_info)
 	    	{
-	      		reg->dyn.addr->file_cntl->file_info = malloc(sizeof(vms_gds_info));
+	      		reg->dyn.addr->file_cntl->file_info = gtm_malloc_intern(sizeof(vms_gds_info));
 	      		memset(reg->dyn.addr->file_cntl->file_info, 0, sizeof(vms_gds_info));
 	    	}
 	  	fc = reg->dyn.addr->file_cntl;
@@ -174,7 +174,7 @@ tp_region	*insert_region(	gd_region	*reg,
 		*reg_free_list = tr_new->fPtr;		/* Remove from queue */
 	} else						/* get a new one */
 	{
-		tr_new = (tp_region *)malloc(size);
+		tr_new = (tp_region *)gtm_malloc_intern(size);
 		if (size > sizeof(tp_region))
 			memset(tr_new, 0, size);
 	}

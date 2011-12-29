@@ -206,7 +206,7 @@ bool	mubfilcpy (backup_reg_list *list)
 				util_out_print("WARNING: backup file !AD is not valid.", TRUE, file->len, file->addr);
 				CLEANUP_AND_RETURN_FALSE;
 			}
-			zero_blk = (char *)malloc(DISK_BLOCK_SIZE);
+			zero_blk = (char *)gtm_malloc_intern(DISK_BLOCK_SIZE);
 			memset(zero_blk, 0, DISK_BLOCK_SIZE);
 			LSEEKWRITE(backup_fd, filesize - DISK_BLOCK_SIZE, zero_blk, DISK_BLOCK_SIZE, status);
 			if (0 != status)
@@ -255,7 +255,7 @@ bool	mubfilcpy (backup_reg_list *list)
 
 		if (0 < (filesize = stat_buf.st_size))
 		{
-			inbuf = (char *)malloc(sizeof(int4) + sizeof(block_id) + header_cpy->blk_size);
+			inbuf = (char *)gtm_malloc_intern(sizeof(int4) + sizeof(block_id) + header_cpy->blk_size);
 			/* Do not use LSEEKREAD macro here because of dependence on setting filepointer for
 			   subsequent reads.
 			*/
@@ -278,7 +278,7 @@ bool	mubfilcpy (backup_reg_list *list)
 					util_out_print("Premature end of temporary file !AD.",
 						TRUE, LEN_AND_STR(list->backup_tempfile));
 				util_out_print("WARNING: backup file !AD is not valid.", TRUE, file->len, file->addr);
-				free(inbuf);
+				gtm_free_intern(inbuf);
 				CLEANUP_AND_RETURN_FALSE;
 			}
 			adjust = 0;
@@ -297,7 +297,7 @@ bool	mubfilcpy (backup_reg_list *list)
 							TRUE, LEN_AND_STR(list->backup_tempfile));
 						util_out_print("WARNING: backup file !AD is not valid.", TRUE, file->len,
 							file->addr);
-						free(inbuf);
+						gtm_free_intern(inbuf);
 						CLEANUP_AND_RETURN_FALSE;
 					}
 				}
@@ -315,7 +315,7 @@ bool	mubfilcpy (backup_reg_list *list)
 					else
 						util_out_print("Premature end of temporary file !AD.",
 							TRUE, LEN_AND_STR(list->backup_tempfile));
-					free(inbuf);
+					gtm_free_intern(inbuf);
 					CLEANUP_AND_RETURN_FALSE;
 				}
 				blk_num = *(block_id *)inbuf;
@@ -337,13 +337,13 @@ bool	mubfilcpy (backup_reg_list *list)
                         		                TRUE, file->len, file->addr);
 						errptr = (char *)STRERROR(save_no);
                 				util_out_print("write : !AZ", TRUE, errptr);
-						free(inbuf);
+						gtm_free_intern(inbuf);
 						CLEANUP_AND_RETURN_FALSE;
                         		}
 				}
 				if (TRUE == done)
 				{
-					free(inbuf);
+					gtm_free_intern(inbuf);
 					break;
 				}
 				handled += rsize;

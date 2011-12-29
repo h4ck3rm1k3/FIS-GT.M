@@ -63,6 +63,9 @@
 #  define STATICR static
 #endif
 
+GBLREF	volatile int4	gtmMallocDepth;			/* Recursion indicator. Volatile so it gets stored immediately */
+
+
 /* We are the redefined versions so use real versions in this module */
 #undef malloc
 #undef free
@@ -100,17 +103,30 @@
 }
 #  define GTM_MALLOC_REENT
 #else
+
+
+
+void *  DO_MALLOC(size_t size) 
+{ 
+  void * addr = malloc(size); 
+  if (NULL == (void *)addr) 
+    { 
+      VMS_ONLY(error_def(ERR_VMSMEMORY);)
+	UNIX_ONLY(error_def(ERR_MEMORY);)
+	
+      --gtmMallocDepth; 
+      assert(FALSE); 
+      rts_error(VARLSTCNT(4) ERR_MEMORY, 1, size, errno); 
+    } 
+  return addr;
+}
+
 /* These routines for Unix are NOT thread-safe */
 #  define MALLOC(size, addr) 						\
 {									\
-	addr = (void *)malloc(size);					\
-	if (NULL == (void *)addr)					\
-	{								\
-		--gtmMallocDepth;					\
-		assert(FALSE);						\
-		rts_error(VARLSTCNT(4) ERR_MEMORY, 1, size, errno);	\
-	}								\
+	addr = DO_MALLOC(size);					\
 }
+
 #  define FREE(size, addr) free(addr);
 #endif
 #ifdef GTM_MALLOC_REENT
@@ -332,7 +348,7 @@ GBLREF boolean_t gtmdbglvl_inited;			/* gtmDebugLevel has been initialized but o
 GBLREF	uint4		gtmDebugLevel;			/* Debug level (0 = using default sm module so with
 							   a DEBUG build, even level 0 implies basic debugging) */
 GBLREF  int		process_exiting;		/* Process is on it's way out */
-GBLREF	volatile int4	gtmMallocDepth;			/* Recursion indicator. Volatile so it gets stored immediately */
+
 /* This var allows us to call ourselves but still have callerid info */
 GBLREF	unsigned char	*smCallerId;			/* Caller of top level malloc/free */
 
@@ -480,6 +496,9 @@ STATICR void gtmSmInit(void)
 	gtmSmInitialized = TRUE;
 }
 
+
+
+
 /* Recursive routine used to obtain an element on a given size queue. If no
    elements of that size are available, we recursively call ourselves to get
    an element of the next larger queue which we will then split in half to
@@ -528,7 +547,8 @@ storElem *findStorElem(int sizeIndex)
 		/* Allocate size for one more subblock than we want. This guarrantees us that we can put our subblocks
 		   on a power of two boundary necessary for buddy alignment
 		*/
-		MALLOC(EXTENT_SIZE, uStorAlloc);
+		//		MALLOC(EXTENT_SIZE, uStorAlloc);
+		uStorAlloc = (unsigned char *)malloc( EXTENT_SIZE);
 		uStor2 = (storElem *)uStorAlloc;
 		uStor = (storElem *)(((unsigned long)(uStor2) + MAXTWO - 1) & -MAXTWO); /* Make addr "MAXTWO" byte aligned */
 		INCR_SUM(totalRmalloc, EXTENT_SIZE);
@@ -701,10 +721,10 @@ void *gtm_malloc(size_t size)
 					uStor->realLen = TwoTable[sizeIndex];
 				} else
 				{	/* Use regular malloc to obtain the piece */
-					MALLOC(tSize, uStor);
-					INCR_SUM(totalRmalloc, tSize);
-					SET_MAX(rmallocMax, totalRmalloc);
-
+				  uStor = (storElem*)malloc (tSize);
+				  INCR_SUM(totalRmalloc, tSize);
+				  SET_MAX(rmallocMax, totalRmalloc);
+				  
 					uStor->queueIndex = REAL_MALLOC;
 					uStor->realLen = tSize;
 #ifdef DEBUG
@@ -976,7 +996,7 @@ void gtm_free(void *addr)
 		++smLastFreeIndex;
 		if (MAXSMTRACE <= smLastFreeIndex)
 			smLastFreeIndex = 0;
-		smFrees[smLastFreeIndex].smAddr = addr;
+		smFrees[smLastFreeIndex].smAddr = (unsigned char *)addr;
 		smFrees[smLastFreeIndex].smSize = saveSize;
 		smFrees[smLastFreeIndex].smCaller = CALLERID;
 		smFrees[smLastFreeIndex].smTn = smTn;

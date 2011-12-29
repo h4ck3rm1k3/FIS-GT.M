@@ -29,23 +29,10 @@
 #error UNSUPPORTED PLATFORM
 #endif
 
-#define ALLOC_XFORM_BUFF(str)							\
-if ((str)->len > max_lcl_coll_xform_bufsiz)					\
-{										\
-	if (0 == max_lcl_coll_xform_bufsiz)					\
-	{									\
-		assert(NULL == lcl_coll_xform_buff);				\
-		max_lcl_coll_xform_bufsiz = MAX_STRBUFF_INIT;			\
-	} else									\
-	{									\
-		assert(NULL != lcl_coll_xform_buff);				\
-		free(lcl_coll_xform_buff);					\
-	}									\
-	while ((str)->len > max_lcl_coll_xform_bufsiz)				\
-		max_lcl_coll_xform_bufsiz += max_lcl_coll_xform_bufsiz;		\
-	max_lcl_coll_xform_bufsiz = MIN(MAX_STRLEN, max_lcl_coll_xform_bufsiz);	\
-	lcl_coll_xform_buff = (char *)malloc(max_lcl_coll_xform_bufsiz);	\
-}
+
+void  DO_ALLOC_XFORM_BUFF(mstr * str) ;
+#define ALLOC_XFORM_BUFF(str) DO_ALLOC_XFORM_BUFF(str);
+
 
 typedef struct collseq_struct {
 	struct collseq_struct	*flink;

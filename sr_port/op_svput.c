@@ -96,7 +96,7 @@ void op_svput(int varnum, mval *v)
 		MV_FORCE_STR(v);
 		if (dollar_zcompile.addr)
 			free (dollar_zcompile.addr);
-		dollar_zcompile.addr = (char *)malloc(v->str.len);
+		dollar_zcompile.addr = (char *)gtm_malloc_intern(v->str.len);
 		memcpy (dollar_zcompile.addr, v->str.addr, v->str.len);
 		dollar_zcompile.len = v->str.len;
 		break;
@@ -140,7 +140,7 @@ void op_svput(int varnum, mval *v)
 		zro_load(&v->str);
 		if (dollar_zroutines.addr)
 			free (dollar_zroutines.addr);
-		dollar_zroutines.addr = (char *)malloc(v->str.len);
+		dollar_zroutines.addr = (char *)gtm_malloc_intern(v->str.len);
 		memcpy (dollar_zroutines.addr, v->str.addr, v->str.len);
 		dollar_zroutines.len = v->str.len;
 		break;

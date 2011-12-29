@@ -17,7 +17,7 @@
 #include "outofband.h"
 boolean_t xfer_reset_handlers(int4 event_type);
 
-GBLREF int 		(* volatile xfer_table[])();
+GBLREF int 		(* volatile xfer_table[])(int,...);
 GBLREF void		(*tp_timeout_clear_ptr)(void);
 GBLREF volatile int4	ctrap_action_is, outofband;
 

@@ -13,7 +13,7 @@
 *
 *		MODULE NAME:			BM_GETFREE.C
 *
-*		CALLING SEQUENCE:		block_id bm_getfree(hint, blk_used, cw_work, cs, cw_depth_ptr)
+*		CALLING SEQUENCE:		block_id bm_getgtm_free_intern(hint, blk_used, cw_work, cs, cw_depth_ptr)
 *
 *		DESCRIPTION:	Takes a block id as a hint and tries to find a
 *		free block, looking first at the hint, then in the same local
@@ -67,7 +67,7 @@ GBLREF short		dollar_tlevel;
 GBLREF uint4		update_array_size, cumul_update_array_size;
 GBLREF unsigned int	t_tries;
 
-block_id bm_getfree(block_id orig_hint, bool *blk_used, unsigned int cw_work, cw_set_element *cs, int *cw_depth_ptr)
+block_id bm_getgtm_free_intern(block_id orig_hint, bool *blk_used, unsigned int cw_work, cw_set_element *cs, int *cw_depth_ptr)
 {
 	cw_set_element	*cs1;
 	sm_uc_ptr_t	bmp;
@@ -90,7 +90,7 @@ block_id bm_getfree(block_id orig_hint, bool *blk_used, unsigned int cw_work, cw
 	local_maps = hint_cycled + 2;	/* for (up to) 2 wraps */
 	for (lcnt = 0; lcnt <= local_maps; lcnt++)
 	{
-		bml = bmm_find_free(hint / BLKS_PER_LMAP, (sm_uc_ptr_t)cs_data->master_map, local_maps);
+		bml = bmm_find_gtm_free_intern(hint / BLKS_PER_LMAP, (sm_uc_ptr_t)cs_data->master_map, local_maps);
 		if ((NO_FREE_SPACE == bml) || (bml >= hint_cycled))
 		{	/* if no free space or might have looped to original map, extend */
 			if ((NO_FREE_SPACE != bml) && (hint_limit < hint_cycled))
@@ -262,7 +262,7 @@ boolean_t	is_free_blks_ctr_ok(void)
 	local_maps = DIVIDE_ROUND_UP(total_blks, BLKS_PER_LMAP);
 	for (free_blocks = 0, free_bml = 0; free_bml < local_maps; free_bml++)
 	{
-		bml = bmm_find_free((uint4)free_bml, (sm_uc_ptr_t)cs_data->master_map, local_maps);
+		bml = bmm_find_gtm_free_intern((uint4)free_bml, (sm_uc_ptr_t)cs_data->master_map, local_maps);
 		if (bml < free_bml)
 			break;
 		bml *= BLKS_PER_LMAP;

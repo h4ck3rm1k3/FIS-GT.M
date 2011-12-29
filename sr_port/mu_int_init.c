@@ -75,7 +75,7 @@ boolean_t mu_int_init(void)
 		mu_int_err(ERR_DBFSTHEAD, 0, 0, 0, 0, 0, 0, 0);
 		return FALSE;
 	}
-	p1 = (unsigned char *)malloc(ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE));
+	p1 = (unsigned char *)gtm_malloc_intern(ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE));
 	fc->op = FC_READ;
 	fc->op_buff = p1;
 	fc->op_len = ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE);

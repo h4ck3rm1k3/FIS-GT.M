@@ -61,7 +61,7 @@ void	clear_parm_vals(CLI_ENTRY *cmd_parms, boolean_t follow) 		/* pointer to opt
 	while (strlen(cmd_parms->name) > 0)
 	{
 		if (cmd_parms->pval_str)
-			free(cmd_parms->pval_str);
+			gtm_free_intern(cmd_parms->pval_str);
 		/* if root table exists, copy over any qualifier values to the new parameter table */
 		if ((FALSE != follow) && need_copy &&
 			(root_param = find_cmd_param(cmd_parms->name, gpcmd_qual, FALSE)))
@@ -272,9 +272,9 @@ int 	parse_arg(CLI_ENTRY *pcmd_parms, int *eof)
 			return(-1);
 		}
 		if (parm_ary[parms_cnt] && ((char *)-1 != parm_ary[parms_cnt]))
-			free(parm_ary[parms_cnt]);
+			gtm_free_intern(parm_ary[parms_cnt]);
 		parm_len = strlen(cli_token_buf) + 1;
-		parm_ary[parms_cnt] = malloc(parm_len);
+		parm_ary[parms_cnt] = gtm_malloc_intern(parm_len);
 		memcpy(parm_ary[parms_cnt++], cli_token_buf, parm_len);
 		return(1);
 	}
@@ -354,7 +354,7 @@ int 	parse_arg(CLI_ENTRY *pcmd_parms, int *eof)
 					 * the last one overrides
 					 */
 					if (pparm->pval_str)
-						free(pparm->pval_str);
+						gtm_free_intern(pparm->pval_str);
 					if (pparm->qual_vals)
 						clear_parm_vals(pparm->qual_vals, FALSE);
 
@@ -365,7 +365,7 @@ int 	parse_arg(CLI_ENTRY *pcmd_parms, int *eof)
 				 */
 				if (pparm->parm_values)
 				{
-					pparm->pval_str = malloc(strlen(pparm->parm_values->prompt) + 1);
+					pparm->pval_str = gtm_malloc_intern(strlen(pparm->parm_values->prompt) + 1);
 					strcpy(pparm->pval_str, pparm->parm_values->prompt);
 					if (!cli_get_sub_quals(pparm))
 						return(-1);
@@ -405,7 +405,7 @@ int 	parse_arg(CLI_ENTRY *pcmd_parms, int *eof)
 				 * the last one overrides
 				 */
 				if (pparm->pval_str)
-					free(pparm->pval_str);
+					gtm_free_intern(pparm->pval_str);
 				if (pparm->qual_vals)
 					clear_parm_vals(pparm->qual_vals, FALSE);
 			}
@@ -413,7 +413,7 @@ int 	parse_arg(CLI_ENTRY *pcmd_parms, int *eof)
 			 * Allocate memory and save value
 			 * -------------------------------
 			 */
-			pparm->pval_str = malloc(strlen(cli_token_buf) + 1);
+			pparm->pval_str = gtm_malloc_intern(strlen(cli_token_buf) + 1);
 			strcpy(pparm->pval_str, cli_token_buf);
 
 			if (!cli_get_sub_quals(pparm))
@@ -627,17 +627,17 @@ boolean_t cli_get_sub_quals(CLI_ENTRY *pparm)
 					 * the last one overrides
 					 */
 					if (pparm1->pval_str)
-						free(pparm1->pval_str);
+						gtm_free_intern(pparm1->pval_str);
 				}
 				if ((!val_flg) && (VAL_NOT_REQ == pparm1->required) && pparm1->parm_values)
 				{
-					pparm1->pval_str = malloc(strlen(pparm1->parm_values->prompt) + 1);
+					pparm1->pval_str = gtm_malloc_intern(strlen(pparm1->parm_values->prompt) + 1);
 					strcpy(pparm1->pval_str, pparm1->parm_values->prompt);
 				}
 				if (val_flg)
 				{
 					ptr_equal_len = strlen(ptr_equal + 1);
-					pparm1->pval_str = malloc(ptr_equal_len + 1);
+					pparm1->pval_str = gtm_malloc_intern(ptr_equal_len + 1);
 					strncpy(pparm1->pval_str, ptr_next_val + (ptr_equal - tmp_str_ptr) + 1, ptr_equal_len);
 					pparm1->pval_str[ptr_equal_len] = 0;
 				}
@@ -960,7 +960,7 @@ bool cli_get_parm(char *entry, char val_buf[])
 					local_str[parm_len - 1] = '\0';
 					--parm_len;
 				}
-				parm_ary[match_ind] = malloc(parm_len + 1);
+				parm_ary[match_ind] = gtm_malloc_intern(parm_len + 1);
 				if (parm_len)
 					memcpy(parm_ary[match_ind], &local_str[0], parm_len);
 				*(parm_ary[match_ind] + parm_len) = '\0';
@@ -971,7 +971,7 @@ bool cli_get_parm(char *entry, char val_buf[])
 				   return a null parm since current behaviors have a dependency on it
 				   SE 10/2003
 				 */
-				parm_ary[match_ind] = malloc(1);
+				parm_ary[match_ind] = gtm_malloc_intern(1);
 				*parm_ary[match_ind] = '\0';
 			}
 		} else if ((char *)-1 == parm_ary[match_ind])
@@ -988,8 +988,8 @@ bool cli_get_parm(char *entry, char val_buf[])
 				return(FALSE);
 			}
 			if (parm_ary[match_ind])
-				free(parm_ary[match_ind]);
-			parm_ary[match_ind] = malloc(parm_len);
+				gtm_free_intern(parm_ary[match_ind]);
+			parm_ary[match_ind] = gtm_malloc_intern(parm_len);
 			memcpy(parm_ary[match_ind], cli_token_buf, parm_len);
 		}
 	} else

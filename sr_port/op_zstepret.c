@@ -14,7 +14,7 @@
 #include "xfer_enum.h"
 #include "op.h"
 
-GBLREF int 	(* volatile xfer_table[])();
+GBLREF int 	(* volatile xfer_table[])(int,...);
 GBLREF bool	neterr_pending;
 GBLREF int4	outofband;
 GBLREF int	iott_write_error;

@@ -25,7 +25,7 @@ short ious_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 tim
 	iod = dev->iod;
 	if (iod->state == dev_never_opened)
 	{
-		iod->dev_sp = (void *)malloc(sizeof(d_us_struct));
+		iod->dev_sp = (void *)gtm_malloc_intern(sizeof(d_us_struct));
 		memset(iod->dev_sp, 0, sizeof(d_us_struct));
 		iod->state = dev_closed;
 	}

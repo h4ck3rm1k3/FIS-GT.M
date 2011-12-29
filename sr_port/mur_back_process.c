@@ -228,7 +228,7 @@ boolean_t mur_back_process(boolean_t apply_pblk, seq_num *pre_resolve_seqno)
 		for (status = mur_prev(mur_jctl->rec_offset); SS_NORMAL == status; status = mur_prev_rec())
 		{
 			assert(0 == mur_jctl->turn_around_offset);
-			rectype = mur_rab.jnlrec->prefix.jrec_type;
+			rectype = (jnl_record_type)mur_rab.jnlrec->prefix.jrec_type;
 			if (inactive_check && !(JRT_EPOCH == rectype || JRT_EOF == rectype ||
 							JRT_PFIN == rectype || JRT_ALIGN == rectype))
 				/* When region is inactive, that is, no logical updates are done, only EPOCH/PFIN/ALIGN/EOF

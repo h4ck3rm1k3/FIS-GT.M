@@ -87,7 +87,7 @@ void jnl_extr_init(void)
 	/* Should be a non-filter related function. But for now,... Needs GBLREFs gv_currkey and transform */
 	transform = FALSE;      /* to avoid the assert in mval2subsc() */
 	gv_keysize = (MAX_KEY_SZ + MAX_NUM_SUBSC_LEN + 4) & (-4);
-	gv_currkey = (gv_key *)malloc(sizeof(gv_key) + gv_keysize);
+	gv_currkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + gv_keysize);
 	gv_currkey->top = gv_keysize;
 	gv_currkey->prev = gv_currkey->end = 0;
 	gv_currkey->base[0] = '\0';
@@ -226,9 +226,9 @@ int repl_filter_init(char *filter_cmd)
 		null_jnlrec.prefix.forwptr = null_jnlrec.suffix.backptr = NULL_RECLEN;
 		assert(NULL == extr_rec);
 		jnl_extr_init();
-		extr_rec = malloc(ZWR_EXP_RATIO(MAX_LOGI_JNL_REC_SIZE));
+		extr_rec = (char*)gtm_malloc_intern(ZWR_EXP_RATIO(MAX_LOGI_JNL_REC_SIZE));
 		assert(MAX_EXTRACT_BUFSIZ > ZWR_EXP_RATIO(MAX_LOGI_JNL_REC_SIZE));
-		extract_buff = malloc(MAX_EXTRACT_BUFSIZ);
+		extract_buff = (char*)gtm_malloc_intern(MAX_EXTRACT_BUFSIZ);
 		return(SS_NORMAL);
 	}
 	if (0 == repl_filter_pid)
@@ -402,9 +402,10 @@ static int repl_filter_recv(seq_num tr_num, unsigned char *tr, int *tr_len)
 
 int repl_filter(seq_num tr_num, unsigned char *tr, int *tr_len, int bufsize)
 {
-	int repl_filter_send(), repl_filter_recv(), status;
+	int repl_filter_send(seq_num tr_num, unsigned char *tr, int *tr_len), 
+	    repl_filter_recv(seq_num tr_num, unsigned char *tr, int *tr_len), status;
 
-	if (SS_NORMAL != (status = repl_filter_send(tr_num, tr, *tr_len)))
+	if (SS_NORMAL != (status = repl_filter_send(tr_num, tr, tr_len)))
 		return (status);
 	return (repl_filter_recv(tr_num, tr, tr_len));
 }

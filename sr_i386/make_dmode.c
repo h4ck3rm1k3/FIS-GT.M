@@ -32,7 +32,7 @@ rhdtyp_sr_unix_nsb *make_dmode(void)
 	int		*lnr;
 	unsigned char	*code;
 						/* dummy code + label entry + line entries */
-	base_address = (rhdtyp_sr_unix_nsb *)malloc(sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
+	base_address = (rhdtyp_sr_unix_nsb *)gtm_malloc_intern(sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
 	memset(base_address,0,sizeof(rhdtyp_sr_unix_nsb) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES*sizeof(int4));
 	MEMCPY_LIT(&base_address->routine_name, GTM_DMOD);
 	base_address->ptext_ptr = sizeof(rhdtyp_sr_unix_nsb);

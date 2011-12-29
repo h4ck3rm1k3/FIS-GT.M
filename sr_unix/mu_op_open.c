@@ -139,7 +139,7 @@ error_def(ERR_SYSCALL);
 	{
 		if (0 == tl->iod)
 		{
-			tl->iod =  (io_desc *)malloc(sizeof(io_desc));
+			tl->iod =  (io_desc *)gtm_malloc_intern(sizeof(io_desc));
 			memset((char*)tl->iod, 0, sizeof(io_desc));
 			tl->iod->pair.in  = tl->iod;
 			tl->iod->pair.out = tl->iod;

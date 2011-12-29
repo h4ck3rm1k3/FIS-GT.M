@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------------
  */
 GBLREF int	iott_write_error;
-GBLREF int 	(* volatile xfer_table[])();
+GBLREF int 	(* volatile xfer_table[])(int,...);
 
 void tt_write_error_set(int4 error_status)
 {

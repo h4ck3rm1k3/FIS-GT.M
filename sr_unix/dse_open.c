@@ -142,9 +142,9 @@ boolean_t dse_fdmp_output (void *addr, int4 len)
 	if (len + 1 > bufsiz)
 	{
 		if (buffer)
-			free(buffer);
+			gtm_free_intern(buffer);
 		bufsiz = len + 1;
-		buffer = (char *)malloc(bufsiz);
+		buffer = (char *)gtm_malloc_intern(bufsiz);
 	}
 	if (len)
 	{

@@ -365,7 +365,7 @@ void	iosocket_use(io_desc *iod, mval *pp)
 	    0 < (newsocket.zff.len = zff_len)) /* assign the new ZFF len, might be 0 from ZNOFF, or ZFF="" */
 	{ /* ZFF="non-zero-len-string" specified */
 		if (NULL == newsocket.zff.addr) /* we rely on newsocket.zff.addr being set to 0 in iosocket_create() */
-			newsocket.zff.addr = (char *)malloc(MAX_ZFF_LEN);
+			newsocket.zff.addr = (char *)gtm_malloc_intern(MAX_ZFF_LEN);
 		memcpy(newsocket.zff.addr, zff_buffer, zff_len);
 	}
 	if (ioerror_specified)
@@ -382,8 +382,14 @@ void	iosocket_use(io_desc *iod, mval *pp)
 #ifdef TCP_NODELAY
 		nodelay = newsocket.nodelay ? 1 : 0;
 		if ((socketptr->nodelay != newsocket.nodelay) &&
-				(-1 == tcp_routines.aa_setsockopt(newsocket.sd, IPPROTO_TCP,
-						TCP_NODELAY, &nodelay, sizeof(nodelay))))
+				(-1 == 
+				 tcp_routines.
+				 aa_setsockopt(
+					       newsocket.sd, 
+					       IPPROTO_TCP,
+					       TCP_NODELAY, 
+					       &nodelay, 
+					       sizeof(nodelay))))
 		{
 			save_errno = errno;
 			errptr = (char *)STRERROR(save_errno);
@@ -404,7 +410,7 @@ void	iosocket_use(io_desc *iod, mval *pp)
 		{
 			if (socketptr->buffered_length > bfsize)
 				rts_error(VARLSTCNT(4) ERR_SOCKBFNOTEMPTY, 2, bfsize, socketptr->buffered_length);
-			newsocket.buffer = (char *)malloc(bfsize);
+			newsocket.buffer = (char *)gtm_malloc_intern(bfsize);
 			if (0 < socketptr->buffered_length)
 			{
 				memcpy(newsocket.buffer, socketptr->buffer + socketptr->buffered_offset,
@@ -420,7 +426,7 @@ void	iosocket_use(io_desc *iod, mval *pp)
                 if (socketptr->sd > 0)
                         (void)tcp_routines.aa_close(socketptr->sd);
                 iosocket_delimiter((unsigned char *)NULL, 0, &newsocket, TRUE);
-                free(socketptr);
+                gtm_free_intern(socketptr);
                 return;
         }
 	/* ------------------------------------ commit changes -------------------------------------- */
@@ -432,7 +438,7 @@ void	iosocket_use(io_desc *iod, mval *pp)
                 newdsocket.current_socket = newdsocket.n_socket - 1;
 	}
 	else if (socketptr->buffer_size != newsocket.buffer_size)
-		free(socketptr->buffer);
+		gtm_free_intern(socketptr->buffer);
 	*socketptr = newsocket;
 	*dsocketptr = newdsocket;
 	return;

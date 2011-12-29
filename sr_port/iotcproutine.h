@@ -14,7 +14,7 @@ typedef struct
 {
         int               (*aa_accept)();
         int               (*aa_bind)();
-        int               (*aa_close)();
+        int               (*aa_close)(int sockfd );
         int               (*aa_connect)();
         int               (*aa_getsockopt)();
 	int               (*aa_getsockname)();
@@ -32,7 +32,13 @@ typedef struct
         int               (*aa_recv)();
         int               (*aa_select)();
         int               (*aa_send)();
-        int               (*aa_setsockopt)();
+        int               (*aa_setsockopt)(
+					   int sockfd, 
+					   int level, 
+					   int optname,
+					   const void *optval, 
+					   socklen_t optlen
+					   );
         int               (*aa_shutdown)();
         int               (*aa_socket)();
         bool               using_tcpware;      /* use tcpware(1) or ucx(0) */

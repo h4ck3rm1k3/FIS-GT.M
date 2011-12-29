@@ -48,7 +48,7 @@ void op_close(mval *v, mval *p)
 		        if (l->iod == ciod && l != tl)
 			{
 			        prev->next = l->next;
-				free(l);
+				gtm_free_intern(l);
 				l = prev;
 			}
 		}

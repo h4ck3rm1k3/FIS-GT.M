@@ -65,7 +65,7 @@ void gtcml_chkprc(cm_lckblklck *lck)
 				lck->prc = 0;
 			else if (prc == lck->prc)
 				lck->prc = prc1;
-			free(prc);
+			gtm_free_intern(prc);
 			if (!lck->prc || prc1->next == lck->prc)
 				break;
 			prc = prc1;
@@ -93,7 +93,7 @@ void gtcml_chkprc(cm_lckblklck *lck)
 			lck->prc = 0;
 		else if (prc == lck->prc)
 			lck->prc = prc->next;
-		free(prc);
+		gtm_free_intern(prc);
 	}
 	CMI_MUTEX_RESTORE;
 }

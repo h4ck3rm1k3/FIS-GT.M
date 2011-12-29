@@ -62,7 +62,7 @@ char gtcmtr_lke_showrep(struct CLB *lnk, show_request *sreq)
 	{
 		cs_adr = &FILE_INFO(cur_region)->s_addrs;
 		ls_len = cs_adr->lock_addrs[1] - cs_adr->lock_addrs[0];
-		lke_ctl = (mlk_ctldata *)malloc(ls_len);
+		lke_ctl = (mlk_ctldata *)gtm_malloc_intern(ls_len);
 		/* Prevent any modification of the lock space while we make a local copy of it */
 		if (cs_adr->critical != NULL)
 			crash_count = cs_adr->critical->crashcnt;
@@ -75,7 +75,7 @@ char gtcmtr_lke_showrep(struct CLB *lnk, show_request *sreq)
 		if (lke_ctl->blkroot != 0)
 			(void)lke_showtree(lnk, (mlk_shrblk_ptr_t)R2A(lke_ctl->blkroot), sreq->all, sreq->wait, sreq->pid, dnode,
 						FALSE);
-		free(lke_ctl);
+		gtm_free_intern(lke_ctl);
 	}
 	srep.code = CMMS_U_LKESHOW;
 	lnk->cbl = sizeof(srep.code);

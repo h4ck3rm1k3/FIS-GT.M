@@ -41,7 +41,7 @@ void mubexpfilnam(char *dirname, unsigned int dirlen, backup_reg_list *list)
 	for (c1 = file.addr + file.len; (*c1 != '/') && (c1 != file.addr); c1--)
                 ;
 	list->backup_file.len = dirlen + (file.len - (c1 - file.addr));
-	list->backup_file.addr = (char *)malloc(list->backup_file.len + 1);
+	list->backup_file.addr = (char *)gtm_malloc_intern(list->backup_file.len + 1);
 	memcpy(list->backup_file.addr, dirname, dirlen);
 	memcpy(list->backup_file.addr + dirlen, c1, (file.len - (c1 - file.addr)));
 	return;

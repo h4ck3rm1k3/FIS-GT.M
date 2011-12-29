@@ -125,12 +125,12 @@ gd_region *dbfilopn (gd_region *reg)
 	assert(seg->acc_meth == dba_bg  ||  seg->acc_meth == dba_mm);
 	if (NULL == seg->file_cntl)
 	{
-		seg->file_cntl = (file_control *)malloc(sizeof(*seg->file_cntl));
+		seg->file_cntl = (file_control *)gtm_malloc_intern(sizeof(*seg->file_cntl));
 		memset(seg->file_cntl, 0, sizeof(*seg->file_cntl));
 	}
 	if (NULL == seg->file_cntl->file_info)
 	{
-		seg->file_cntl->file_info = (void *)malloc(sizeof(unix_db_info));
+		seg->file_cntl->file_info = (void *)gtm_malloc_intern(sizeof(unix_db_info));
 		memset(seg->file_cntl->file_info, 0, sizeof(unix_db_info));
 	}
 	file.addr = (char *)seg->fname;
@@ -157,8 +157,8 @@ gd_region *dbfilopn (gd_region *reg)
 	{
 		if (GTCM_GNP_SERVER_IMAGE != image_type)
 		{
-			free(seg->file_cntl->file_info);
-			free(seg->file_cntl);
+			gtm_free_intern(seg->file_cntl->file_info);
+			gtm_free_intern(seg->file_cntl);
 			seg->file_cntl = 0;
 		}
 		rts_error(VARLSTCNT(5) ERR_DBFILERR, 2, DB_LEN_STR(reg), status);
@@ -194,8 +194,8 @@ gd_region *dbfilopn (gd_region *reg)
 			errno_save = errno;
 			if (GTCM_GNP_SERVER_IMAGE != image_type)
 			{
-				free(seg->file_cntl->file_info);
-				free(seg->file_cntl);
+				gtm_free_intern(seg->file_cntl->file_info);
+				gtm_free_intern(seg->file_cntl);
 				seg->file_cntl = 0;
 			}
 			rts_error(VARLSTCNT(5) ERR_DBFILERR, 2, DB_LEN_STR(reg), errno_save);
@@ -208,8 +208,8 @@ gd_region *dbfilopn (gd_region *reg)
 	if (prev_reg = gv_match(reg))
 	{
 		close(udi->fd);
-		free(seg->file_cntl->file_info);
-		free(seg->file_cntl);
+		gtm_free_intern(seg->file_cntl->file_info);
+		gtm_free_intern(seg->file_cntl);
 		seg->file_cntl = 0;
 		return prev_reg;
 	}
@@ -486,7 +486,7 @@ void db_init(gd_region *reg, sgmnt_data_ptr_t tsd)
 		}
 		if (is_bg)
 		{
-			bt_malloc(csa);
+			bt_gtm_malloc_intern(csa);
 			csa->nl->cache_off = -CACHE_CONTROL_SIZE(tsd);
 			db_csh_ini(csa);
 		}

@@ -90,12 +90,12 @@ mval	*unw_mv_ent(mv_stent *mv_st_ent)
 			assert(mv_st_ent->mv_st_cont.mvs_stab == curr_symval);
 			symval_ptr = curr_symval;
 			curr_symval = symval_ptr->last_tab;
-			free(symval_ptr->first_block.lv_base);
+			gtm_free_intern(symval_ptr->first_block.lv_base);
 			for (lp = symval_ptr->first_block.next ; lp ; lp = lp1)
 			{
-				free(lp->lv_base);
+				gtm_free_intern(lp->lv_base);
 				lp1 = lp->next;
-				free(lp);
+				gtm_free_intern(lp);
 			}
 			if (symval_ptr->sbs_que.fl == (sbs_blk *)symval_ptr)
 				assert(symval_ptr->sbs_que.fl == symval_ptr->sbs_que.bl);
@@ -104,8 +104,8 @@ mval	*unw_mv_ent(mv_stent *mv_st_ent)
 				symval_ptr->sbs_que.bl->sbs_que.fl = sbs_blk_hdr;
 				sbs_blk_hdr = symval_ptr->sbs_que.fl;
 			}
-			free(symval_ptr->h_symtab.base);
-			free(symval_ptr);
+			gtm_free_intern(symval_ptr->h_symtab.base);
+			gtm_free_intern(symval_ptr);
 		}
 		return 0;
 	case MVST_NTAB:
@@ -117,7 +117,7 @@ mval	*unw_mv_ent(mv_stent *mv_st_ent)
 		return 0;
 	case MVST_PARM:
 		if (mv_st_ent->mv_st_cont.mvs_parm.mvs_parmlist)
-			free(mv_st_ent->mv_st_cont.mvs_parm.mvs_parmlist);
+			gtm_free_intern(mv_st_ent->mv_st_cont.mvs_parm.mvs_parmlist);
 		ret_value = mv_st_ent->mv_st_cont.mvs_parm.ret_value;
 		if (ret_value)
 			dollar_truth = (boolean_t)mv_st_ent->mv_st_cont.mvs_parm.save_truth;

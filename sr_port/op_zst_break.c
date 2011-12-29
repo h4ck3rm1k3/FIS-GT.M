@@ -19,17 +19,18 @@
 
 GBLREF stack_frame	*frame_pointer;
 GBLREF mval 		zstep_action;
-GBLREF int 		(* volatile xfer_table[])();
+GBLREF int 		(* volatile xfer_table[])(int,...);
 
 void op_zst_break(void)
 {
+  //TODO:
+  
 	xfer_table[xf_linefetch] = op_linefetch;
 	xfer_table[xf_linestart] = op_linestart;
 	xfer_table[xf_zbfetch] = op_zbfetch;
 	xfer_table[xf_zbstart] = op_zbstart;
 	xfer_table[xf_ret] = opp_ret;
 	xfer_table[xf_retarg] = op_retarg;
-
 	flush_pio();
 	op_commarg(&zstep_action,indir_linetail);
 	zstep_action.mvtype = 0;

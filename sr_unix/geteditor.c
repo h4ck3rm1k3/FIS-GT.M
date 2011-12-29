@@ -47,7 +47,7 @@ void geteditor(void)
 	{
 		len = strlen(edt) + 1;	/* for zero */
 		editor.len = len - 1;	/* but not for mstr */
-		editor.addr = (char*) malloc(len);	/* must be zero term */
+		editor.addr = (char*) gtm_malloc_intern(len);	/* must be zero term */
 		memcpy(editor.addr, edt, len);
 	}
 	else

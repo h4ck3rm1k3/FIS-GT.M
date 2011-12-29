@@ -27,7 +27,7 @@ void iob_close(BFILE *bf)
     if (close(bf->fd) == -1)
 	rts_error(VARLSTCNT(1) errno);
 
-    free(bf->buf);
-    free(bf->path);
-    free(bf);
+    gtm_free_intern(bf->buf);
+    gtm_free_intern(bf->path);
+    gtm_free_intern(bf);
 }

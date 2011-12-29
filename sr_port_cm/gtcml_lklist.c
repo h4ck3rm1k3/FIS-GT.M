@@ -58,7 +58,7 @@ void gtcml_lklist(void)
 		len--; /* subtract size of regnum */
 		translev = *ptr++; len--;
 		subcnt = *ptr++; len--;
-		new_entry = (mlk_pvtblk *)malloc(sizeof(mlk_pvtblk) + len - 1);
+		new_entry = (mlk_pvtblk *)gtm_malloc_intern(sizeof(mlk_pvtblk) + len - 1);
 		memset(new_entry, 0, sizeof(mlk_pvtblk));
 		memcpy(&new_entry->value[0], ptr, len);
 		ptr += len;
@@ -95,7 +95,7 @@ void gtcml_lklist(void)
 					inlist1->next = reg_ref->lockdata;
 					reg_ref->lockdata = inlist1;
 				}
-				free(new_entry);
+				gtm_free_intern(new_entry);
 			}
 			else
 			{

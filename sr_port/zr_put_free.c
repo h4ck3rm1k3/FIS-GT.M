@@ -21,7 +21,7 @@
 
 GBLREF int		cache_temp_cnt;
 
-void zr_put_free(z_records *zrecs, zbrk_struct *z_ptr)
+void zr_put_gtm_free_intern(z_records *zrecs, zbrk_struct *z_ptr)
 {
 	mstr	rtn_str;
 	int	rtn_len;
@@ -40,8 +40,8 @@ void zr_put_free(z_records *zrecs, zbrk_struct *z_ptr)
 		} else
 		{
 			if (NULL != z_ptr->action->obj.addr)
-				free(z_ptr->action->obj.addr);
-			free(z_ptr->action);
+				gtm_free_intern(z_ptr->action->obj.addr);
+			gtm_free_intern(z_ptr->action);
 		}
 	}
 	*z_ptr->mpc = z_ptr->m_opcode;
@@ -67,7 +67,7 @@ void zr_put_free(z_records *zrecs, zbrk_struct *z_ptr)
 										 	           * use memmove, not memcpy */
 	if (zrecs->free == zrecs->beg)
 	{ /* all breaks gone, free space allocated for breakpoints */
-		free(zrecs->beg);
+		gtm_free_intern(zrecs->beg);
 		zrecs->beg = NULL;
 		zrecs->free = NULL;
 		zrecs->end = NULL;

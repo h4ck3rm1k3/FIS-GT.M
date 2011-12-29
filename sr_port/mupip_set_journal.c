@@ -169,11 +169,11 @@ uint4	mupip_set_journal(unsigned short db_fn_len, char *db_fn)
 			{
 				gv_cur_region->dyn.addr->acc_meth = dba_bg;
 				gv_cur_region->dyn.addr->file_cntl =
-					(file_control *)malloc(sizeof(*gv_cur_region->dyn.addr->file_cntl));
+					(file_control *)gtm_malloc_intern(sizeof(*gv_cur_region->dyn.addr->file_cntl));
 				memset(gv_cur_region->dyn.addr->file_cntl, 0, sizeof(*gv_cur_region->dyn.addr->file_cntl));
 				gv_cur_region->dyn.addr->file_cntl->file_type = dba_bg;
 				gds_info = FILE_INFO(gv_cur_region);
-				gds_info = (GDS_INFO *)malloc(sizeof(GDS_INFO));
+				gds_info = (GDS_INFO *)gtm_malloc_intern(sizeof(GDS_INFO));
 				memset(gds_info, 0, sizeof(GDS_INFO));
 			}
 		} else
@@ -241,7 +241,7 @@ uint4	mupip_set_journal(unsigned short db_fn_len, char *db_fn)
 				}
 				/* Need to read file header again,
 				 * because mu_rndwn_file does not have an interface to return fileheader */
-				csd = (sgmnt_data_ptr_t)malloc(ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE));
+				csd = (sgmnt_data_ptr_t)gtm_malloc_intern(ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE));
 				fc->op = FC_READ;
 				fc->op_buff = (sm_uc_ptr_t)csd;
 				fc->op_len = ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE);

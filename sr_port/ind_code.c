@@ -31,6 +31,7 @@ GBLREF char	cg_phase_last; 	/* previous code generation phase */
 GBLREF spdesc	stringpool,indr_stringpool;
 
 GBLDEF unsigned char	*runtime_base;
+void shrink_trips(void);
 
 void	ind_code(mstr *obj)
 {
@@ -80,7 +81,13 @@ void	ind_code(mstr *obj)
 	PUT_LONG(&(itext->vartab_len), long_temp);
 	vptr = (VAR_TABENT *) mcalloc(mvmax * sizeof(VAR_TABENT));
 	if (mvartab)
-		walktree(mvartab, cg_var, (char *)&vptr);
+	  {
+	    walktree(mvartab, cg_var, (char *)&vptr);
+	  }
+	///void (*)(mvar*, var_tabent**) 
+	// 
+	// to : void (*)()
+
 	emit_immed((char *) vptr, mvmax * sizeof(VAR_TABENT));
 	/* itext->temp_mvals = sa_temps[TVAL_REF]; */
 	long_temp = sa_temps[TVAL_REF];

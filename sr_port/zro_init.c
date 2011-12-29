@@ -29,7 +29,7 @@ void zro_init (void)
 	char		buf1[MAX_NUMBER_FILENAMES]; /* buffer to hold translated name */
 
 	if (dollar_zroutines.addr)
-		free (dollar_zroutines.addr);
+		gtm_free_intern (dollar_zroutines.addr);
 
 	val.addr = ZROUTINE_LOG;
 	val.len = sizeof(ZROUTINE_LOG) - 1;
@@ -42,7 +42,7 @@ void zro_init (void)
 	else
 	{
 		dollar_zroutines.len = tn.len;
-		dollar_zroutines.addr = (char *) malloc (tn.len);
+		dollar_zroutines.addr = (char *) gtm_malloc_intern (tn.len);
 		memcpy (dollar_zroutines.addr, buf1, tn.len);
 	}
 	zro_load (&dollar_zroutines);

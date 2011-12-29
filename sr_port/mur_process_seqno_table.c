@@ -60,7 +60,7 @@ void mur_process_seqno_table(seq_num *min_broken_seqno, seq_num *losttn_seqno)
 		assert(max_resolve_seqno >= min_resolve_seqno);
 		seq_arr_size = max_resolve_seqno - min_resolve_seqno + 1;
 		/* To conserve space instead of int array char array is used. We can use bit map to save more space. */
-		seq_arr = (char *) malloc(seq_arr_size);
+		seq_arr = (char *) gtm_malloc_intern(seq_arr_size);
 		memset(seq_arr, 0, seq_arr_size);
 		for (index = 0; index < murgbl.token_table.size; index++)
 		{

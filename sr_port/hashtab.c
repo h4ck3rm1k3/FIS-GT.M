@@ -201,7 +201,7 @@ void init_hashtab(hashtab **h, int minsiz)
 	hptr = *h;
 	if (!hptr)
 	{
-		hptr = *h = (void *)malloc(sizeof(hashtab));
+		hptr = *h = (void *)gtm_malloc_intern(sizeof(hashtab));
 		hptr->tbl = NULL;
 	} else
 		prevsiz = hptr->size;
@@ -218,9 +218,9 @@ void init_hashtab(hashtab **h, int minsiz)
 		hptr->size = siz;
 
 		if (hptr->tbl)
-			free(hptr->tbl);
+			gtm_free_intern(hptr->tbl);
 
-		hptr->tbl = (void *)malloc(sizeof(hashtab_ent) * hptr->size);
+		hptr->tbl = (void *)gtm_malloc_intern(sizeof(hashtab_ent) * hptr->size);
 	}
 	longset((uchar_ptr_t)hptr->tbl, sizeof(hashtab_ent) * hptr->size, 0);
 	hptr->first = NULL;
@@ -248,10 +248,10 @@ void free_hashtab(hashtab **h)
 	hptr = *h;
 	if (hptr->tbl)
 	{
-		free(hptr->tbl);
+		gtm_free_intern(hptr->tbl);
 		hptr->tbl = NULL;
 	}
-	free(hptr);
+	gtm_free_intern(hptr);
 	*h = NULL;
 }
 
@@ -272,7 +272,7 @@ void expand_hashtab(hashtab **h, int minsiz)
 			assert(TRUE == dummy);
 		}
 	}
-	free(oldt);
+	gtm_free_intern(oldt);
 }
 
 void *lookup_hashtab_ent(hashtab *h, void *key, void *v)

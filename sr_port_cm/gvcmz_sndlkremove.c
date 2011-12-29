@@ -40,7 +40,7 @@ void gvcmz_sndlkremove(struct CLB *lnk, unsigned char oper, unsigned char cancel
 		while (temp)
 		{
 			temp1 = temp->next;
-			free(temp);
+			gtm_free_intern(temp);
 			temp = temp1;
 		}
 		((link_info*)(lnk->usr))->netlocks = 0;

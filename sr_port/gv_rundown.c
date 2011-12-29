@@ -97,8 +97,8 @@ void gv_rundown(void)
 				{
 					if (cs_addrs->dir_tree)
 					{
-						free(cs_addrs->dir_tree->alt_hist);
-						free(cs_addrs->dir_tree);
+						gtm_free_intern(cs_addrs->dir_tree->alt_hist);
+						gtm_free_intern(cs_addrs->dir_tree);
 					}
 					if (cs_addrs->sgm_info_ptr)
 					{
@@ -118,11 +118,11 @@ void gv_rundown(void)
 						if (si->cr_array_size)
 						{
 							assert(NULL != si->cr_array);
-							free(si->cr_array);
+							gtm_free_intern(si->cr_array);
 						}
 						if (si->first_tp_hist)
-							free(si->first_tp_hist);
-						free(si);
+							gtm_free_intern(si->first_tp_hist);
+						gtm_free_intern(si);
 					}
 					if (cs_addrs->jnl)
 					{
@@ -130,28 +130,28 @@ void gv_rundown(void)
 						if (cs_addrs->jnl->jnllsb)
 						{
 							UNIX_ONLY(assert(FALSE));
-							free(cs_addrs->jnl->jnllsb);
+							gtm_free_intern(cs_addrs->jnl->jnllsb);
 						}
-						free(cs_addrs->jnl);
+						gtm_free_intern(cs_addrs->jnl);
 					}
 				}
 				assert(gv_cur_region->dyn.addr->file_cntl->file_info);
 				VMS_ONLY(
 					gds_info = (vms_gds_info *)gv_cur_region->dyn.addr->file_cntl->file_info;
 					if (gds_info->xabpro)
-						free(gds_info->xabpro);
+						gtm_free_intern(gds_info->xabpro);
 					if (gds_info->xabfhc)
-						free(gds_info->xabfhc);
+						gtm_free_intern(gds_info->xabfhc);
 					if (gds_info->nam)
 					{
-						free(gds_info->nam->nam$l_esa);
-						free(gds_info->nam);
+						gtm_free_intern(gds_info->nam->nam$l_esa);
+						gtm_free_intern(gds_info->nam);
 					}
 					if (gds_info->fab)
-						free(gds_info->fab);
+						gtm_free_intern(gds_info->fab);
 				)
-				free(gv_cur_region->dyn.addr->file_cntl->file_info);
-				free(gv_cur_region->dyn.addr->file_cntl);
+				gtm_free_intern(gv_cur_region->dyn.addr->file_cntl->file_info);
+				gtm_free_intern(gv_cur_region->dyn.addr->file_cntl);
 			}
 			r_local->open = r_local->was_open = FALSE;
 		}

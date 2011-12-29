@@ -34,7 +34,7 @@ void cache_put(unsigned char code, mstr *source, mstr *object)
 			{	/* No reusable entry was found. Create a temporary extention entry.
 				   This entry will be freed when stackframe is unwound
 				*/
-				csp = (cache_entry *)malloc(sizeof(*csp));
+				csp = (cache_entry *)gtm_malloc_intern(sizeof(*csp));
 				memset((char *)csp, 0, sizeof(*csp));
 				dqins(&cache_temps, linktemp, csp);
 				DBG_INCR_CNT(cache_temp_cnt);
@@ -65,12 +65,12 @@ void cache_put(unsigned char code, mstr *source, mstr *object)
 	/* If a buffer exists and is big enough, use it, else replace it */
 	if (0 != csp->obj.len && csp->real_obj_len < object->len)
 	{
-		free(csp->obj.addr);
+		gtm_free_intern(csp->obj.addr);
 		csp->obj.len = 0;
 	}
 	if (0 == csp->obj.len)
 	{
-		csp->obj.addr = (char *)malloc(object->len);
+		csp->obj.addr = (char *)gtm_malloc_intern(object->len);
 		csp->real_obj_len = object->len;
 	}
 	csp->code = code;

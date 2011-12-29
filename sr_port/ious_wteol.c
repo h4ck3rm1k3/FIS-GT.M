@@ -13,8 +13,11 @@
 #include "io.h"
 #include "iousdef.h"
 
+//  ;
 void ious_wteol(int4 x, io_desc *iod)
 {
 	assert(iod->state == dev_open);
-	((void(*)())(((d_us_struct*)(iod->dev_sp))->disp->wteol))(x);
+	//(void(*)())
+	//void (* wteol)(int4, io_desc *)
+	  ((d_us_struct*)(iod->dev_sp))->disp->wteol(x,iod);
 }

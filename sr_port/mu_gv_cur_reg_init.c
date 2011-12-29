@@ -25,26 +25,26 @@ GBLREF gd_region	*gv_cur_region;
 
 void mu_gv_cur_reg_init(void)
 {
-	gv_cur_region = (gd_region *)malloc(sizeof(gd_region));
+	gv_cur_region = (gd_region *)gtm_malloc_intern(sizeof(gd_region));
 	memset(gv_cur_region, 0, sizeof(gd_region));
 
-	gv_cur_region->dyn.addr = (gd_segment *)malloc(sizeof(gd_segment));
+	gv_cur_region->dyn.addr = (gd_segment *)gtm_malloc_intern(sizeof(gd_segment));
 	memset(gv_cur_region->dyn.addr, 0, sizeof(gd_segment));
 	gv_cur_region->dyn.addr->acc_meth = dba_bg;
 
-	gv_cur_region->dyn.addr->file_cntl = (file_control *)malloc(sizeof(*gv_cur_region->dyn.addr->file_cntl));
+	gv_cur_region->dyn.addr->file_cntl = (file_control *)gtm_malloc_intern(sizeof(*gv_cur_region->dyn.addr->file_cntl));
 	memset(gv_cur_region->dyn.addr->file_cntl, 0, sizeof(*gv_cur_region->dyn.addr->file_cntl));
 	gv_cur_region->dyn.addr->file_cntl->file_type = dba_bg;
 
-	gv_cur_region->dyn.addr->file_cntl->file_info = (GDS_INFO *)malloc(sizeof(GDS_INFO));
+	gv_cur_region->dyn.addr->file_cntl->file_info = (GDS_INFO *)gtm_malloc_intern(sizeof(GDS_INFO));
 	memset(gv_cur_region->dyn.addr->file_cntl->file_info, 0, sizeof(GDS_INFO));
 }
 
-void mu_gv_cur_reg_free(void)
+void mu_gv_cur_reg_gtm_free_intern(void)
 {
-	free(gv_cur_region->dyn.addr->file_cntl->file_info);
-	free(gv_cur_region->dyn.addr->file_cntl);
-	free(gv_cur_region->dyn.addr);
-	free(gv_cur_region);
+	gtm_free_intern(gv_cur_region->dyn.addr->file_cntl->file_info);
+	gtm_free_intern(gv_cur_region->dyn.addr->file_cntl);
+	gtm_free_intern(gv_cur_region->dyn.addr);
+	gtm_free_intern(gv_cur_region);
 	gv_cur_region = NULL; /* If you free it, you must not access it */
 }

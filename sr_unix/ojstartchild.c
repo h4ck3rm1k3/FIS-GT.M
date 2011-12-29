@@ -354,7 +354,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 		 *	each line above is an entry in the environment array.
 		 */
 
-		env_ind = env_ary = (char **)malloc((environ_count + MAX_JOB_QUALS + argcnt + 1)*sizeof(char *));
+		env_ind = env_ary = (char **)gtm_malloc_intern((environ_count + MAX_JOB_QUALS + argcnt + 1)*sizeof(char *));
 
 #ifdef	__osf__
 #pragma pointer_size (restore)
@@ -363,7 +363,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 		string_len = strlen("%s=%d") + strlen(CHILD_FLAG_ENV) + MAX_NUM_LEN - 4;
 		if (string_len > MAX_CMD_LINE)
 			rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-		c1 = (char *)malloc(string_len + 1);
+		c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -385,7 +385,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(GBLDIR_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -404,7 +404,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(STARTUP_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -423,7 +423,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(IN_FILE_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -445,7 +445,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(OUT_FILE_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -467,7 +467,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(ERR_FILE_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -487,7 +487,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(ROUTINE_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -507,7 +507,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%s") + strlen(LABEL_ENV) + strlen(pbuff) - 4;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -521,7 +521,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 		string_len = strlen("%s=%ld") + strlen(OFFSET_ENV) + MAX_NUM_LEN - 5;
 		if (string_len > TEMP_BUFF_SIZE)
 			rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-		c1 = (char *)malloc(string_len + 1);
+		c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -536,7 +536,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen("%s=%ld") + strlen(PRIORITY_ENV) + MAX_NUM_LEN - 5;
 			if (string_len > TEMP_BUFF_SIZE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len + 1);
+			c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif
@@ -554,7 +554,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 			string_len = strlen(parm_string) + jp->parm->str.len + 1;
 			if (string_len > MAX_CMD_LINE)
 				rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-			c1 = (char *)malloc(string_len);
+			c1 = (char *)gtm_malloc_intern(string_len);
 #ifdef __MVS__
 			__getEstring1_a_copy(c1, parm_string, strlen(parm_string));
 			__getEstring1_a_copy(c1 + strlen(parm_string), jp->parm->str.addr, jp->parm->str.len);
@@ -581,7 +581,7 @@ int ojstartchild (job_params_type *jparms, int argcnt, boolean_t *non_exit_retur
 		string_len = strlen("%s=%ld") + strlen(GTMJCNT_ENV) + MAX_NUM_LEN - 5;
 		if (string_len > TEMP_BUFF_SIZE)
 			rts_error(VARLSTCNT(1) ERR_JOBPARTOOLONG);
-		c1 = (char *)malloc(string_len + 1);
+		c1 = (char *)gtm_malloc_intern(string_len + 1);
 #ifdef __MVS__
 #pragma convlit(suspend)
 #endif

@@ -44,7 +44,7 @@ void gvcmz_clrlkreq(void)
 			while (temp)
 			{
 				temp1 = temp->next;
-				free(temp);
+				gtm_free_intern(temp);
 				temp = temp1;
 			}
 			((link_info*)(p->usr))->netlocks = 0;

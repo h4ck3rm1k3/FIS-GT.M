@@ -40,22 +40,22 @@ BFILE *iob_open_wt(path, blksiz, blkfactor)
     int blksiz;
     int blkfactor;
 {
-    void *malloc();
+    void *gtm_malloc_intern();
     int fd;
     BFILE *file;
 
     if ((fd = OPEN3(path,O_WRONLY | O_CREAT,0)) == -1)
 	return NULL;
 
-    file = malloc(sizeof(BFILE));
+    file = gtm_malloc_intern(sizeof(BFILE));
     file->fd = fd;
-    file->path = malloc(strlen(path) + 1);
+    file->path = gtm_malloc_intern(strlen(path) + 1);
     memcpy(file->path, path, strlen(path) + 1);
     file->oflag = O_WRONLY | O_CREAT;
     file->mode = 0;
     file->blksiz = blksiz;
     file->bufsiz = blksiz * blkfactor;
-    file->buf = malloc(file->bufsiz);
+    file->buf = gtm_malloc_intern(file->bufsiz);
     file->bptr = file->buf;
     file->remaining = file->bufsiz;
     file->write_mode = TRUE;

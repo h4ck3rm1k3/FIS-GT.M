@@ -16,7 +16,7 @@
 #include "gdsbt.h"
 #include "gdsfhead.h"
 
-void bt_malloc(sgmnt_addrs *csa)
+void bt_gtm_malloc_intern(sgmnt_addrs *csa)
 {
 	unsigned int	n;
 	sgmnt_data_ptr_t	csd;

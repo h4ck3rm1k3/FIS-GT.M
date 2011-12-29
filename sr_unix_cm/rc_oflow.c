@@ -31,7 +31,7 @@ rc_oflow_alc()
 {
     rc_oflow	*rv;
 
-    rv = (rc_oflow *)malloc(sizeof(rc_oflow));
+    rv = (rc_oflow *)gtm_malloc_intern(sizeof(rc_oflow));
     rv->page   = 0;
     rv->buff   = (char *)0;
     rv->top    = rv->size   = rv->dsid   = rv->offset = rv->zcode  = 0;
@@ -50,9 +50,9 @@ rc_oflow_fin(fop)
 	return;
 
     if (fop->buff)
-	free(fop->buff);
+	gtm_free_intern(fop->buff);
 
-    free(fop);
+    gtm_free_intern(fop);
 
     return;
 

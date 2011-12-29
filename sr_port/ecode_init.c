@@ -23,16 +23,16 @@ GBLREF	dollar_stack_type	dollar_stack;			/* structure containing $STACK related 
  * gtmci_isv_restore (in gtmci_isv.c) needs to be reflected for any future mallocs added here. */
 void	ecode_init(void)
 {
-	dollar_ecode.begin = (char *)malloc(DOLLAR_ECODE_ALLOC);
+	dollar_ecode.begin = (char *)gtm_malloc_intern(DOLLAR_ECODE_ALLOC);
 	dollar_ecode.top = dollar_ecode.begin + DOLLAR_ECODE_ALLOC;
-	dollar_ecode.array = (dollar_ecode_struct *)malloc(sizeof(dollar_ecode_struct) * DOLLAR_ECODE_MAXINDEX);
+	dollar_ecode.array = (dollar_ecode_struct *)gtm_malloc_intern(sizeof(dollar_ecode_struct) * DOLLAR_ECODE_MAXINDEX);
 	dollar_ecode.error_rtn_addr = CODE_ADDRESS(ERROR_RTN);
 	dollar_ecode.error_rtn_ctxt = CONTEXT(ERROR_RTN);
 	dollar_ecode.error_return_addr = (error_ret_fnptr)ERROR_RETURN;
 
-	dollar_stack.begin = (char *)malloc(DOLLAR_STACK_ALLOC);
+	dollar_stack.begin = (char *)gtm_malloc_intern(DOLLAR_STACK_ALLOC);
 	dollar_stack.top = dollar_stack.begin + DOLLAR_STACK_ALLOC;
-	dollar_stack.array = (dollar_stack_struct *)malloc(sizeof(dollar_stack_struct) * DOLLAR_STACK_MAXINDEX);
+	dollar_stack.array = (dollar_stack_struct *)gtm_malloc_intern(sizeof(dollar_stack_struct) * DOLLAR_STACK_MAXINDEX);
 
 	NULLIFY_DOLLAR_ECODE;	/* this macro resets dollar_ecode.{end,index}, dollar_stack.{begin,index,incomplete} and
 				 * first_ecode_error_frame to point as if no error occurred at all */

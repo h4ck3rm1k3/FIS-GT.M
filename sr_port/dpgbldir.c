@@ -83,16 +83,16 @@ gd_addr *zgbldir(mval *v)
 	} else
 		tran_name = get_name(&v->str);
 	gd_ptr = gd_load(tran_name);
-	name = (gdr_name *)malloc(sizeof(gdr_name));
+	name = (gdr_name *)gtm_malloc_intern(sizeof(gdr_name));
 	if (name->name.len = v->str.len)	/* Note embedded assignment */
 	{
-		name->name.addr = (char *)malloc(v->str.len);
+		name->name.addr = (char *)gtm_malloc_intern(v->str.len);
 		memcpy(name->name.addr, v->str.addr, v->str.len);
 	}
 	/* free up memory allocated for mstr and its addr field in get_name */
 	assert(tran_name->len);
-	free(tran_name->addr);
-	free(tran_name);
+	gtm_free_intern(tran_name->addr);
+	gtm_free_intern(tran_name);
 
 	if (gdr_name_head)
 		name->link = (struct gdr_name *)gdr_name_head;
@@ -163,7 +163,7 @@ gd_addr *gd_load(mstr *v)
 		rts_error(VARLSTCNT(4) ERR_GDINVALID, 2, v->len, v->addr);
 	}
 	size = LEGAL_IO_SIZE(temp_head.filesize);
-	header = (header_struct *)malloc(size);
+	header = (header_struct *)gtm_malloc_intern(size);
 	file_read(file_ptr, size, (uchar_ptr_t)header, 1);			/* Read in body of file */
 	table = (gd_addr *)((char *)header + sizeof(header_struct));
 	table->local_locks = (struct gd_region_struct *)((unsigned)table->local_locks + (unsigned)table);
@@ -186,7 +186,7 @@ gd_addr *gd_load(mstr *v)
 	gd_addr_head = table;
 	fill_gd_addr_id(gd_addr_head, file_ptr);
 	close_gd_file(file_ptr);
-	table->tab_ptr = (htab_desc *)malloc(sizeof(htab_desc));
+	table->tab_ptr = (htab_desc *)gtm_malloc_intern(sizeof(htab_desc));
 	ht_init(table->tab_ptr, 0);
 	return table;
 }
@@ -234,7 +234,7 @@ void cm_add_gdr_ptr(gd_region *greg)
 {
 	gd_addr	*ga;
 
-	ga = (gd_addr *)malloc(sizeof(gd_addr));
+	ga = (gd_addr *)gtm_malloc_intern(sizeof(gd_addr));
 	ga->end = 0;	/* signifies a GT.CM gd_addr */
 	ga->regions = greg;
 	ga->n_regions = 1;
@@ -255,7 +255,7 @@ void cm_del_gdr_ptr(gd_region *greg)
 				gd_addr_head = ga1->link;
 			else
 				ga2->link = ga1->link;
-			free(ga1);
+			gtm_free_intern(ga1);
 			break;
 		}
 		ga2 = ga1;
@@ -289,19 +289,19 @@ void gd_rundown(void)		/* Wipe out the global directory structures */
 		if (gda_cur->end)
 		{
 			gd_ht_kill(gda_cur->tab_ptr, TRUE);
-			free(gda_cur->id);		/* free up gd_id malloced in gd_load()/fill_gd_addr_id() */
-			free(gda_cur->tab_ptr);		/* free up hashtable malloced in gd_load() */
-			free((char *)gda_cur - sizeof(header_struct));	/* free up global directory itself */
+			gtm_free_intern(gda_cur->id);		/* free up gd_id gtm_malloc_interned in gd_load()/fill_gd_addr_id() */
+			gtm_free_intern(gda_cur->tab_ptr);		/* free up hashtable gtm_malloc_interned in gd_load() */
+			gtm_free_intern((char *)gda_cur - sizeof(header_struct));	/* free up global directory itself */
 		} else
-			free(gda_cur);	/* GT.CM gd_addr and hence header_struct wasn't malloced in cm_add_gdr_ptr */
+			gtm_free_intern(gda_cur);	/* GT.CM gd_addr and hence header_struct wasn't gtm_malloc_interned in cm_add_gdr_ptr */
 	}
 	gd_header = gd_addr_head = (gd_addr *)NULL;
 	for (gdn_cur = gdr_name_head; NULL != gdn_cur; gdn_cur = gdn_next)
 	{
 		gdn_next = (gdr_name *)gdn_cur->link;
 		if (gdn_cur->name.len)
-			free(gdn_cur->name.addr);
-		free(gdn_cur);
+			gtm_free_intern(gdn_cur->name.addr);
+		gtm_free_intern(gdn_cur);
 	}
 	gdr_name_head = (gdr_name *)NULL;
 }
@@ -317,13 +317,13 @@ void gd_ht_kill(htab_desc *table, boolean_t contents)		/* wipe out the hash tabl
 			if (ent->ptr)
 			{
 				if (NULL != ((gv_namehead *)ent->ptr)->alt_hist)
-					free(((gv_namehead *)ent->ptr)->alt_hist);	/* can be NULL for GT.CM client */
-				free(ent->ptr);
+					gtm_free_intern(((gv_namehead *)ent->ptr)->alt_hist);	/* can be NULL for GT.CM client */
+				gtm_free_intern(ent->ptr);
 			}
 		}
 	}
-	free((char *)table->base);
-	/* We don't do a free(table) in this generic routine because it is called both by GT.M and GT.CM
+	gtm_free_intern((char *)table->base);
+	/* We don't do a gtm_free_intern(table) in this generic routine because it is called both by GT.M and GT.CM
 	 * and GT.CM retains the table for reuse while GT.M doesn't. GT.M fgncal_rundown() takes care of
 	 * this by freeing it up explicitly (after a call to ht_kill) in gd_rundown() [dpgbldir.c]
 	 */

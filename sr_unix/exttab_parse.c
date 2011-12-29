@@ -87,10 +87,10 @@ static void	*get_memory(int n)
 	if (space_remaining < n)
 	{
 		if (SPACE_BLOCK_SIZE < n)
-			return (void *)malloc(n);
+			return (void *)gtm_malloc_intern(n);
 		else
 		{
-			heap_base = (void *)malloc(SPACE_BLOCK_SIZE);
+			heap_base = (void *)gtm_malloc_intern(SPACE_BLOCK_SIZE);
 			space_remaining = SPACE_BLOCK_SIZE;
 		}
 	}

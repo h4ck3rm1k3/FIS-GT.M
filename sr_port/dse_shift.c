@@ -85,7 +85,7 @@ void dse_shift(void)
 		if (!cli_get_hex("FORWARD", (int4 *)&shift))
 			return;
 		forward = TRUE;
-		lbp = (unsigned char *)malloc((size_t)shift);
+		lbp = (unsigned char *)gtm_malloc_intern((size_t)shift);
 	} else if (cli_present("BACKWARD") == CLI_PRESENT)
 	{
 		if (!cli_get_hex("BACKWARD", (int4 *)&shift))
@@ -102,7 +102,7 @@ void dse_shift(void)
 	{
 		util_out_print("Error:  must specify amount to shift.", TRUE);
 		if (lbp)
-			free(lbp);
+			gtm_free_intern(lbp);
 		return;
 	}
 	blk_size = cs_addrs->hdr->blk_size;
@@ -110,7 +110,7 @@ void dse_shift(void)
 	if(!(bp = t_qread(patch_curr_blk, &dummy_hist.h[0].cycle, &dummy_hist.h[0].cr)))
 	{
 		if (lbp)
-			free(lbp);
+			gtm_free_intern(lbp);
 		rts_error(VARLSTCNT(1) ERR_DSEBLKRDFAIL);
 	}
 	size = ((blk_hdr *)bp)->bsiz;
@@ -123,7 +123,7 @@ void dse_shift(void)
 		util_out_print("Error:  offset not in range of block.", TRUE);
 		t_abort(gv_cur_region, cs_addrs);
 		if (lbp)
-			free(lbp);
+			gtm_free_intern(lbp);
 		return;
 	}
 	BLK_INIT(bs_ptr, bs1);
@@ -134,7 +134,7 @@ void dse_shift(void)
 			util_out_print("Error:  block not large enough to accomodate shift.", TRUE);
 			t_abort(gv_cur_region, cs_addrs);
 			if (lbp)
-				free(lbp);
+				gtm_free_intern(lbp);
 			return;
 		}
 		memset(lbp, 0, shift);
@@ -156,7 +156,7 @@ void dse_shift(void)
 		util_out_print("Error: bad blk build.", TRUE);
 		t_abort(gv_cur_region, cs_addrs);
 		if (lbp)
-			free(lbp);
+			gtm_free_intern(lbp);
 		return;
 	}
 	t_write(patch_curr_blk, (unsigned char *)bs1, 0, 0, bp, ((blk_hdr_ptr_t)bp)->levl, TRUE, FALSE);

@@ -44,12 +44,12 @@ void mucblkini (void)
 	int4			tmp, bmpsize, status;
 
 	udi = (unix_db_info *)gv_cur_region->dyn.addr->file_cntl->file_info;
-	bp1 = (blk_hdr_ptr_t)malloc(cs_addrs->hdr->blk_size);
-	bp2 = (blk_hdr_ptr_t)malloc(cs_addrs->hdr->blk_size);
+	bp1 = (blk_hdr_ptr_t)gtm_malloc_intern(cs_addrs->hdr->blk_size);
+	bp2 = (blk_hdr_ptr_t)gtm_malloc_intern(cs_addrs->hdr->blk_size);
 	bmpsize = BM_SIZE(cs_addrs->hdr->bplmap);
 	if (cs_addrs->do_fullblockwrites)
 		bmpsize = ROUND_UP(bmpsize, cs_addrs->fullblockwrite_len);
-	bmp = (uchar_ptr_t)malloc(bmpsize);
+	bmp = (uchar_ptr_t)gtm_malloc_intern(bmpsize);
 	LSEEKREAD(udi->fd, (off_t)(cs_addrs->hdr->start_vbn - 1) * DISK_BLOCK_SIZE, bmp, bmpsize, status);
 	if (0 != status)
 	{

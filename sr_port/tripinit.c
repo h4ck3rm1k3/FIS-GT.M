@@ -38,7 +38,7 @@ void tripinit(void)
 {
 	if (!mcavailbase)
 	{
-		mcavailbase = (char **)malloc(MC_DSBLKSIZE);
+		mcavailbase = (char **)gtm_malloc_intern(MC_DSBLKSIZE);
 		*mcavailbase = 0;
 	}
 	mcavailptr = mcavailbase;

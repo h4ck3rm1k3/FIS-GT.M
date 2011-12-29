@@ -14,8 +14,8 @@
 
 que_ent_ptr_t remqt(que_ent_ptr_t base);
 que_ent_ptr_t remqh (que_ent_ptr_t base);
-void insqh(que_ent_ptr_t new, que_ent_ptr_t base);
-void insqt(que_ent_ptr_t new, que_ent_ptr_t base);
+void insqh(que_ent_ptr_t new_data, que_ent_ptr_t base);
+void insqt(que_ent_ptr_t new_data, que_ent_ptr_t base);
 void shuffqth(que_ent_ptr_t base1, que_ent_ptr_t base2);
 void shuffqtt(que_ent_ptr_t base1, que_ent_ptr_t base2);
 

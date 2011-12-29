@@ -218,13 +218,13 @@ boolean_t mu_int_fhead(void)
 			/ (block_factor), (mu_data->trans_hist.total_blks));
 	}
 	/* make copy of master bitmap in mu_int_master */
-	mu_int_master = (unsigned char *)malloc(MASTER_MAP_SIZE);
+	mu_int_master = (unsigned char *)gtm_malloc_intern(MASTER_MAP_SIZE);
 	memcpy(mu_int_master, mu_data->master_map, MASTER_MAP_SIZE);
 	/* make working space for all local bitmaps */
 	maps = (mu_data->trans_hist.total_blks + mu_data->bplmap - 1) / mu_data->bplmap;
 	size = BM_SIZE(mu_data->bplmap) - sizeof(blk_hdr);
 	size *= maps;
-	mu_int_locals = (unsigned char *)malloc(size);
+	mu_int_locals = (unsigned char *)gtm_malloc_intern(size);
 	longset(mu_int_locals, size, FOUR_BLKS_FREE);
 	return TRUE;
 }

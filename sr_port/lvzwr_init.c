@@ -36,7 +36,7 @@ void lvzwr_init(bool t, mval *val) /*false-->mident, true-->mval*/
 		lvzwrite_block.pat = NULL;
 	lvzwrite_block.mask = lvzwrite_block.subsc_count = 0;
 	if (!lvzwrite_block.sub)
-		lvzwrite_block.sub = (struct zwr_sub_lst *)malloc(sizeof(zwr_sub_lst) * MAX_LVSUBSCRIPTS);
+		lvzwrite_block.sub = (struct zwr_sub_lst *)gtm_malloc_intern(sizeof(zwr_sub_lst) * MAX_LVSUBSCRIPTS);
 	lvzwrite_block.fixed = TRUE;
 	return;
 }

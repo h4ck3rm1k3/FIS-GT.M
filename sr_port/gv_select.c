@@ -163,7 +163,7 @@ void gv_select(char *cli_buff, int n_len, boolean_t freeze, char opname[], glist
 
 	if (freeze)
 	{
-		ext_hash = (htab_desc *)malloc(sizeof(htab_desc));
+		ext_hash = (htab_desc *)gtm_malloc_intern(sizeof(htab_desc));
                 ht_init(ext_hash, 0);
                 memset(&ht_mname.txt[0], 0, sizeof(mname));
 	}
@@ -231,7 +231,7 @@ void gv_select(char *cli_buff, int n_len, boolean_t freeze, char opname[], glist
                                 }
                         }
 			assert(curr_gbl_name.str.len > 0);
-			gl_ptr = (glist*)malloc(sizeof(glist) - 1 + curr_gbl_name.str.len);
+			gl_ptr = (glist*)gtm_malloc_intern(sizeof(glist) - 1 + curr_gbl_name.str.len);
 			gl_ptr->name.mvtype = MV_STR;
 			gl_ptr->name.str.addr = (char*)gl_ptr->nbuf;
 			gl_ptr->name.str.len = curr_gbl_name.str.len;

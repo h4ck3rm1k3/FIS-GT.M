@@ -208,7 +208,7 @@ boolean_t dse_b_dmp(void)
 					{
 						for (iter2 = 0; iter2 < 8; iter2++)
 						{
-							mask = dse_lm_blk_free(lmap_num * BML_BITS_PER_BLK, bp + sizeof(blk_hdr));
+							mask = dse_lm_blk_gtm_free_intern(lmap_num * BML_BITS_PER_BLK, bp + sizeof(blk_hdr));
 							if (!mask)
 								util_out_print ("!AD", FALSE, 1, BUSY_CHAR);
 							else if (BLK_FREE == mask)

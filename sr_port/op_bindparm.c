@@ -91,6 +91,6 @@ void op_bindparm(int something, ...)
 		hte->ptr = (char *)new_var;
 		*lspp = (lv_val *)new_var;
 	}
-	free(mv_ent->mv_st_cont.mvs_parm.mvs_parmlist);
+	gtm_free_intern(mv_ent->mv_st_cont.mvs_parm.mvs_parmlist);
 	mv_ent->mv_st_cont.mvs_parm.mvs_parmlist = 0;
 }

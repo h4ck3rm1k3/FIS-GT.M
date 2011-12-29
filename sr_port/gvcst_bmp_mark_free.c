@@ -49,7 +49,7 @@ GBLREF	unsigned char		rdfail_detail;
 GBLREF	sgm_info		*sgm_info_ptr;
 GBLREF	boolean_t		mu_reorg_process;
 
-trans_num gvcst_bmp_mark_free(kill_set *ks)
+trans_num gvcst_bmp_mark_gtm_free_intern(kill_set *ks)
 {
 	block_id	bit_map, next_bm;
 	blk_ident	*blk, *blk_top, *next_blk;

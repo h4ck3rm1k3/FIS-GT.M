@@ -32,7 +32,7 @@ char *mcalloc(unsigned int n)
 			mcavailptr = (char ** ) *mcavailptr;
 		else
 		{
-			x = (char **)malloc(MC_DSBLKSIZE);
+			x = (char **)gtm_malloc_intern(MC_DSBLKSIZE);
 			*mcavailptr = (char *) x;
 			mcavailptr = x;
 			*mcavailptr = 0;

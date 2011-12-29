@@ -22,7 +22,7 @@
  * Note: dummy parameter is for calling compatibility.
  * ------------------------------------------------------------------
  */
-GBLREF int 				(* volatile xfer_table[])();
+GBLREF int 				(* volatile xfer_table[])(int,...);
 GBLREF volatile bool 			run_time, ctrlc_on;
 GBLREF volatile int4			ctrap_action_is,outofband;
 

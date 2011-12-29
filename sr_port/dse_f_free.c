@@ -33,7 +33,7 @@ GBLREF gd_region	*gv_cur_region;
 
 #define MAX_UTIL_LEN 80
 
-void dse_f_free(void)
+void dse_f_gtm_free_intern(void)
 {
 	block_id	blk;
 	bool		in_last_bmap;
@@ -59,7 +59,7 @@ void dse_f_free(void)
 		return;
 	}
 	hint_over_bplmap = blk / bplmap;
-	master_bit = bmm_find_free(hint_over_bplmap, cs_addrs->bmm,
+	master_bit = bmm_find_gtm_free_intern(hint_over_bplmap, cs_addrs->bmm,
 			(cs_addrs->ti->total_blks + bplmap - 1)/ bplmap);
 	if (master_bit == -1)
 	{	util_out_print("Error: database full.",TRUE);
@@ -89,7 +89,7 @@ void dse_f_free(void)
 	else
 		total_blks = bplmap;
 
-	lmap_bit = bml_find_free(hint_mod_bplmap, lmap_base + sizeof(blk_hdr), total_blks, &dummy_bool);
+	lmap_bit = bml_find_gtm_free_intern(hint_mod_bplmap, lmap_base + sizeof(blk_hdr), total_blks, &dummy_bool);
 	if (lmap_bit == -1)
 	{	memcpy(util_buff,"Error: bit map in block ",24);
 		util_len = 24;

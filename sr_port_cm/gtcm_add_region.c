@@ -35,7 +35,7 @@ void gtcm_add_region(connection_struct *cnx,cm_region_head *rh)
 
 	if (!ptr)
 	{
-		ptr = (cm_region_list *)malloc(sizeof(*ptr));
+		ptr = (cm_region_list *)gtm_malloc_intern(sizeof(*ptr));
 		memset(ptr,0,sizeof(*ptr));
 		ptr->regnum = cnx->maxregnum++;
 		assert(!cnx->region_array[ptr->regnum]);

@@ -54,7 +54,7 @@ bool mubgetfil(backup_reg_list *list, char *name, unsigned short len)
 		len -= 1;
 		list->backup_to = backup_to_exec;
 		list->backup_file.len = len;
-		list->backup_file.addr = (char *)malloc(len + 1);
+		list->backup_file.addr = (char *)gtm_malloc_intern(len + 1);
 		memcpy(list->backup_file.addr, name + 1, len);
 		return TRUE;
 	}
@@ -73,7 +73,7 @@ bool mubgetfil(backup_reg_list *list, char *name, unsigned short len)
 				name++;
 			}
 			list->backup_file.len = len;
-			list->backup_file.addr = (char *)malloc(len + 1);
+			list->backup_file.addr = (char *)gtm_malloc_intern(len + 1);
 			memcpy(list->backup_file.addr, name, len);
 			*(list->backup_file.addr + len) = 0;
 			return TRUE;
@@ -95,7 +95,7 @@ bool mubgetfil(backup_reg_list *list, char *name, unsigned short len)
 		{
 			/* new file */
 			list->backup_file.len = len;
-			list->backup_file.addr = (char *)malloc(len + 1);
+			list->backup_file.addr = (char *)gtm_malloc_intern(len + 1);
 			memcpy(list->backup_file.addr, name, len);
 			*(list->backup_file.addr + len) = 0;
 		}
@@ -106,7 +106,7 @@ bool mubgetfil(backup_reg_list *list, char *name, unsigned short len)
 		{
 			is_directory = TRUE;
 			directory.len = len;
-			directory.addr = (char *)malloc(len + 1);
+			directory.addr = (char *)gtm_malloc_intern(len + 1);
 			memcpy(directory.addr, name, len);
 			*(directory.addr + len) = 0;
 			mubexpfilnam(directory.addr, directory.len, list);

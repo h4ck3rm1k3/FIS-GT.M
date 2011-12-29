@@ -135,7 +135,7 @@ int omi_prc_conn(omi_conn *cptr, char *xend, char *buff, char *bend)
 
 /*  Agent name (in) */
     OMI_SI_READ(&ss_len, cptr->xptr);
-    if ((ag_name = (char *) malloc(ss_len.value + 1)) == NULL) {
+    if ((ag_name = (char *) gtm_malloc_intern(ss_len.value + 1)) == NULL) {
 	    OMI_DBG((omi_debug, "%s:  memory allocation error (insufficient resources) while\n", SRVR_NAME));
 	    OMI_DBG((omi_debug, "processing connect request from connection %d, %s.\n",
 	    		cptr->stats.id, gtcm_hname(&cptr->stats.sin)));
@@ -149,7 +149,7 @@ int omi_prc_conn(omi_conn *cptr, char *xend, char *buff, char *bend)
 
 /*  Agent password (in) */
     OMI_SI_READ(&ss_len, cptr->xptr);
-    if ((ag_pass = (char *) malloc(ss_len.value + 1)) == NULL) {
+    if ((ag_pass = (char *) gtm_malloc_intern(ss_len.value + 1)) == NULL) {
 	    OMI_DBG((omi_debug, "%s:  memory allocation error (insufficient resources) while\n", SRVR_NAME));
 	    OMI_DBG((omi_debug, "processing connect request from connection %d, %s.\n",
 	    		cptr->stats.id, gtcm_hname(&cptr->stats.sin)));

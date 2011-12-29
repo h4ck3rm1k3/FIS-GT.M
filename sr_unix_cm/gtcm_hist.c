@@ -31,8 +31,8 @@ void init_hist(void)
 {
 	int	i;
 
-	omi_hist = malloc(sizeof(omi_hist_rec) * HISTORY);
-	rc_hist = malloc(sizeof(rc_hist_rec) * HISTORY);
+	omi_hist = gtm_malloc_intern(sizeof(omi_hist_rec) * HISTORY);
+	rc_hist = gtm_malloc_intern(sizeof(rc_hist_rec) * HISTORY);
 
 	for(i = 0; i < HISTORY; i++)
 	{

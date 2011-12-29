@@ -412,7 +412,7 @@ void mupip_backup(void)
 			rptr->not_this_time = give_up_before_create_tempfile;
 			continue;
 		}
-		rptr->backup_hdr = (sgmnt_data_ptr_t)malloc(size);
+		rptr->backup_hdr = (sgmnt_data_ptr_t)gtm_malloc_intern(size);
 		if (TRUE == online)
 		{
 			/* determine the directory name and prefix for the temp file */
@@ -809,7 +809,7 @@ void mupip_backup(void)
 					LEN_AND_STR(jnl_state_lit[rptr->backup_hdr->jnl_state]));
 		}
 		ENABLE_AST
-		mubbuf = (uchar_ptr_t)malloc(BACKUP_READ_SIZE);
+		mubbuf = (uchar_ptr_t)gtm_malloc_intern(BACKUP_READ_SIZE);
 		for (rptr = (backup_reg_list *)(grlist);  NULL != rptr;  rptr = rptr->fPtr)
 		{
 			gv_cur_region = rptr->reg;
@@ -827,7 +827,7 @@ void mupip_backup(void)
 			if (mu_ctrly_occurred || mu_ctrlc_occurred)
 				break;
 		}
-		free(mubbuf);
+		gtm_free_intern(mubbuf);
 	} else
 	{
 		mubclnup((backup_reg_list *)halt_ptr, need_to_rel_crit);

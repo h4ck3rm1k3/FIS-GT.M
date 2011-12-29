@@ -78,14 +78,14 @@ void mur_close_file_extfmt()
 		{
 			assert(mur_options.extr_fn_len[recstat]);
 			MUR_CLOSE_FILE(murgbl.file_info[recstat]);
-			free(murgbl.file_info[recstat]);
+			gtm_free_intern(murgbl.file_info[recstat]);
 			murgbl.file_info[recstat] = NULL;
 		} else if (0 != mur_options.extr_fn_len[recstat])
 			gtm_putmsg(VARLSTCNT(6) ERR_FILENOTCREATE, 4, LEN_AND_STR(ext_file_type[recstat]),
 						mur_options.extr_fn_len[recstat], mur_options.extr_fn[recstat]);
 		if (0 != mur_options.extr_fn_len[recstat])
 		{
-			free(mur_options.extr_fn[recstat]);
+			gtm_free_intern(mur_options.extr_fn[recstat]);
 			mur_options.extr_fn[recstat] = NULL;
 			mur_options.extr_fn_len[recstat] = 0;
 		}

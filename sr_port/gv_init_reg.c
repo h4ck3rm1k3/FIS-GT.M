@@ -65,11 +65,11 @@ void gv_init_reg (gd_region *reg)
 
 	if (keysize > gv_keysize)
 	{	gv_keysize = keysize;
-		temp_key = (gv_key*)malloc(sizeof(gv_key) - 1 + gv_keysize);
+		temp_key = (gv_key*)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
 		if (gv_currkey)
 		{
 			memcpy(temp_key, gv_currkey, sizeof(gv_key) + gv_currkey->end);
-			free(gv_currkey);
+			gtm_free_intern(gv_currkey);
 		}
 		else
 		{
@@ -77,11 +77,11 @@ void gv_init_reg (gd_region *reg)
 		}
 		gv_currkey = temp_key;
 		gv_currkey->top = gv_keysize;
-		temp_key = (gv_key*)malloc(sizeof(gv_key) - 1 + gv_keysize);
+		temp_key = (gv_key*)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
 		if (gv_altkey)
 		{
 			memcpy(temp_key, gv_altkey, sizeof(gv_key) + gv_altkey->end);
-			free(gv_altkey);
+			gtm_free_intern(gv_altkey);
 		}
 		else
 		{

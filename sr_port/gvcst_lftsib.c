@@ -36,7 +36,7 @@ GBLREF unsigned int	t_tries;
 
 enum cdb_sc	gvcst_lftsib(srch_hist *full_hist)
 {
-	srch_blk_status *old, *new, *old_base, *new_base;
+	srch_blk_status *old, *new_data, *old_base, *new_base;
 	rec_hdr_ptr_t	rp;
 	unsigned short	rec_size;
 	enum cdb_sc	ret_val;
@@ -65,41 +65,41 @@ enum cdb_sc	gvcst_lftsib(srch_hist *full_hist)
 			return ret_val;
 	}
 	/* old now points to the first block which had a non-zero prev_rec.offset */
-	new = new_base + (old - old_base + 1);
+	new_data = new_base + (old - old_base + 1);
 	full_hist->depth = old - old_base;
-	(new--)->blk_num = 0;
-	new->blk_num = old->blk_num;
-	new->tn = old->tn;
-	new->ptr = NULL;
-	new->first_tp_srch_status = old->first_tp_srch_status;
-	assert(new->level == old->level);
-	assert(new->blk_target == old->blk_target);
-	new->buffaddr = old->buffaddr;
-	new->curr_rec = old->prev_rec;
-	new->cycle = old->cycle;
-	new->cr = old->cr;
-	temp_short = new->curr_rec.offset;
-	rp = (rec_hdr_ptr_t)(temp_short + new->buffaddr);
+	(new_data--)->blk_num = 0;
+	new_data->blk_num = old->blk_num;
+	new_data->tn = old->tn;
+	new_data->ptr = NULL;
+	new_data->first_tp_srch_status = old->first_tp_srch_status;
+	assert(new_data->level == old->level);
+	assert(new_data->blk_target == old->blk_target);
+	new_data->buffaddr = old->buffaddr;
+	new_data->curr_rec = old->prev_rec;
+	new_data->cycle = old->cycle;
+	new_data->cr = old->cr;
+	temp_short = new_data->curr_rec.offset;
+	rp = (rec_hdr_ptr_t)(temp_short + new_data->buffaddr);
 	GET_USHORT(rec_size, &rp->rsiz);
 	rtop = temp_short + rec_size;
-	if (((blk_hdr_ptr_t)new->buffaddr)->bsiz < rtop)
+	if (((blk_hdr_ptr_t)new_data->buffaddr)->bsiz < rtop)
 		return cdb_sc_rmisalign;
-	bp = new->buffaddr;
-	while (--new >= new_base)
+	bp = new_data->buffaddr;
+	while (--new_data >= new_base)
 	{
 		--old;
 		GET_LONG(blk, ((sm_int_ptr_t)(bp + rtop - sizeof(block_id))));
-		new->tn = cs_addrs->ti->curr_tn;
-		new->ptr = NULL;
-		if (NULL == (buffer_address = t_qread(blk, &new->cycle, &new->cr)))
-			return(rdfail_detail);
-		new->first_tp_srch_status = first_tp_srch_status;
-		assert(new->level == old->level);
-		assert(new->blk_target == old->blk_target);
-		new->blk_num = blk;
-		new->buffaddr = buffer_address;
-		bp = new->buffaddr;
-		rtop = ((blk_hdr_ptr_t)new->buffaddr)->bsiz;
+		new_data->tn = cs_addrs->ti->curr_tn;
+		new_data->ptr = NULL;
+		if (NULL == (buffer_address = t_qread(blk, &new_data->cycle, &new_data->cr)))
+		  return((cdb_sc)rdfail_detail);
+		new_data->first_tp_srch_status = first_tp_srch_status;
+		assert(new_data->level == old->level);
+		assert(new_data->blk_target == old->blk_target);
+		new_data->blk_num = blk;
+		new_data->buffaddr = buffer_address;
+		bp = new_data->buffaddr;
+		rtop = ((blk_hdr_ptr_t)new_data->buffaddr)->bsiz;
 	}
 	return cdb_sc_normal;
 }

@@ -26,8 +26,8 @@ void stp_expand_array(void)
 	n = stp_array_size;
 	stp_array_size += STP_MAXITEMS;
 	a = stp_array;
-	stp_array = (mstr **) malloc(stp_array_size * sizeof(mstr *));
+	stp_array = (mstr **) gtm_malloc_intern(stp_array_size * sizeof(mstr *));
 	longcpy((uchar_ptr_t)stp_array, (uchar_ptr_t)a, n * sizeof(mstr *));
-	free(a);
+	gtm_free_intern(a);
 	return;
 }

@@ -50,7 +50,7 @@ struct CLB *cmi_alloc_clb(void)
 	else
 	{
 		/* client path */
-		lnk = (struct CLB *)malloc(sizeof(*lnk));
+		lnk = (struct CLB *)gtm_malloc_intern(sizeof(*lnk));
 		cmj_init_clb(NULL, lnk);
 	}
 	return lnk;
@@ -62,9 +62,9 @@ unsigned char *cmi_realloc_mbf(struct CLB *lnk, size_t new_size)
 	if (lnk->mbf)
 	{
 		lnk->mbl = 0;
-		free(lnk->mbf);
+		gtm_free_intern(lnk->mbf);
 	}
-	lnk->mbf = (unsigned char *)malloc(new_size);
+	lnk->mbf = (unsigned char *)gtm_malloc_intern(new_size);
 	if (lnk->mbf)
 		lnk->mbl = new_size;
 	return lnk->mbf;

@@ -67,7 +67,7 @@ if (SYSCALL_ERROR(info->status) || SYSCALL_ERROR(info->status2))	\
 {									\
 	F_CLOSE(channel);						\
 	if (NULL != jrecbuf)						\
-		free(jrecbuf);						\
+		gtm_free_intern(jrecbuf);						\
 	return EXIT_ERR;						\
 }
 
@@ -203,7 +203,7 @@ uint4 cre_jnl_file_common(jnl_create_info *info, char *rename_fn, int rename_fn_
 		STATUS_MSG(info);
 		return EXIT_ERR;
 	}
-	jrecbuf = malloc(DISK_BLOCK_SIZE);
+	jrecbuf = gtm_malloc_intern(DISK_BLOCK_SIZE);
 	memset(jrecbuf, 0, DISK_BLOCK_SIZE);
 #elif defined(VMS)
 	nam = cc$rms_nam;
@@ -232,7 +232,7 @@ uint4 cre_jnl_file_common(jnl_create_info *info, char *rename_fn, int rename_fn_
 		return EXIT_ERR;
 	}
 	channel = fab.fab$l_stv;
-	jrecbuf = malloc(ZERO_SIZE);
+	jrecbuf = gtm_malloc_intern(ZERO_SIZE);
 	memset(jrecbuf, 0, ZERO_SIZE);
 	block = (JNL_HDR_LEN >> LOG2_DISK_BLOCK_SIZE);
 	assert(block * DISK_BLOCK_SIZE == JNL_HDR_LEN);
@@ -299,7 +299,7 @@ uint4 cre_jnl_file_common(jnl_create_info *info, char *rename_fn, int rename_fn_
 	STATUS_MSG(info);
 	RETURN_ON_ERROR(info);
 	F_CLOSE(channel);
-	free(jrecbuf);
+	gtm_free_intern(jrecbuf);
 	jrecbuf = NULL;
 	if (info->no_rename)
 		return EXIT_NRM;

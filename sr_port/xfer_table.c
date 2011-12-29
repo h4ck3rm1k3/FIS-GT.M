@@ -18,7 +18,7 @@ int
 #undef XFER
 
 #define XFER(a,b) b
-GBLDEF int (* volatile xfer_table[])()=
+GBLDEF int (* volatile xfer_table[])(int,...)=
 {
 #include "xfer.h"
 };

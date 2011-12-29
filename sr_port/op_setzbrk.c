@@ -156,11 +156,11 @@ void	op_setzbrk(mval *rtn, mval *lab, int offset, mval *act, int cnt)
 				{	/* This frame is active. Mark it as temp so gets released when sf is unwound */
 					z_ptr->action->temp_elem = TRUE;
 					DBG_INCR_CNT(cache_temp_cnt);
-					z_ptr->action = (cache_entry *)malloc(sizeof(cache_entry));
+					z_ptr->action = (cache_entry *)gtm_malloc_intern(sizeof(cache_entry));
 				} else if (z_ptr->action->obj.addr)
-					free(z_ptr->action->obj.addr);
+					gtm_free_intern(z_ptr->action->obj.addr);
 			} else
-				z_ptr->action = (cache_entry *)malloc(sizeof(cache_entry));
+				z_ptr->action = (cache_entry *)gtm_malloc_intern(sizeof(cache_entry));
 			*z_ptr->action = *csp;			/* Make copy of cache entry */
 			dqdel(csp, linkq);			/* Remove entry from hash queue it was on */
 			if (csp->temp_elem)
@@ -169,7 +169,7 @@ void	op_setzbrk(mval *rtn, mval *lab, int offset, mval *act, int cnt)
 				z_ptr->action->temp_elem = FALSE;
 				z_ptr->action->refcnt = 0;
 				dqdel(csp, linktemp);
-				free(csp);
+				gtm_free_intern(csp);
 			} else
 			{	/* normal cache entry. Lobotomize it so don't have two entries pointing to same memory */
 				assert(0 == csp->refcnt);

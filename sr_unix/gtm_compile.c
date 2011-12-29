@@ -63,7 +63,7 @@ int	gtm_compile (void)
 	prealloc_gt_timers();
 	run_time = FALSE;
 	compile_time = TRUE;
-	mstack_ptr = (unsigned char *)malloc(4096);
+	mstack_ptr = (unsigned char *)gtm_malloc_intern(4096);
 	msp = stackbase = mstack_ptr + 4092;
 	mv_chain = (mv_stent *) msp;
 	stackwarn = stacktop + 1024;
@@ -75,7 +75,7 @@ int	gtm_compile (void)
 	frame_pointer->mpc = CODE_ADDRESS(gtm_ret_code);
 	frame_pointer->ctxt = CONTEXT(gtm_ret_code);
 	frame_pointer->type = SFT_COUNT;
-	frame_pointer->rvector = (rhdtyp*)malloc(sizeof(rhdtyp));
+	frame_pointer->rvector = (rhdtyp*)gtm_malloc_intern(sizeof(rhdtyp));
 	memset(frame_pointer->rvector,0,sizeof(rhdtyp));
 	symbinit();
 

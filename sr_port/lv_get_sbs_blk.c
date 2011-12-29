@@ -34,7 +34,7 @@ sbs_blk *lv_get_sbs_blk (symval *sym)
 		sbs_blk_hdr = sbs_blk_hdr->sbs_que.fl;
 	}
 	else
-       	{      	temp = (sbs_blk *)malloc(sizeof(sbs_blk) * SBS_MALLOC_SIZE);
+       	{      	temp = (sbs_blk *)gtm_malloc_intern(sizeof(sbs_blk) * SBS_MALLOC_SIZE);
 		for (temp1 = temp , i = 1; i < SBS_MALLOC_SIZE; i++)
 		{	temp1++;
 			temp1->sbs_que.fl = sbs_blk_hdr;

@@ -139,7 +139,7 @@ void cdbg_dump_operand(int indent, oprtype *opr, int opnum)
 				       cdbg_indent(indent), opr->oprval.vref->lson, opr->oprval.vref->rson, opr->oprval.vref->mvidx,
 				       cdbg_makstr(opr->oprval.vref->mvname.c, &buff, sizeof(opr->oprval.vref->mvname)),
 				       opr->oprval.vref->last_fetch);
-				free(buff);
+				gtm_free_intern(buff);
 			}
 			else
 				PRINTF("%s   ** Warning ** oprval.vref is NULL\n", cdbg_indent(indent));
@@ -264,11 +264,11 @@ void cdbg_dump_mstr(int indent, mstr *ms)
 	int		len;
 
 	len = ms->len;
-	buffer = malloc(len + 1);
+	buffer = gtm_malloc_intern(len + 1);
 	memcpy(buffer, ms->addr, len);
 	buffer[len] = 0;
 	PRINTF("%s   String value: %s\n", cdbg_indent(indent), buffer);
-	free(buffer);
+	gtm_free_intern(buffer);
 }
 
 /* Provide string to do indenting of formatted output */
@@ -289,7 +289,7 @@ char *cdbg_indent(int indent)
 /* Make a given addr/len string into a null terminate string */
 char *cdbg_makstr(char *str, char **buf, int len)
 {
-	*buf = malloc(len + 1);
+	*buf = gtm_malloc_intern(len + 1);
 	memcpy(*buf, str, len);
 	(*buf)[len] = 0;
 	return *buf;

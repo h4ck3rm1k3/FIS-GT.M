@@ -22,7 +22,7 @@ void urx_resolve (rhdtyp *rtn, lent *lbl_tab, lent *lbl_top)
 	urx_rtnref	*rp0, *rp1;
 	urx_labref	*lp0, *lp1;
 	urx_addr	*ap;
-	void		free();
+	void		gtm_free_intern();
 
 	if (!urx_getrtn (rtn->routine_name.c, mid_len (&rtn->routine_name), &rp0, &rp1, &urx_anchor))
 		return;

@@ -87,7 +87,7 @@ void	tp_unwind(short newlevel, enum tp_unwind_invocation invocation_type)
 			save_lv->ptrs.val_ent.parent.sym->lv_flist = save_lv;
 
 			tp_pointer->vars = restore_ent->next;
-			free(restore_ent);
+			gtm_free_intern(restore_ent);
 		}
 		if (tp_pointer->fp == frame_pointer && mv_chain->mv_st_type == MVST_TPHOLD && msp == (unsigned char *)mv_chain)
 			POP_MV_STENT();
@@ -126,7 +126,7 @@ void	tp_unwind(short newlevel, enum tp_unwind_invocation invocation_type)
 			for (oldlock = mlkp->tp;  (NULL != oldlock) && ((int)oldlock->tplevel > newlevel);  oldlock = nextlock)
 			{	/* Remove references to the lock from levels being unwound */
 				nextlock = oldlock->next;
-				free(oldlock);
+				gtm_free_intern(oldlock);
 			}
 			if (rollback_locks)
 			{
@@ -147,7 +147,7 @@ void	tp_unwind(short newlevel, enum tp_unwind_invocation invocation_type)
 				 */
 				assert(NULL == oldlock->next || oldlock->next->tplevel < newlevel);
 				mlkp->tp = oldlock->next;	/* update root reference pointer */
-				free(oldlock);
+				gtm_free_intern(oldlock);
 			} else
 				mlkp->tp = oldlock;	/* update root reference pointer */
 			prior = &mlkp->next;

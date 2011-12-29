@@ -136,7 +136,7 @@ void op_merge(void)
 		if (first_time)
 		{
 			/* We need to save gvn2 (right hand side). */
-			gvn2_org_key = (gv_key *)malloc(sizeof(gv_key) + MAX_KEY_SZ - 1);
+			gvn2_org_key = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + MAX_KEY_SZ - 1);
 			gvn2_org_key->top = MAX_KEY_SZ;
 			first_time = FALSE;
 		}

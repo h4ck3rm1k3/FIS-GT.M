@@ -211,7 +211,7 @@ void    bm_update(cw_set_element *cs, sm_uc_ptr_t lclmap, bool is_mm)
 
         if (0 < cs->reference_cnt)
         {
-                bml_full = bml_find_free(0,
+                bml_full = bml_find_gtm_free_intern(0,
                                          (sizeof(blk_hdr) + (is_mm ? lclmap :
                                                              ((sm_uc_ptr_t)GDS_REL2ABS(lclmap)))),
                                          total_blks, &blk_used);

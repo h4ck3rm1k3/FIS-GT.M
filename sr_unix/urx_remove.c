@@ -51,7 +51,7 @@ void urx_remove(lnk_tabent *lnktab, int4 tablen)
 				else
 					addrprev->next = addr->next;
 				savaddr = addr->next;
-				free(addr);
+				gtm_free_intern(addr);
 				addr = savaddr;
 				DEBUG_ONLY(++deletes);
 				continue;
@@ -79,7 +79,7 @@ void urx_remove(lnk_tabent *lnktab, int4 tablen)
 					else
 						addrprev->next = addr->next;
 					savaddr = addr->next;
-					free(addr);
+					gtm_free_intern(addr);
 					addr = savaddr;
 					DEBUG_ONLY(++deletes);
 					continue;
@@ -90,7 +90,7 @@ void urx_remove(lnk_tabent *lnktab, int4 tablen)
 			if (NULL == lab->addr)
 			{	/* No references to this label left .. remove from unresolved chain */
 				labprev->next = lab->next;
-				free(lab);
+				gtm_free_intern(lab);
 				lab = labprev->next;
 				DEBUG_ONLY(++deletes);
 				continue;
@@ -109,7 +109,7 @@ void urx_remove(lnk_tabent *lnktab, int4 tablen)
 		if (NULL == rtn->addr && NULL == rtn->lab)
 		{	/* This node has no reason to keep living */
 			rtnprev->next = rtn->next;
-			free(rtn);
+			gtm_free_intern(rtn);
 			rtn = rtnprev->next;
 			DEBUG_ONLY(++deletes);
 			continue;

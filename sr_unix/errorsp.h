@@ -27,7 +27,7 @@ typedef struct condition_handler_struct
 {
 	struct condition_handler_struct	*save_active_ch;
 	boolean_t			ch_active;
-	ch_ret_type			(*ch)();
+	ch_ret_type			(*ch)(int arg);
 	jmp_buf				jmp;
 } condition_handler;
 
@@ -103,7 +103,15 @@ void ch_trace_point() {return;}
 					longjmp(ctxt->jmp, 1);		\
 				}
 
-#define ESTABLISH_RET(x,ret)	{					\
+
+int DO_ESTABLISH(void (*x)()) ;
+int DO_ESTABLISH(void (*x)(int x)) ;
+
+
+#define ESTABLISH_RET(x,ret){ if (DO_ESTABLISH(x) )   {    return ret; /* reverted*/  } }
+
+
+#define ESTABLISHCXX(x,ret)	{					\
                                         CHTRACEPOINT;			\
 					ctxt++;				\
                                         CHECKHIGHBOUND(ctxt);		\
@@ -118,37 +126,13 @@ void ch_trace_point() {return;}
 					}				\
 				}
 
-#ifdef __cplusplus  /* must specify return value (if any) for C++ */
-#define ESTABLISH(x,ret)	{					\
-                                        CHTRACEPOINT;			\
-					ctxt++;				\
-                                        CHECKHIGHBOUND(ctxt);		\
-                                        ctxt->save_active_ch = active_ch; \
-                                        ctxt->ch_active = FALSE;	\
-					active_ch = ctxt;		\
-					ctxt->ch = x;			\
-					if (setjmp(ctxt->jmp) == -1)	\
-					{				\
-						REVERT;			\
-						return ret;		\
-					}				\
-				}
-#else
-#define ESTABLISH(x)		{					\
-                                        CHTRACEPOINT;			\
-					ctxt++;				\
-                                        CHECKHIGHBOUND(ctxt);		\
-                                        ctxt->save_active_ch = active_ch; \
-                                        ctxt->ch_active = FALSE;	\
-					active_ch = ctxt;		\
-					ctxt->ch = x;			\
-					if (setjmp(ctxt->jmp) == -1)	\
-					{				\
-						REVERT;			\
-						return;			\
-					}				\
-				}
-#endif
+
+
+
+
+#define ESTABLISH(x) { if (DO_ESTABLISH(x) )   {    return ; /* reverted*/  } }
+
+
 
 #define REVERT			{					\
                                         CHTRACEPOINT;			\

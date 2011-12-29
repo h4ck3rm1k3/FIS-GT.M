@@ -64,7 +64,7 @@ void dse_rmsb(void)
 		return;
 	}
 	patch_save_count--;
-	free(patch_save_set[i].bp);
+	gtm_free_intern(patch_save_set[i].bp);
 	memcpy(&patch_save_set[i], &patch_save_set[i + 1],
 				(patch_save_count - i) * sizeof(save_strct));
 	return;

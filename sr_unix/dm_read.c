@@ -112,7 +112,7 @@ void	dm_read (mval *v)
 
 	if (comline_base == NULL)
 	{
-		comline_base = (mstr *)malloc(MAX_RECALL * sizeof(mstr));
+		comline_base = (mstr *)gtm_malloc_intern(MAX_RECALL * sizeof(mstr));
 		memset(comline_base, 0, (MAX_RECALL * sizeof(mstr)));
 	}
 

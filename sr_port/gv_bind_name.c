@@ -39,70 +39,70 @@ GBLREF gd_binding	*gd_map, *gd_map_top;
 
 void gv_bind_name(gd_addr *addr, mstr *targ)
 {
-	char		stashed;
-	unsigned char	*cptr, *c_top, *in, *in_top;
-	int		targlen;
-	gd_binding	*map;
-	ht_entry	*ht_ptr;
-	mname		lcl_name;
-
-	gd_map = addr->maps;
-	gd_map_top = gd_map + addr->n_maps;
-	targlen = targ->len < sizeof(mident) ? targ->len : sizeof(mident);
-	for (cptr = (unsigned char *)&lcl_name, c_top = cptr + sizeof(lcl_name),
-		in = (unsigned char *)targ->addr, in_top = in + targlen ; in < in_top ;)
-			*cptr++ = *in++;
-	while (cptr < c_top)
-		*cptr++ = 0;
-	ht_ptr = ht_put(addr->tab_ptr, &lcl_name, &stashed);
-	if (!stashed && ht_ptr->ptr)
+  bool		stashed;
+  unsigned char	*cptr, *c_top, *in, *in_top;
+  int		targlen;
+  gd_binding	*map;
+  ht_entry	*ht_ptr;
+  mname		lcl_name;
+  
+  gd_map = addr->maps;
+  gd_map_top = gd_map + addr->n_maps;
+  targlen = targ->len < sizeof(mident) ? targ->len : sizeof(mident);
+  for (cptr = (unsigned char *)&lcl_name, c_top = cptr + sizeof(lcl_name),
+	 in = (unsigned char *)targ->addr, in_top = in + targlen ; in < in_top ;)
+    *cptr++ = *in++;
+  while (cptr < c_top)
+    *cptr++ = 0;
+  ht_ptr = ht_put(addr->tab_ptr, &lcl_name, &stashed);
+  if (!stashed && ht_ptr->ptr)
+    {
+      gv_target = (gv_namehead *)ht_ptr->ptr;
+      if (!gv_target->gd_reg->open)
 	{
-		gv_target = (gv_namehead *)ht_ptr->ptr;
-		if (!gv_target->gd_reg->open)
-		{
-			gv_target->clue.end = 0;
-			gv_init_reg(gv_target->gd_reg);
-		}
-		gv_cur_region = gv_target->gd_reg;
-		if (dollar_trestart)
-			gv_target->clue.end = 0;
+	  gv_target->clue.end = 0;
+	  gv_init_reg(gv_target->gd_reg);
+	}
+      gv_cur_region = gv_target->gd_reg;
+      if (dollar_trestart)
+	gv_target->clue.end = 0;
+    } else
+    {
+      map = gd_map + 1;	/* get past local locks */
+      for (; memcmp(&lcl_name, &(map->name[0]), sizeof(mident)) >= 0; map++)
+	assert(map < gd_map_top);
+      if (!map->reg.addr->open)
+	gv_init_reg(map->reg.addr);
+      gv_cur_region = map->reg.addr;
+      if ((dba_cm == gv_cur_region->dyn.addr->acc_meth) || (dba_usr == gv_cur_region->dyn.addr->acc_meth))
+	{
+	  ht_ptr->ptr = (char *)gtm_malloc_intern(sizeof(gv_namehead));
+	  memset(ht_ptr->ptr, 0, sizeof(gv_namehead));	/* initialize all members to 0/NULL as the case applies */
+	  gv_target = (gv_namehead *)ht_ptr->ptr;
+	  gv_target->gd_reg = gv_cur_region;
+	  gv_target->nct = 0;
+	  gv_target->collseq = NULL;
 	} else
 	{
-		map = gd_map + 1;	/* get past local locks */
-		for (; memcmp(&lcl_name, &(map->name[0]), sizeof(mident)) >= 0; map++)
-			assert(map < gd_map_top);
-		if (!map->reg.addr->open)
-			gv_init_reg(map->reg.addr);
-		gv_cur_region = map->reg.addr;
-		if ((dba_cm == gv_cur_region->dyn.addr->acc_meth) || (dba_usr == gv_cur_region->dyn.addr->acc_meth))
-		{
-			ht_ptr->ptr = (char *)malloc(sizeof(gv_namehead));
-			memset(ht_ptr->ptr, 0, sizeof(gv_namehead));	/* initialize all members to 0/NULL as the case applies */
-			gv_target = (gv_namehead *)ht_ptr->ptr;
-			gv_target->gd_reg = gv_cur_region;
-			gv_target->nct = 0;
-			gv_target->collseq = NULL;
-		} else
-		{
-			assert(gv_cur_region->max_key_size <= MAX_KEY_SZ);
-			gv_target = (gv_namehead *)targ_alloc(gv_cur_region->max_key_size);
-			gv_target->gd_reg = gv_cur_region;
-			ht_ptr->ptr = (char *)gv_target;
-			memcpy(&gv_target->gvname, &lcl_name, sizeof(mident));
-		}
+	  assert(gv_cur_region->max_key_size <= MAX_KEY_SZ);
+	  gv_target = (gv_namehead *)targ_alloc(gv_cur_region->max_key_size);
+	  gv_target->gd_reg = gv_cur_region;
+	  ht_ptr->ptr = (char *)gv_target;
+	  memcpy(&gv_target->gvname, &lcl_name, sizeof(mident));
 	}
-	change_reg();
-	for (cptr = (unsigned char *)gv_currkey->base, in = (unsigned char *)targ->addr, in_top = in + targlen ; in < in_top ;)
-		*cptr++ = *in++;
-	gv_currkey->end = targlen + 1;
-	gv_currkey->prev = 0;
-	*cptr++ = 0;
-	*cptr = 0;
-	if ((dba_bg == gv_cur_region->dyn.addr->acc_meth) || (dba_mm == gv_cur_region->dyn.addr->acc_meth))
-	{
-		if ((0 == gv_target->root) || (DIR_ROOT == gv_target->root))
-			gvcst_root_search();
-
-	}
-	return;
+    }
+  change_reg();
+  for (cptr = (unsigned char *)gv_currkey->base, in = (unsigned char *)targ->addr, in_top = in + targlen ; in < in_top ;)
+    *cptr++ = *in++;
+  gv_currkey->end = targlen + 1;
+  gv_currkey->prev = 0;
+  *cptr++ = 0;
+  *cptr = 0;
+  if ((dba_bg == gv_cur_region->dyn.addr->acc_meth) || (dba_mm == gv_cur_region->dyn.addr->acc_meth))
+    {
+      if ((0 == gv_target->root) || (DIR_ROOT == gv_target->root))
+	gvcst_root_search();
+      
+    }
+  return;
 }

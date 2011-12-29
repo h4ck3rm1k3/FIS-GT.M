@@ -48,7 +48,7 @@ io_log_name *get_log_name(mstr *v, bool insert)
         if (insert == INSERT)
         {
                 assert(prev != 0);
-                new_obj =(io_log_name *) malloc(sizeof(*new_obj) + v_len);
+                new_obj =(io_log_name *) gtm_malloc_intern(sizeof(*new_obj) + v_len);
                 memset(new_obj, 0, sizeof(*new_obj) - 1);
                 new_obj->len = v_len;
                 memcpy(new_obj->dollar_io, buf, v_len);

@@ -1494,7 +1494,7 @@ void	add_to_vax_push_list(int pushes_seen)
 		push_list_index = 0;
 		if (current_push_list_ptr->next == 0 )
 		{
-			current_push_list_ptr->next = (struct push_list *)malloc(sizeof(*current_push_list_ptr));
+			current_push_list_ptr->next = (struct push_list *)gtm_malloc_intern(sizeof(*current_push_list_ptr));
 			current_push_list_ptr->next->next = 0;
 		}
 		current_push_list_ptr = current_push_list_ptr->next;
@@ -1523,7 +1523,7 @@ void	push_list_init(void)
 	push_list_index = -1;
 	if (push_list_start_ptr == 0)
 	{
-		push_list_start_ptr = (struct push_list *)malloc(sizeof(*current_push_list_ptr));
+		push_list_start_ptr = (struct push_list *)gtm_malloc_intern(sizeof(*current_push_list_ptr));
 		push_list_start_ptr->next = 0;
 	}
 	current_push_list_ptr = push_list_start_ptr;

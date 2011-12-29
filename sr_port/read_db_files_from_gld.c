@@ -47,12 +47,12 @@ gld_dbname_list *read_db_files_from_gld(gd_addr *addr)
 		seg = (gd_segment *)map_region->dyn.addr;
 		if (NULL == seg->file_cntl)
 		{
-			seg->file_cntl = (file_control *)malloc(sizeof(*seg->file_cntl));
+			seg->file_cntl = (file_control *)gtm_malloc_intern(sizeof(*seg->file_cntl));
 			memset(seg->file_cntl, 0, sizeof(*seg->file_cntl));
 		}
 		if (NULL == seg->file_cntl->file_info)
 		{
-			seg->file_cntl->file_info = (void *)malloc(sizeof(GDS_INFO));
+			seg->file_cntl->file_info = (void *)gtm_malloc_intern(sizeof(GDS_INFO));
 			memset(seg->file_cntl->file_info, 0, sizeof(GDS_INFO));
 		}
 		ret.len = sizeof(filename);
@@ -85,7 +85,7 @@ gld_dbname_list *read_db_files_from_gld(gd_addr *addr)
 		seg->fname_len = retptr->len;
 		memcpy(seg->fname, filename, retptr->len + 1);
 		dblist = dblist->next
-		    = (gld_dbname_list *)malloc(sizeof(gld_dbname_list));
+		    = (gld_dbname_list *)gtm_malloc_intern(sizeof(gld_dbname_list));
 	        memset(dblist, 0, sizeof(gld_dbname_list));
 		map_region->stat.addr = (void *)dblist;
 		dblist->gd = map_region;

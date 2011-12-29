@@ -38,8 +38,8 @@ bool gtcmtr_initreg(void)
 
 	if (region->reg->max_rec_size + CM_BUFFER_OVERHEAD > curr_entry->clb_ptr->mbl)
 	{
-		free(curr_entry->clb_ptr->mbf);
-		curr_entry->clb_ptr->mbf = (unsigned char *)malloc(region->reg->max_rec_size + CM_BUFFER_OVERHEAD);
+		gtm_free_intern(curr_entry->clb_ptr->mbf);
+		curr_entry->clb_ptr->mbf = (unsigned char *)gtm_malloc_intern(region->reg->max_rec_size + CM_BUFFER_OVERHEAD);
 		curr_entry->clb_ptr->mbl = region->reg->max_rec_size + CM_BUFFER_OVERHEAD;
 	}
 	reply = curr_entry->clb_ptr->mbf;

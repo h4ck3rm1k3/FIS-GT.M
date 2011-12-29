@@ -51,13 +51,13 @@ void gtmci_isv_restore(void)
 	/* free the allocated $ECODE/$STACK storage before exiting from the current
 	 * call-in environment. NOTE: any changes here should be reflected in ecode_init() */
 	if (dollar_ecode.begin)
-		free(dollar_ecode.begin);
+		gtm_free_intern(dollar_ecode.begin);
 	if (dollar_ecode.array)
-		free(dollar_ecode.array);
+		gtm_free_intern(dollar_ecode.array);
 	if (dollar_stack.begin)
-		free(dollar_stack.begin);
+		gtm_free_intern(dollar_stack.begin);
 	if (dollar_stack.array)
-		free(dollar_stack.array);
+		gtm_free_intern(dollar_stack.array);
 	/* Restore the old values from dollar_ecode_ci and dollar_stack_ci */
 	memcpy(&dollar_ecode, &dollar_ecode_ci, sizeof(dollar_ecode));
 	memcpy(&dollar_stack, &dollar_stack_ci, sizeof(dollar_stack));

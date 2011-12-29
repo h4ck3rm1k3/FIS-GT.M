@@ -64,14 +64,14 @@ void go_load(int begin, int end)
 	gvinit();
 
 	max_rec_size = DEFAULT_MAX_REC_SIZE;
-	rec_buff = (unsigned char *)malloc(max_rec_size);
+	rec_buff = (unsigned char *)gtm_malloc_intern(max_rec_size);
 
 	if (!begin)
 	{
 		len = mu_load_get(&ptr);
 		if (mupip_error_occurred)
 		{
-		        free(rec_buff);
+		        gtm_free_intern(rec_buff);
 		        return;
 		}
 		if (len >= 0)
@@ -81,7 +81,7 @@ void go_load(int begin, int end)
 		len = mu_load_get(&ptr);
 		if (mupip_error_occurred)
 		{
-		        free(rec_buff);
+		        gtm_free_intern(rec_buff);
 			return;
 		}
 		if (len >= 0)
@@ -98,7 +98,7 @@ void go_load(int begin, int end)
 		        len = mu_load_get(&ptr);
 			if (mupip_error_occurred)
 			{
-			        free(rec_buff);
+			        gtm_free_intern(rec_buff);
 				return;
 			}
 			if (len < 0)
@@ -237,8 +237,8 @@ void go_load(int begin, int end)
 			if (src.len > max_rec_size)
 			{
 			        max_rec_size = src.len;
-				free(rec_buff);
-				rec_buff = (unsigned char *)malloc(max_rec_size);
+				gtm_free_intern(rec_buff);
+				rec_buff = (unsigned char *)gtm_malloc_intern(max_rec_size);
 			}
 			des.addr = (char *)rec_buff;
 			if (FALSE == zwr2format(&src, &des))
@@ -296,7 +296,7 @@ void go_load(int begin, int end)
 			key_count++;
 		}
 	}
-	free(rec_buff);
+	gtm_free_intern(rec_buff);
 	mu_load_close();
 	if(mu_ctrly_occurred)
 	{

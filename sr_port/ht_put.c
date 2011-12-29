@@ -16,7 +16,7 @@
 #include "gtm_stdio.h"
 #endif
 
-ht_entry *ht_put(htab_desc *table, mname *target, char *stash)
+ht_entry *ht_put(htab_desc *table, mname *target, bool *stash)
 {
 
 	/* stash set to 0 if already present, else 1 */

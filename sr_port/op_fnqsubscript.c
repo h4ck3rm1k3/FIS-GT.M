@@ -57,7 +57,7 @@ void op_fnqsubscript(mval *src, int seq, mval *dst)
 	srcmval = *src;
 	src = &srcmval;		/* Copy of source mval in case same as dst mval */
 	dst->str.len = 0;
-	dst->str.addr = stringpool.free;
+	dst->str.addr = (char*)stringpool.free; // TODO : check cast, refactor to function
 	dst->mvtype = MV_STR;
 	if (-1 == seq)
 	{

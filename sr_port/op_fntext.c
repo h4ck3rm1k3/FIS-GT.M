@@ -79,7 +79,7 @@ void op_fntext(mval *label, int int_exp, mval *rtn, mval *ret)
 	{
 		if (stringpool.free + ret->str.len > stringpool.top)
 				stp_gcol(ret->str.len);
-		cp = stringpool.free;
+		cp = (char*)stringpool.free;
 		for (i = 0, lbl = 1; i < ret->str.len; i++)
 		{
 			letter = ret->str.addr[i];
@@ -101,7 +101,7 @@ void op_fntext(mval *label, int int_exp, mval *rtn, mval *ret)
 					*cp++ = ' ';
 			}
 		}
-		ret->str.addr=stringpool.free;
+		ret->str.addr=(char*)stringpool.free;
 		stringpool.free += ret->str.len;
 	}
 	return;

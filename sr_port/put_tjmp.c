@@ -12,8 +12,7 @@
 #include "mdef.h"
 #include "compiler.h"
 
-oprtype put_tjmp(x)
-triple *x;
+oprtype put_tjmp(triple *x)
 {
 oprtype a;
 a.oprclass = TJMP_REF;

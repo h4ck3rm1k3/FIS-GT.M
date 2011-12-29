@@ -848,7 +848,7 @@ boolean_t mur_fopen(jnl_ctl_list *jctl)
 		return FALSE;
 	jctl->eof_addr = jctl->os_filesize;
 	assert(NULL == jctl->jfh);
-	jfh = jctl->jfh = (jnl_file_header *)malloc(JNL_HDR_LEN);
+	jfh = jctl->jfh = (jnl_file_header *)gtm_malloc_intern(JNL_HDR_LEN);
 	if (JNL_HDR_LEN < jctl->os_filesize)
 	{
 		DO_FILE_READ(jctl->channel, 0, jfh, JNL_HDR_LEN, jctl->status, jctl->status2);
@@ -942,7 +942,7 @@ boolean_t mur_fclose(jnl_ctl_list *jctl)
 		return TRUE;
 	if (NULL != jctl->jfh)
 	{
-		free(jctl->jfh);
+		gtm_free_intern(jctl->jfh);
 		jctl->jfh = NULL;
 	}
 	if (NULL != jctl->pini_list)

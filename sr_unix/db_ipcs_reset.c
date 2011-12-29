@@ -73,7 +73,7 @@ boolean_t db_ipcs_reset(gd_region *reg, boolean_t immediate)
 		gv_cur_region = temp_region;
 		return FALSE;
 	}
-	csd = (sgmnt_data_ptr_t)malloc(sizeof(*csd));
+	csd = (sgmnt_data_ptr_t)gtm_malloc_intern(sizeof(*csd));
 	fc = reg->dyn.addr->file_cntl;
 	fc->op = FC_OPEN;
 	status = dbfilop(fc);
@@ -151,7 +151,7 @@ boolean_t db_ipcs_reset(gd_region *reg, boolean_t immediate)
 	udi->shmid = INVALID_SHMID;
 	udi->sem_ctime = 0;
 	udi->shm_ctime = 0;
-	free(csd);
+	gtm_free_intern(csd);
 	assert((reg != standalone_reg) || (NULL == standalone_reg));	/* ftok_sem_release() should have NULLified it */
 	standalone_reg = NULL;		/* just in case */
 	return TRUE;

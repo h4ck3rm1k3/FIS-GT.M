@@ -144,6 +144,6 @@ boolean_t dse_r_dmp(void)
 	if (util_interrupt)
 	    rts_error(VARLSTCNT(1) ERR_CTRLC);
 	else if (cli_present("HEADER") == CLI_NEGATED)
-		util_out_print(0, TRUE);
+	  util_out_print(0, TRUE);
 	return TRUE;
 }

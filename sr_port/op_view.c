@@ -371,7 +371,7 @@ void	op_view(int something, ...)
 			if (NULL != lcl_coll_xform_buff)
 			{
 				assert(0 < max_lcl_coll_xform_bufsiz);
-				free(lcl_coll_xform_buff);
+				gtm_free_intern(lcl_coll_xform_buff);
 				lcl_coll_xform_buff = NULL;
 				max_lcl_coll_xform_bufsiz = 0;
 			}

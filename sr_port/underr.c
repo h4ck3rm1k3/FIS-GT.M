@@ -20,7 +20,7 @@
 GBLDEF bool	undef_inhibit = 0;
 LITREF mval	literal_null;
 
-void	underr (int something,...)
+void	underr_old (int something,...)
 //va_dcl
 {
 	mval		*start;
@@ -39,4 +39,27 @@ void	underr (int something,...)
 		rts_error(VARLSTCNT(4) ERR_UNDEF, 2, end - ((unsigned char *) &name), &name);
 	}
 	return;
+}
+
+
+void underr (mval * var)
+{
+  // mval *start;
+  mident name;
+  unsigned char *end;
+  // va_list var;
+  extern const int ERR_UNDEF;
+  
+  // __builtin_va_start(var,something);
+  // start = __builtin_va_arg(var,mval *);
+  if (var && undef_inhibit)
+    {
+      *var = literal_null;
+    }
+  else
+    {
+      end = format_lvname((lv_val *)var, (uchar_ptr_t)name.c, sizeof(mident));
+      rts_error(4, ERR_UNDEF, 2, end - ((unsigned char *) &name), &name);
+    }
+  return;
 }

@@ -49,7 +49,7 @@ rhdtyp *make_cimode(void)
 
 	if (NULL != base_address)
 		return base_address;
-	base_address = (rhdtyp *)malloc(sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
+	base_address = (rhdtyp *)gtm_malloc_intern(sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
 	memset(base_address,0,sizeof(rhdtyp) + CODE_SIZE + sizeof(lbl_tables) + CODE_LINES * sizeof(int4));
 	MEMCPY_LIT(&base_address->routine_name, GTM_CIMOD);
 	base_address->ptext_ptr = sizeof(rhdtyp);

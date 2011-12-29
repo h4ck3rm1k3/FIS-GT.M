@@ -30,7 +30,7 @@ void rel_mmseg(caddr_t begin)
 		if ((sm_uc_ptr_t)begin == curr->begin)
 		{
 			mmseg_head = curr->next;
-			free(curr);
+			gtm_free_intern(curr);
 			return;
 		}
 		while (next = curr->next)
@@ -38,7 +38,7 @@ void rel_mmseg(caddr_t begin)
 			if ((sm_uc_ptr_t)begin == next->begin)
 			{
 				curr->next = next->next;
-				free(next);
+				gtm_free_intern(next);
 				return;
 			}
 			curr = next;

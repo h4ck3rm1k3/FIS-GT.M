@@ -28,7 +28,7 @@ CONDITION_HANDLER(gtm_maxstr_ch)
 	START_CH;
 	if (maxstr_buff[maxstr_stack_level].addr)
 	{
-		free(maxstr_buff[maxstr_stack_level].addr);
+		gtm_free_intern(maxstr_buff[maxstr_stack_level].addr);
 		maxstr_buff[maxstr_stack_level].addr = NULL;
 	}
 	maxstr_buff[maxstr_stack_level].len = 0;
@@ -62,12 +62,12 @@ int gtm_maxstr_alloc(int space_needed, char** buff, int space_occupied)
 		if (NULL != maxstr_buff[maxstr_stack_level].addr)
 		{
 			assert(maxstr_buff[maxstr_stack_level].addr == *buff);
-			maxstr_buff[maxstr_stack_level].addr = (char *)malloc(new_buff_size);
+			maxstr_buff[maxstr_stack_level].addr = (char *)gtm_malloc_intern(new_buff_size);
 			memcpy(maxstr_buff[maxstr_stack_level].addr, *buff, space_occupied);
-			free(*buff);
+			gtm_free_intern(*buff);
 		} else
 		{
-			maxstr_buff[maxstr_stack_level].addr = (char *)malloc(new_buff_size);
+			maxstr_buff[maxstr_stack_level].addr = (char *)gtm_malloc_intern(new_buff_size);
 			memcpy(maxstr_buff[maxstr_stack_level].addr, *buff, space_occupied);
 		}
 		*buff = maxstr_buff[maxstr_stack_level].addr;

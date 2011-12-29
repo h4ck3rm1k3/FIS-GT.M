@@ -69,13 +69,13 @@ bool gtcmtr_lkreqimmed(void)
 					{
 						if (mlk_cm_root == lk_walk)
 						{	mlk_cm_root = lk_walk->next;
-							free(lk_walk);
+							gtm_free_intern(lk_walk);
 							lk_walk = lk_walk1 = mlk_cm_root;
 						}
 						else
 						{
 							lk_walk1->next = lk_walk->next;
-							free(lk_walk);
+							gtm_free_intern(lk_walk);
 							lk_walk = lk_walk1->next;
 						}
 					} /* delete list entry */

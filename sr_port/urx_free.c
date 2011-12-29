@@ -29,7 +29,7 @@ void urx_free (urx_rtnref *anchor)
 		{	/* release address chain for this routine */
 			ap = rp->addr;
 			rp->addr = ap->next;
-			free(ap);
+			gtm_free_intern(ap);
 		}
 		while (rp->lab != 0)
 		{
@@ -38,11 +38,11 @@ void urx_free (urx_rtnref *anchor)
 			{	/* release address chain for this label */
 				ap = lp->addr;
 				lp->addr = ap->next;
-				free(ap);
+				gtm_free_intern(ap);
 			}
 			rp->lab = lp->next;
-			free(lp);	/* release label node */
+			gtm_free_intern(lp);	/* release label node */
 		}
-		free(rp);	/* release routine node */
+		gtm_free_intern(rp);	/* release routine node */
 	}
 }

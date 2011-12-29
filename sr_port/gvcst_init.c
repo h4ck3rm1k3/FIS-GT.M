@@ -393,11 +393,11 @@ void gvcst_init (gd_region *greg)
 		assert(update_array == NULL);
 		assert(update_array_ptr == NULL);
 		assert(update_array_size == 0);
-		tmp_ua = (ua_list *)malloc(sizeof(ua_list));
+		tmp_ua = (ua_list *)gtm_malloc_intern(sizeof(ua_list));
 		memset(tmp_ua, 0, sizeof(ua_list));	/* initialize tmp_ua->update_array and tmp_ua->next_ua to NULL */
-		tmp_ua->update_array = (char *)malloc(segment_update_array_size);
+		tmp_ua->update_array = (char *)gtm_malloc_intern(segment_update_array_size);
 		tmp_ua->update_array_size = segment_update_array_size;
-		/* assign global variables only after malloc() succeeds */
+		/* assign global variables only after gtm_malloc_intern() succeeds */
 		update_array_size = cumul_update_array_size = segment_update_array_size;
 		update_array = update_array_ptr = tmp_ua->update_array;
 		first_ua = curr_ua = tmp_ua;
@@ -413,11 +413,11 @@ void gvcst_init (gd_region *greg)
 			assert(first_ua->next_ua == NULL);
 			tmp_ua = first_ua;
 			first_ua = curr_ua = NULL;
-			free(update_array);
+			gtm_free_intern(update_array);
 			tmp_ua->update_array = update_array = update_array_ptr = NULL;
-			tmp_ua->update_array = (char *)malloc(segment_update_array_size);
+			tmp_ua->update_array = (char *)gtm_malloc_intern(segment_update_array_size);
 			tmp_ua->update_array_size = segment_update_array_size;
-			/* assign global variables only after malloc() succeeds */
+			/* assign global variables only after gtm_malloc_intern() succeeds */
 			update_array_size = cumul_update_array_size = segment_update_array_size;
 			update_array = update_array_ptr = tmp_ua->update_array;
 			first_ua = curr_ua = tmp_ua;
@@ -428,8 +428,8 @@ void gvcst_init (gd_region *greg)
 	{
 		if (NULL == non_tp_jfb_ptr)
 		{
-			non_tp_jfb_ptr = (jnl_format_buffer *)malloc(sizeof(jnl_format_buffer));
-			non_tp_jfb_buff_ptr =  (unsigned char *)malloc(MAX_JNL_REC_SIZE);
+			non_tp_jfb_ptr = (jnl_format_buffer *)gtm_malloc_intern(sizeof(jnl_format_buffer));
+			non_tp_jfb_buff_ptr =  (unsigned char *)gtm_malloc_intern(MAX_JNL_REC_SIZE);
 			non_tp_jfb_ptr->buff = (char *) non_tp_jfb_buff_ptr;
 			non_tp_jfb_ptr->record_size = 0;	/* initialize it to 0 since TOTAL_NONTPJNL_REC_SIZE macro uses it */
 		}
@@ -454,7 +454,7 @@ void gvcst_init (gd_region *greg)
 		gvcst_tp_init(greg);	/* Initialize TP structures, else postpone till TP is used (only if GTM) */
 	if (!global_tlvl_info_list)
 	{
-		global_tlvl_info_list = (buddy_list *)malloc(sizeof(buddy_list));
+		global_tlvl_info_list = (buddy_list *)gtm_malloc_intern(sizeof(buddy_list));
 		initialize_list(global_tlvl_info_list, sizeof(global_tlvl_info), GBL_TLVL_INFO_LIST_INIT_ALLOC);
 	}
 	greg->open = TRUE;

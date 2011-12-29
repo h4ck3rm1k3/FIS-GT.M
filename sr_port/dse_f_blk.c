@@ -159,7 +159,7 @@ void dse_f_blk(void)
 	}
 	else
 	{
-	    global_roots_head = (global_root_list *)malloc(sizeof(global_root_list));
+	    global_roots_head = (global_root_list *)gtm_malloc_intern(sizeof(global_root_list));
 	    global_roots_tail = global_roots_head;
 	    global_roots_head->link = (global_root_list *)0;
 	    global_roots_head->dir_path = (global_dir_path *)0;
@@ -199,7 +199,7 @@ void dse_f_blk(void)
 				util_out_print(util_buff,FALSE);
 				temp = (global_root_list *)d_ptr;
 				d_ptr = d_ptr->next;
-				free(temp);
+				gtm_free_intern(temp);
 			    }
 			    global_roots_head->link->dir_path = 0;
 			    util_out_print("!/!/	Global paths!/	Path--blk:off",TRUE);
@@ -237,10 +237,10 @@ void dse_f_blk(void)
 		{
 		    dtemp = d_ptr;
 		    d_ptr = d_ptr->next;
-		    free(dtemp);
+		    gtm_free_intern(dtemp);
 		}
 		global_roots_head = global_roots_head->link;
-		free(temp);
+		gtm_free_intern(temp);
 	    }
 	    while (global_roots_head->link)
 	    {
@@ -250,10 +250,10 @@ void dse_f_blk(void)
 		{
 		    dtemp = d_ptr;
 		    d_ptr = d_ptr->next;
-		    free(dtemp);
+		    gtm_free_intern(dtemp);
 		}
 		global_roots_head = global_roots_head->link;
-		free(temp);
+		gtm_free_intern(temp);
 	    }
 	}
 	if (!patch_exh_found)

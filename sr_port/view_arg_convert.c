@@ -158,7 +158,7 @@ static	int4			first_time = TRUE;
 			gvinit();
 		if (first_time)
 		{
-			noisolation_buddy_list = (buddy_list *)malloc(sizeof(buddy_list));
+			noisolation_buddy_list = (buddy_list *)gtm_malloc_intern(sizeof(buddy_list));
 			initialize_list(noisolation_buddy_list, sizeof(noisolation_element), NOISOLATION_INIT_ALLOC);
 			first_time = FALSE;
 		}

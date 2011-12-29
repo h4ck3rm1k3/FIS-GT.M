@@ -17,7 +17,7 @@
 #include "indir_enum.h"
 #include "op.h"
 
-GBLREF int		(* volatile xfer_table[])();
+GBLREF int		(* volatile xfer_table[])(int,...);
 GBLREF stack_frame	*frame_pointer;
 GBLDEF unsigned char	*zstep_level;
 GBLREF mval		zstep_action;
@@ -43,10 +43,11 @@ void op_zstep(uint4 code, mval *action)
 		case ZSTEP_INTO:
 			if (!neterr_pending && 0 == outofband && 0 == iott_write_error)
 			{
-				xfer_table[xf_linefetch] = op_zstepfetch;
-				xfer_table[xf_linestart] = op_zstepstart;
-				xfer_table[xf_zbfetch] = op_zstzbfetch;
-				xfer_table[xf_zbstart] = op_zstzbstart;
+			  //TODO
+			  xfer_table[xf_linefetch] = op_zstepfetch;
+			  	xfer_table[xf_linestart] = op_zstepstart;
+			  	xfer_table[xf_zbfetch] = op_zstzbfetch;
+			  	xfer_table[xf_zbstart] = op_zstzbstart;
 			}
 			break;
 		case ZSTEP_OVER:

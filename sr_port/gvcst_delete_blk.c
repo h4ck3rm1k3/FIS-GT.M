@@ -94,7 +94,7 @@ void	gvcst_delete_blk(block_id blk, int level, boolean_t committed)
 					/* tp_srch_status->ptr has to be updated here, since gvcst_kill() does
 					 * not call tp_hist() at the end as in gvcst_put_blk() */
 					if (tp_srch_status)
-						tp_srch_status->ptr = (void *)cse;
+						tp_srch_status->ptr = (cw_set_element_struct*)cse;
 				}
 				switch (cse->mode)
 				{
@@ -130,7 +130,7 @@ void	gvcst_delete_blk(block_id blk, int level, boolean_t committed)
 		ks = sgm_info_ptr->kill_set_tail;
 		if (NULL == ks)		/* Allocate first kill set to sgm_info_ptr block */
 		{
-			ks = sgm_info_ptr->kill_set_tail = sgm_info_ptr->kill_set_head = (kill_set *)malloc(sizeof(kill_set));
+			ks = sgm_info_ptr->kill_set_tail = sgm_info_ptr->kill_set_head = (kill_set *)gtm_malloc_intern(sizeof(kill_set));
 			ks->used = 0;
 			ks->next_kill_set = NULL;
 		}
@@ -139,7 +139,7 @@ void	gvcst_delete_blk(block_id blk, int level, boolean_t committed)
 	{
 		if (ks->next_kill_set == NULL)
 		{
-			ks->next_kill_set = (kill_set *)malloc(sizeof(kill_set));
+			ks->next_kill_set = (kill_set *)gtm_malloc_intern(sizeof(kill_set));
 			ks->next_kill_set->used = 0;
 			ks->next_kill_set->next_kill_set = NULL;
 		}

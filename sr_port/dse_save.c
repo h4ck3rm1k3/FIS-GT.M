@@ -124,7 +124,7 @@ void dse_save(void)
 	patch_save_set[patch_save_count].ver = j;
 	patch_save_set[patch_save_count].blk = blk;
 	patch_save_set[patch_save_count].region = gv_cur_region;
-	patch_save_set[patch_save_count].bp = (char *)malloc(cs_addrs->hdr->blk_size);
+	patch_save_set[patch_save_count].bp = (char *)gtm_malloc_intern(cs_addrs->hdr->blk_size);
 	if (blk >= cs_addrs->ti->total_blks)
 		rts_error(VARLSTCNT(1) ERR_DSEBLKRDFAIL);
 	was_crit = cs_addrs->now_crit;
@@ -154,7 +154,7 @@ void dse_save(void)
 		ptr = &buff[buff_len];
 		*ptr = 0;
 		j = ptr - &buff[0] + 1;
-		patch_save_set[patch_save_count].comment = (char *)malloc(j);
+		patch_save_set[patch_save_count].comment = (char *)gtm_malloc_intern(j);
 		memcpy(patch_save_set[patch_save_count].comment, &buff[0], j);
 	} else
 		patch_save_set[patch_save_count].comment = "";

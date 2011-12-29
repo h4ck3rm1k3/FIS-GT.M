@@ -62,8 +62,8 @@ void gtcmd_rundown(connection_struct *cnx, bool clean_exit)
 				cs_addrs->jnl->pini_addr = 0;
 			gds_rundown();
 			gd_ht_kill(region->reg_hash, TRUE);	/* TRUE to free up the table and the gv_targets it holds too */
-			free(FILE_INFO(gv_cur_region)->s_addrs.dir_tree->alt_hist);
-			free(FILE_INFO(gv_cur_region)->s_addrs.dir_tree);
+			gtm_free_intern(FILE_INFO(gv_cur_region)->s_addrs.dir_tree->alt_hist);
+			gtm_free_intern(FILE_INFO(gv_cur_region)->s_addrs.dir_tree);
 			cm_del_gdr_ptr(gv_cur_region);
 		} else
 			wcs_timer_start(gv_cur_region, TRUE);
@@ -74,6 +74,6 @@ void gtcmd_rundown(connection_struct *cnx, bool clean_exit)
 		que_next->regque.bl = -link;
 		last = ptr;
 		ptr = ptr->next;
-		free(last);
+		gtm_free_intern(last);
 	}
 }

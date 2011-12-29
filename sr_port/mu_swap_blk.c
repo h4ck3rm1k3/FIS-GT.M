@@ -116,7 +116,7 @@ enum cdb_sc mu_swap_blk(int level, block_id *pdest_blk_id, kill_set *kill_set_pt
 	update_array_ptr = update_array;
 	if (NULL == dest_gv_currkey)
 	{
-		dest_gv_currkey = (gv_key *)malloc(sizeof(gv_key) + MAX_KEY_SZ + 1);
+		dest_gv_currkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + MAX_KEY_SZ + 1);
 		dest_gv_currkey->top = MAX_KEY_SZ;
 	}
 	dest_hist_ptr = &(reorg_gv_target->hist);

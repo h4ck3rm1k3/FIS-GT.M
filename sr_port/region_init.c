@@ -66,7 +66,9 @@ boolean_t region_init(bool cm_regions)
 
 void region_open(void)
 {
-	ESTABLISH(region_init_ch);
+  //ch_ret_type region_init_ch(int arg);
+  ESTABLISH(region_init_ch);
+
 #ifdef UNIX
 	gv_cur_region->node = -1;
 #endif

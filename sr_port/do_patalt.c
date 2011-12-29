@@ -185,7 +185,7 @@ int do_patalt(uint4 *firstalt, unsigned char *strptr, int4 repmin, int4 repmax, 
 			} else if (PTE_MAX_ENTRIES > pte_csh_alloc_size[curalt_depth])
 			{
 				new_pte_csh_size = (cur_pte_csh_size << 1);
-				tmp_pte = malloc(sizeof(pte_csh) * new_pte_csh_size);
+				tmp_pte = gtm_malloc_intern(sizeof(pte_csh) * new_pte_csh_size);
 				free_pte = cur_pte_csh_array;
 				pte_csh_alloc_size[curalt_depth] = new_pte_csh_size;
 				pte_csh_array[curalt_depth] = tmp_pte;

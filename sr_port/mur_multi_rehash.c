@@ -78,7 +78,7 @@ void mur_multi_rehash(void)
 				}
 			}
 		}
-		ht_free(&murgbl.token_table);
+		ht_gtm_free_intern(&murgbl.token_table);
 		murgbl.token_table = temp_table;
 		assert(brkn_cnt ==  murgbl.broken_cnt);
 	}

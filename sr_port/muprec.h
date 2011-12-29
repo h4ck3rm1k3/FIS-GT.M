@@ -427,24 +427,24 @@ typedef struct
 
 #define MUR_TOKEN_ADD(multi, rec_token, rec_pid, rec_image_count, rec_tok_time, rec_partner, rec_fence, rec_regno)	\
 {												\
-	char	new;										\
-	multi = (multi_struct *)get_new_element(murgbl.multi_list, 1);				\
-	multi->token = rec_token;								\
-	multi->pid = rec_pid;									\
-	VMS_ONLY(multi->image_count = rec_image_count;)						\
-	multi->time = rec_tok_time;								\
-	multi->partner = rec_partner;								\
-	multi->fence = rec_fence;								\
-	multi->regnum = rec_regno;								\
-	hentry = ht_put(&murgbl.token_table, (mname *)&(multi->token), &new);			\
-	assert(new || NULL != hentry->ptr);							\
-	if (!new && hentry->ptr)								\
-		multi->next = (multi_struct *)hentry->ptr;					\
-	else											\
-		multi->next = NULL;								\
-	hentry->ptr = (char *)multi;								\
-	if (rec_partner)									\
-		murgbl.broken_cnt = murgbl.broken_cnt + 1;					\
+  bool	new_data;							\
+  multi = (multi_struct *)get_new_element(murgbl.multi_list, 1);	\
+  multi->token = rec_token;						\
+  multi->pid = rec_pid;							\
+  VMS_ONLY(multi->image_count = rec_image_count;)			\
+    multi->time = rec_tok_time;						\
+  multi->partner = rec_partner;						\
+  multi->fence = rec_fence;						\
+  multi->regnum = rec_regno;						\
+  hentry = ht_put(&murgbl.token_table, (mname *)&(multi->token), &new_data); \
+  assert(new_data || NULL != hentry->ptr);				\
+  if (!new_data && hentry->ptr)						\
+    multi->next = (multi_struct *)hentry->ptr;				\
+  else									\
+    multi->next = NULL;							\
+  hentry->ptr = (char *)multi;						\
+  if (rec_partner)							\
+    murgbl.broken_cnt = murgbl.broken_cnt + 1;				\
 }
 
 #define	MUR_WITHIN_ERROR_LIMIT(err_cnt, error_limit) ((++err_cnt <= error_limit) || (mur_options.interactive && mur_interactive()))

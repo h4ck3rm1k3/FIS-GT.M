@@ -33,7 +33,7 @@ void gvcmy_close(struct CLB *c)
 		while(temp)
 		{
 			temp1 = temp->next;
-			free(temp);
+			gtm_free_intern(temp);
 			temp = temp1;
 		}
 		li->netlocks = 0;
@@ -45,11 +45,11 @@ void gvcmy_close(struct CLB *c)
 	/* flushing the buffer is good, but errors are ignored as close is more important and looping on errors is not good */
 	cmi_write(c);
 	/* Free these structures first because cmi_close frees the structure to which its argument points.  */
-	free(c->usr);
-	VMS_ONLY(free(c->nod.dsc$a_pointer));
-	VMS_ONLY(free(c->tnd.dsc$a_pointer));
-	UNIX_ONLY(free(c->nod.addr));
-	UNIX_ONLY(free(c->tnd.addr));
+	gtm_free_intern(c->usr);
+	VMS_ONLY(gtm_free_intern(c->nod.dsc$a_pointer));
+	VMS_ONLY(gtm_free_intern(c->tnd.dsc$a_pointer));
+	UNIX_ONLY(gtm_free_intern(c->nod.addr));
+	UNIX_ONLY(gtm_free_intern(c->tnd.addr));
 	cmi_close(c);
 	UNIX_ONLY(cmi_free_clb(c)); /* see comment in cmi_close about freeing clb */
 }

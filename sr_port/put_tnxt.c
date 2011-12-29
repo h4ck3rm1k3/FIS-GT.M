@@ -12,11 +12,10 @@
 #include "mdef.h"
 #include "compiler.h"
 
-oprtype put_tnxt(x)
-triple *x;
+oprtype put_tnxt(triple *x)
 {
-oprtype a;
-a.oprclass = TNXT_REF;
-a.oprval.tref = x;
-return a;
+  oprtype a;
+  a.oprclass = TNXT_REF;
+  a.oprval.tref = x;
+  return a;
 }

@@ -140,7 +140,7 @@ int4 symbinit(void)
 
 	memset(l_syms, 0, ls_size);
 	size++;
-	ptr = (symval *)malloc(sizeof(symval));
+	ptr = (symval *)gtm_malloc_intern(sizeof(symval));
 	ht_init(&ptr->h_symtab, size);
 	ptr->last_tab = curr_symval;
 	ptr->lv_flist = 0;

@@ -71,7 +71,7 @@ CONDITION_HANDLER(dbinit_ch)
 		}
 		if (NULL != csa->jnl)
 		{
-			free(csa->jnl);
+			gtm_free_intern(csa->jnl);
 			csa->jnl = NULL;
 		}
 		if (csa->nl)
@@ -108,8 +108,8 @@ CONDITION_HANDLER(dbinit_ch)
 			ftok_sem_release(db_init_region, TRUE, TRUE);
 		if (GTCM_GNP_SERVER_IMAGE != image_type) /* gtcm_gnp_server reuses file_cntl */
 		{
-			free(seg->file_cntl->file_info);
-			free(seg->file_cntl);
+			gtm_free_intern(seg->file_cntl->file_info);
+			gtm_free_intern(seg->file_cntl);
 			seg->file_cntl = NULL;
 		}
 	}

@@ -52,15 +52,15 @@ void gvinit(void)
 	{
 		tmp_currkey = gv_currkey;
 		tmp_altkey = gv_altkey;
-		gv_altkey = (gv_key*)malloc(sizeof(gv_key) - 1 + keysize);
-		gv_currkey = (gv_key*)malloc(sizeof(gv_key) - 1 + keysize);
+		gv_altkey = (gv_key*)gtm_malloc_intern(sizeof(gv_key) - 1 + keysize);
+		gv_currkey = (gv_key*)gtm_malloc_intern(sizeof(gv_key) - 1 + keysize);
 		gv_keysize = keysize;
 		gv_currkey->top = gv_altkey->top = gv_keysize;
 		if (tmp_currkey)
 		{
 			assert(tmp_altkey);
-			free(tmp_currkey);
-			free(tmp_altkey);
+			gtm_free_intern(tmp_currkey);
+			gtm_free_intern(tmp_altkey);
 		}
 	}
 	else

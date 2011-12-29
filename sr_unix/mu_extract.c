@@ -232,7 +232,7 @@ void mu_extract(void)
 		 *	fixed length max blk size, fixed length max rec size, fixed length max key size,
 		 *	32-byte padded user-supplied string
 		 */
-		outbuf = (unsigned char *)malloc(sizeof(BIN_HEADER_LABEL) + sizeof(BIN_HEADER_DATEFMT) - 1 +
+		outbuf = (unsigned char *)gtm_malloc_intern(sizeof(BIN_HEADER_LABEL) + sizeof(BIN_HEADER_DATEFMT) - 1 +
 				3 * BIN_HEADER_NUMSZ + BIN_HEADER_LABELSZ);
 		outptr = outbuf;
 		memcpy(outptr, BIN_HEADER_LABEL, sizeof(BIN_HEADER_LABEL) - 1);

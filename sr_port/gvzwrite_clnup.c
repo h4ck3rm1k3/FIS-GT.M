@@ -50,7 +50,7 @@ void	gvzwrite_clnup(void)
 		gv_currkey->prev = old->prev;
 		gd_map = gvzwrite_block.old_map;
 		gd_map_top = gvzwrite_block.old_map_top;
-		free(gvzwrite_block.old_key);
+		gtm_free_intern(gvzwrite_block.old_key);
 		gvzwrite_block.old_key = gvzwrite_block.old_targ = (unsigned char *)NULL;
 		gvzwrite_block.subsc_count = 0;
 	}

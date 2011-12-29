@@ -18,7 +18,7 @@
 /* Include prototypes */
 #include "bit_set.h"
 
-uint4 bml_free(uint4 setfree, sm_uc_ptr_t map)
+uint4 bml_gtm_free_intern(uint4 setfree, sm_uc_ptr_t map)
 {
 	uint4 wasfree, ret;
 

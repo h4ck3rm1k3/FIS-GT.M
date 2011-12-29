@@ -50,7 +50,7 @@ void lv_newname(ht_entry *hte, symval *sym)
 			if (tf->sym)
 			{
 				var = lv_getslot(lv->ptrs.val_ent.parent.sym);
-				restore_ent = (tp_var *)malloc(sizeof(*restore_ent));
+				restore_ent = (tp_var *)gtm_malloc_intern(sizeof(*restore_ent));
 				restore_ent->current_value = lv;
 				restore_ent->save_value = var;
 				restore_ent->next = tf->vars;

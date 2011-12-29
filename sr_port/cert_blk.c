@@ -152,7 +152,7 @@ int cert_blk (gd_region *reg, block_id blk, blk_hdr_ptr_t bp, block_id root)
 			{
 				/* if (full bitmap || full chunk || regular scan of a "short" bitmap) */
 				if ((offset == bplmap) || ((blk_top - (sm_uc_ptr_t)chunk_p) > sizeof(chunk))
-				    || (bml_find_free((sm_uc_ptr_t)chunk_p - mp, mp, offset, &dummy_bool) != NO_FREE_SPACE))
+				    || (bml_find_gtm_free_intern((sm_uc_ptr_t)chunk_p - mp, mp, offset, &dummy_bool) != NO_FREE_SPACE))
 				{
 					full = FALSE;
 				}

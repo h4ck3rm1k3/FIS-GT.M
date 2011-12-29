@@ -108,7 +108,7 @@ GBLREF int	maxstr_stack_level;	/* Current (0-index based) depth of nested MAXSTR
 {								\
 	if (maxstr_buff[maxstr_stack_level].addr)		\
 	{							\
-		free(maxstr_buff[maxstr_stack_level].addr);	\
+		gtm_free_intern(maxstr_buff[maxstr_stack_level].addr);	\
 		maxstr_buff[maxstr_stack_level].addr = NULL;	\
 	}							\
 	maxstr_buff[maxstr_stack_level].len = 0;		\

@@ -40,8 +40,8 @@ void cmj_housekeeping(void)
 			lnk = QUEENT2CLB(qp, cqe);
 			assert(lnk);
 			if (ntd_root->mbl && lnk->mbf)
-				free(lnk->mbf);
-			free(lnk);
+				gtm_free_intern(lnk->mbf);
+			gtm_free_intern(lnk);
 			ntd_root->free_count--;
 		}
 	}
@@ -60,12 +60,12 @@ void cmj_housekeeping(void)
 	/* add to the free list up to poll size if necessary */
 	while (ntd_root->free_count < ntd_root->pool_size)
 	{
-		lnk = (struct CLB *)malloc(sizeof(*lnk) + ntd_root->usr_size);
+		lnk = (struct CLB *)gtm_malloc_intern(sizeof(*lnk) + ntd_root->usr_size);
 		assert(lnk);
 		cmj_init_clb(ntd_root, lnk);
 		if (ntd_root->mbl)
 		{
-			lnk->mbf = (unsigned char *)malloc(ntd_root->mbl);
+			lnk->mbf = (unsigned char *)gtm_malloc_intern(ntd_root->mbl);
 			if (lnk->mbf)
 				lnk->mbl = ntd_root->mbl;
 		}

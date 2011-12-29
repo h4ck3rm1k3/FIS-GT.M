@@ -223,7 +223,7 @@ int	t_end(srch_hist *hist1, srch_hist *hist2)
 			if (gds_t_create == cs->mode)
 			{
 				int_depth = (int)cw_set_depth;
-				if (0 > (cs->blk = bm_getfree(cs->blk, &blk_used, cw_depth, cw_set, &int_depth)))
+				if (0 > (cs->blk = bm_getgtm_free_intern(cs->blk, &blk_used, cw_depth, cw_set, &int_depth)))
 				{
 					if (FILE_EXTENDED == cs->blk)
 					{

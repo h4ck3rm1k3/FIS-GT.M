@@ -95,7 +95,7 @@ omi_lkextnam(
     lck.mvtype = ext.mvtype = MV_STR;
     reg        = mlk_region_lookup(&lck, cptr->ga);
     OMI_SI_READ(&si, data);
-    r          = (mlk_pvtblk *)malloc(sizeof(mlk_pvtblk) + elen + si.value);
+    r          = (mlk_pvtblk *)gtm_malloc_intern(sizeof(mlk_pvtblk) + elen + si.value);
     memset(r, 0, sizeof(mlk_pvtblk) - 1);
     r->translev      = 1;
     r->subscript_cnt = subcnt;
@@ -111,7 +111,7 @@ omi_lkextnam(
 	if (r->value[r->total_length] == mlk_pvt_root->value[mlk_pvt_root->total_length]
 		&& !memcmp(&r->value[elen],&mlk_pvt_root->value[elen],r->value[r->total_length]))
 	{
-	    free(r);
+	    gtm_free_intern(r);
 	    return TRUE;
 	}
 	else

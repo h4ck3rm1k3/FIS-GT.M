@@ -32,7 +32,7 @@ void io_init_name(void)
 		temp = TTYNAME(0);
 		for(i = 1, c = temp; *c != '\0'; i++)
 			c++;
-		sys_input.addr = (char*) malloc(i);
+		sys_input.addr = (char*) gtm_malloc_intern(i);
 		memcpy(sys_input.addr,temp, i);
 		sys_input.len = i - 1;
 	}
@@ -46,7 +46,7 @@ void io_init_name(void)
 		temp = TTYNAME(1);
 		for(i = 1, c = temp; *c != '\0'; i++)
 			c++;
-		sys_output.addr = (char *)malloc(i);
+		sys_output.addr = (char *)gtm_malloc_intern(i);
 		memcpy(sys_output.addr,temp, i);
 		sys_output.len = i - 1;
 	} else

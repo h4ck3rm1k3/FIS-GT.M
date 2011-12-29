@@ -85,7 +85,7 @@ omi_prc_unlk(omi_conn *cptr, char *xend, char *buff, char *bend)
     if (!mlk_pvt_root->level)
     {
 	next = mlk_pvt_root->next;
-	free(mlk_pvt_root);
+	gtm_free_intern(mlk_pvt_root);
 	mlk_pvt_root = next;
     }
 

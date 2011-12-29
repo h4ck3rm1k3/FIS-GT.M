@@ -72,7 +72,7 @@ rhdtyp *make_mode (int mode_index)
 	dyn_modes	*dmode;
 
 	assert(DM_MODE == mode_index || CI_MODE == mode_index);
-	base_address = (rhdtyp *)malloc(sizeof(rhdtyp) + CODE_SIZE + sizeof(lab_tabent) + CODE_LINES * sizeof(lnr_tabent));
+	base_address = (rhdtyp *)gtm_malloc_intern(sizeof(rhdtyp) + CODE_SIZE + sizeof(lab_tabent) + CODE_LINES * sizeof(lnr_tabent));
 	memset(base_address, 0, 	sizeof(rhdtyp) + CODE_SIZE + sizeof(lab_tabent) + CODE_LINES * sizeof(lnr_tabent));
 	dmode = &our_modes[mode_index];
 	memcpy(&base_address->routine_name, dmode->rtn_name, dmode->rtn_name_len);

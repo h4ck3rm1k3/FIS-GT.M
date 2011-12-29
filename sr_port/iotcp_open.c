@@ -93,7 +93,7 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 	assert(tcp == ioptr->type);
 	if (dev_never_opened == ioptr->state)
 	{
-		ioptr->dev_sp = (void *)malloc(sizeof(d_tcp_struct));
+		ioptr->dev_sp = (void *)gtm_malloc_intern(sizeof(d_tcp_struct));
 		memset(ioptr->dev_sp, 0, sizeof(d_tcp_struct));
 	}
 	tcpptr = (d_tcp_struct *)ioptr->dev_sp;

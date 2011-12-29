@@ -215,7 +215,7 @@ void iomt_rdansistart(io_desc *dv)
 
 	mt_ptr = (d_mt_struct *) dv->dev_sp;
 	inlen = ANSI_LAB_LENGTH;
-	incp = (unsigned char*) malloc(mt_ptr->block_sz);
+	incp = (unsigned char*) gtm_malloc_intern(mt_ptr->block_sz);
 	for (i = 0; i < 4; i++)
 	{	io_status_blk.status = 0;
 		mask = 0;
@@ -230,7 +230,7 @@ void iomt_rdansistart(io_desc *dv)
 			{
 				dv->dollar.za = 9;
 			}
-			free(incp);
+			gtm_free_intern(incp);
 			if (status == SS_NORMAL && status1 == SS_ENDOFFILE)
 				return;
 			rts_error(VARLSTCNT(4) ERR_MTIS, 2, dv->trans_name->len, dv->trans_name->dollar_io);
@@ -291,7 +291,7 @@ void iomt_rdansiend(io_desc *dv)
 
 	mt_ptr = (d_mt_struct *) dv->dev_sp;
 	inlen = ANSI_LAB_LENGTH;
-	incp = (unsigned char *) malloc(mt_ptr->block_sz);
+	incp = (unsigned char *) gtm_malloc_intern(mt_ptr->block_sz);
 	for (i = 0; i < 3; i++)
 	{	io_status_blk.status = 0;
 		mask = 0;

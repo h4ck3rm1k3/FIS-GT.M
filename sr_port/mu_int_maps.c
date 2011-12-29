@@ -129,7 +129,7 @@ void mu_int_maps(void)
 		master_full = !bit_set(mcnt, mu_int_master);
 		if (last_bmp == blkno)
 			mapsize = (mu_int_data.trans_hist.total_blks - blkno);
-		disk_full = (-1 == bml_find_free(0, disk + sizeof(blk_hdr), mapsize, &dummy));
+		disk_full = (-1 == bml_find_gtm_free_intern(0, disk + sizeof(blk_hdr), mapsize, &dummy));
 		agree = TRUE;
 		for (lcnt = 0, dskmap_p = (uint_ptr_t)(disk + sizeof(blk_hdr)), lmap = (uint4 *)local;
 			lcnt < mapsize;
@@ -213,7 +213,7 @@ void mu_int_maps(void)
 		}
 		if (!agree)
 		{
-			local_full = (-1 == bml_find_free(0, local, mapsize, &dummy));
+			local_full = (-1 == bml_find_gtm_free_intern(0, local, mapsize, &dummy));
 			if (local_full || disk_full)
 			{
 				mu_int_path[0] = blkno;
@@ -252,7 +252,7 @@ void mu_int_maps(void)
 			} else
 				mu_int_errknt++;
 		}
-		free(disk);
+		gtm_free_intern(disk);
 	}
 	if (!block && !muint_key && (mu_map_errs >= disp_map_errors))
 	{

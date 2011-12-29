@@ -106,7 +106,7 @@ CONDITION_HANDLER(tp_restart_ch)
 #ifdef VMS
 	assert(TPRESTART_ARG_CNT >= sig->chf$is_sig_args);
 	if (NULL == tp_restart_fail_sig)
-		tp_restart_fail_sig = (struct chf$signal_array *)malloc((TPRESTART_ARG_CNT + 1) * sizeof(int));
+		tp_restart_fail_sig = (struct chf$signal_array *)gtm_malloc_intern((TPRESTART_ARG_CNT + 1) * sizeof(int));
 	memcpy(tp_restart_fail_sig, sig, (sig->chf$is_sig_args + 1) * sizeof(int));
 	assert(FALSE == tp_restart_fail_sig_used);
 	tp_restart_fail_sig_used = TRUE;

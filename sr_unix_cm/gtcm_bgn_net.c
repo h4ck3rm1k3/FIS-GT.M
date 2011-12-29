@@ -158,7 +158,7 @@ int gtcm_bgn_net(omi_conn_ll *cll)
 	bind->addr.buf  = 0;
 	if (t_bind(fd, bind, bind) < 0)
 	{
-		(void) t_free(bind, T_BIND);
+		(void) t_gtm_free_intern(bind, T_BIND);
 		(void) t_close(fd);
 		return -1;
 	}

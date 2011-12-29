@@ -93,7 +93,7 @@ omi_prc_lock(omi_conn *cptr, char *xend, char *buff, char *bend)
 
     if (!mlk_pvt_root->nodptr || mlk_pvt_root->nodptr->owner != omi_pid)
     {	next = mlk_pvt_root->next;
-	free(mlk_pvt_root);
+	gtm_free_intern(mlk_pvt_root);
 	mlk_pvt_root = next;
 	rv = 0;
     }

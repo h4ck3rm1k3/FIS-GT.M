@@ -25,7 +25,7 @@ void err_init(void (*x)())
    * other utility programs (dse, mupip etc.) */
 	int size;
 	size = (GTM_IMAGE == image_type) ? MAX_MUMPS_HANDLERS : MAX_HANDLERS;
-	chnd = (condition_handler*)malloc(size * sizeof(condition_handler));
+	chnd = (condition_handler*)gtm_malloc_intern(size * sizeof(condition_handler));
 	chnd[0].ch_active = FALSE;
 	active_ch = ctxt = &chnd[0];
 	ctxt->ch = x;

@@ -216,7 +216,7 @@ int4 mupip_set_file(int db_fn_len, char *db_fn)
 	}
 	/* We should not establish mupip_set_file_ch before this point, because above is just parsing */
 	ESTABLISH_RET(mupip_set_file_ch, (int4)ERR_WCWRNNOTCHG);
-	csd = (sgmnt_data *)malloc(ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE));
+	csd = (sgmnt_data *)gtm_malloc_intern(ROUND_UP(sizeof(sgmnt_data), DISK_BLOCK_SIZE));
 	in_backup = FALSE;		/* Only want yes/no from mupfndfil, not an address */
 	for (;  rptr != NULL;  rptr = rptr->fPtr)
 	{
@@ -399,9 +399,9 @@ int4 mupip_set_file(int db_fn_len, char *db_fn)
 						TRUE, fn_len, fn, csd->wait_disk_space);
 				db_ipcs_reset(gv_cur_region, FALSE);
 		} /* end of else part if (!need_standalone) */
-		mu_gv_cur_reg_free();
+		mu_gv_cur_reg_gtm_free_intern();
 	}
-	free(csd);
+	gtm_free_intern(csd);
 	REVERT;
 	assert(!(exit_stat & EXIT_INF));
 	return (exit_stat & EXIT_ERR ? (int4)ERR_WCERRNOTCHG :

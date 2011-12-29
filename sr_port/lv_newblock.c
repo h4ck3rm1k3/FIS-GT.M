@@ -24,7 +24,7 @@ lv_blk *lv_newblock(lv_blk *block_addr, lv_blk *next_block, int size)
 
 	ptr = block_addr;
 	n = size * sizeof(lv_val);
-	ptr->lv_base = ptr->lv_free = (lv_val *)malloc(n);
+	ptr->lv_base = ptr->lv_free = (lv_val *)gtm_malloc_intern(n);
 	memset(ptr->lv_base, 0, n);
 	ptr->lv_top = ptr->lv_base + size;
 	ptr->next = next_block;

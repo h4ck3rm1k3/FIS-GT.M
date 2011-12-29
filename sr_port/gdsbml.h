@@ -47,13 +47,13 @@
 #define	GET_CDB_SC_CODE(gdsfilext_code, status)		\
 {							\
 	if (MAP_RD_FAIL == gdsfilext_code)		\
-		status = rdfail_detail;			\
+		status = (cdb_sc)rdfail_detail;			\
 	else if (EXTEND_SUSPECT == gdsfilext_code)	\
-		status = cdb_sc_extend;			\
+		status = (cdb_sc)cdb_sc_extend;			\
 	else if (NO_FREE_SPACE == gdsfilext_code)	\
-		status = cdb_sc_gbloflow;		\
+		status = (cdb_sc)cdb_sc_gbloflow;		\
 	else if (EXTEND_UNFREEZECRIT == gdsfilext_code)	\
-		status = cdb_sc_unfreeze_getcrit;	\
+	  status = (cdb_sc)cdb_sc_unfreeze_getcrit;		\
 }
 
 #define MAXHARDCRITS		31
@@ -63,7 +63,7 @@
 #define	GRAB_UNFROZEN_CRIT(reg, csa, csd)				\
 {									\
 	int	lcnt;							\
-	void	wcs_backoff();						\
+	void	wcs_backoff(int);						\
 									\
 	assert(&FILE_INFO(reg)->s_addrs == csa && csa->hdr == csd);	\
 	for (lcnt = 0; ; lcnt++)					\

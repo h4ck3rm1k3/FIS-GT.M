@@ -72,7 +72,7 @@ cm_region_head *gtcmd_ini_reg(connection_struct *cnx)
 	if (!ptr)
 	{
 		/* open region */
-		ptr = (cm_region_head*)malloc(sizeof(*ptr));
+		ptr = (cm_region_head*)gtm_malloc_intern(sizeof(*ptr));
 		ptr->next = NULL;
 		ptr->last = NULL;
 		ptr->head.fl = ptr->head.bl = 0;
@@ -91,12 +91,12 @@ cm_region_head *gtcmd_ini_reg(connection_struct *cnx)
 		ptr->reg->open = FALSE;
 		csa = &FILE_INFO(ptr->reg)->s_addrs;
 		csa->now_crit = FALSE;
-		csa->nl = (node_local_ptr_t)malloc(sizeof(node_local));
+		csa->nl = (node_local_ptr_t)gtm_malloc_intern(sizeof(node_local));
 		assert(MAX_FN_LEN > len);
 		memcpy(ptr->reg->dyn.addr->fname, fname, len);
 		ptr->reg->dyn.addr->fname_len = len;
 		set_gdid_from_stat(&FILE_INFO(ptr->reg)->fileid, &stat_buf);
-		ptr->reg_hash = (htab_desc *)malloc(sizeof(htab_desc));
+		ptr->reg_hash = (htab_desc *)gtm_malloc_intern(sizeof(htab_desc));
 		if (-1 != gethostname((char *)node, sizeof(node)))
 		{
 			retlen = strlen((char *)node);

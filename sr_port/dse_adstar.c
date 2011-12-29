@@ -90,13 +90,13 @@ void dse_adstar(void)
 	blk_size = cs_addrs->hdr->blk_size;
 	if(!(bp = t_qread(patch_curr_blk, &dummy_hist.h[0].cycle, &dummy_hist.h[0].cr)))
 		rts_error(VARLSTCNT(1) ERR_DSEBLKRDFAIL);
-	lbp = (uchar_ptr_t)malloc(blk_size);
+	lbp = (uchar_ptr_t)gtm_malloc_intern(blk_size);
 	memcpy(lbp, bp, blk_size);
 
 	if (!((blk_hdr_ptr_t)lbp)->levl)
 	{
 		util_out_print("Error: cannot add a star record to a data block.", TRUE);
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
@@ -109,7 +109,7 @@ void dse_adstar(void)
 	if (b_top - lbp > blk_size - sizeof(rec_hdr) - sizeof(block_id))
 	{
 		util_out_print("Error:  not enough free space in block for a star record.", TRUE);
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
@@ -124,7 +124,7 @@ void dse_adstar(void)
 	if (!BLK_FINI(bs_ptr, bs1))
 	{
 		util_out_print("Error: bad blk build.", TRUE);
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
@@ -132,6 +132,6 @@ void dse_adstar(void)
 	BUILD_AIMG_IF_JNL_ENABLED(cs_addrs, cs_data, non_tp_jfb_buff_ptr, cse);
 	t_end(&dummy_hist, 0);
 
-	free(lbp);
+	gtm_free_intern(lbp);
 	return;
 }

@@ -60,9 +60,9 @@ mstr *get_name(mstr *ms)
 		rts_error(VARLSTCNT(9) ERR_ZGBLDIRACC, 6, ms->len, ms->addr,
 			 LEN_AND_LIT(""), dollar_zgbldir.str.len, dollar_zgbldir.str.addr, status);
 
-	new = (mstr *)malloc(sizeof(mstr));
+	new = (mstr *)gtm_malloc_intern(sizeof(mstr));
 	new->len = pblk.b_esl;
-	new->addr = (char *)malloc(pblk.b_esl);
+	new->addr = (char *)gtm_malloc_intern(pblk.b_esl);
 	memcpy(new->addr, pblk.buffer, pblk.b_esl);
 	return new;
 }
@@ -72,9 +72,9 @@ void *open_gd_file(mstr *v)
 {
 	file_pointer *fp;
 
-	fp = (file_pointer*)malloc(sizeof(*fp));
+	fp = (file_pointer*)gtm_malloc_intern(sizeof(*fp));
 	fp->v.len = v->len;
-	fp->v.addr = (char *)malloc(v->len + 1);
+	fp->v.addr = (char *)gtm_malloc_intern(v->len + 1);
 	memcpy(fp->v.addr, v->addr, v->len);
 	*((char*)((char*)fp->v.addr + v->len)) = 0;	/* Null terminate string */
 	if ((fp->fd = OPEN(fp->v.addr, O_RDONLY)) == -1)
@@ -112,7 +112,7 @@ void fill_gd_addr_id(gd_addr *gd_ptr, file_pointer *file_ptr)
 	int fstat_res;
 	struct stat buf;
 
-	gd_ptr->id = (gd_id *) malloc(sizeof(gd_id));	/* Need to convert to gd_id_ptr_t during the 64-bit port */
+	gd_ptr->id = (gd_id *) gtm_malloc_intern(sizeof(gd_id));	/* Need to convert to gd_id_ptr_t during the 64-bit port */
 	FSTAT_FILE(file_ptr->fd, &buf, fstat_res);
 	if (-1 == fstat_res)
 		rts_error(VARLSTCNT(9) ERR_ZGBLDIRACC, 6, file_ptr->v.len, file_ptr->v.addr, LEN_AND_LIT(""),
@@ -123,8 +123,8 @@ void fill_gd_addr_id(gd_addr *gd_ptr, file_pointer *file_ptr)
 void close_gd_file(file_pointer *file_ptr)
 {
 	close(file_ptr->fd);
-	free(file_ptr->v.addr);
-	free(file_ptr);
+	gtm_free_intern(file_ptr->v.addr);
+	gtm_free_intern(file_ptr);
 	return;
 }
 

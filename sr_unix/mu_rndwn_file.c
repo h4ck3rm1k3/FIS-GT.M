@@ -577,7 +577,7 @@ bool mu_rndwn_file(gd_region *reg, bool standalone)
 				performCASLatchCheck(&jpc->jnl_buff->fsync_in_prog_latch, 0);
 			if (NOJNL != jpc->channel)
 				jnl_file_close(gv_cur_region, FALSE, FALSE);
-			free(jpc);
+			gtm_free_intern(jpc);
 			cs_addrs->jnl = NULL;
 			rel_crit(gv_cur_region);
 		}

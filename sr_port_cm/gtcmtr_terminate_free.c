@@ -16,10 +16,10 @@
 #include "gtcmtr_terminate_free.h"
 
 
-void gtcmtr_terminate_free(connection_struct *ce)
+void gtcmtr_terminate_gtm_free_intern(connection_struct *ce)
 {
 	if (ce->pvec)
-		free(ce->pvec);
-	free(ce);
+		gtm_free_intern(ce->pvec);
+	gtm_free_intern(ce);
 	return ;
 }

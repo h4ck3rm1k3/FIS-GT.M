@@ -50,7 +50,7 @@ urx_rtnref *urx_putrtn (char *rtn, int rtnlen, urx_rtnref *anchor)
 	assert(rp0->next == rp1);
 	if (!found)
 	{
-		tmp = (urx_rtnref *)malloc(sizeof(urx_rtnref));
+		tmp = (urx_rtnref *)gtm_malloc_intern(sizeof(urx_rtnref));
 		tmp->len = rtnlen;
 		memcpy(tmp->name.c, rtn, rtnlen);
 		tmp->addr = 0;

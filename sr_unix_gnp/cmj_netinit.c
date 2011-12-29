@@ -29,7 +29,7 @@ cmi_status_t cmj_netinit(void)
 
 	if (ntd_root)
 		return CMI_CMICHECK;
-	ntd_root = (struct NTD *)malloc(sizeof(*ntd_root));
+	ntd_root = (struct NTD *)gtm_malloc_intern(sizeof(*ntd_root));
 	tsk = ntd_root;
 	memset(tsk, 0, sizeof(*tsk));
 	tsk->listen_fd = -1;

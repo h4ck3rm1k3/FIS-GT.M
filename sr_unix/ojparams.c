@@ -179,7 +179,7 @@ void ojparams (char *p, job_params_type *job_params)
 	if (job_params->output.len == 0)
 	{
 		if (!defoutbuf)
-			defoutbuf = malloc(MAX_FILSPC_LEN);
+			defoutbuf = gtm_malloc_intern(MAX_FILSPC_LEN);
 		memcpy (&defoutbuf[0], job_params->routine.addr,
 		  job_params->routine.len);
 		memcpy (&defoutbuf[job_params->routine.len],
@@ -202,7 +202,7 @@ void ojparams (char *p, job_params_type *job_params)
 	if (job_params->error.len == 0)
 	{
 		if (!deferrbuf)
-			deferrbuf = malloc(MAX_FILSPC_LEN);
+			deferrbuf = gtm_malloc_intern(MAX_FILSPC_LEN);
 		memcpy (&deferrbuf[0], job_params->routine.addr,
 		  job_params->routine.len);
 		memcpy (&deferrbuf[job_params->routine.len],

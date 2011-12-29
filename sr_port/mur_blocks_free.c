@@ -37,7 +37,7 @@ GBLREF 	int		mur_regno;
 
 #define BPL	sizeof(int4)*8/BML_BITS_PER_BLK					/* blocks masked by a int4 */
 
-int4 mur_blocks_free()
+int4 mur_blocks_gtm_free_intern()
 {
 	int4				x;
 	block_id 			bnum;
@@ -51,7 +51,7 @@ int4 mur_blocks_free()
 	fcnt = 0;
 	maps = (cs_data->trans_hist.total_blks + cs_data->bplmap - 1) / cs_data->bplmap;
 	map_blk_size = BM_SIZE(cs_data->bplmap);
-	m_ptr = (unsigned char*)malloc(cs_data->blk_size + 8);
+	m_ptr = (unsigned char*)gtm_malloc_intern(cs_data->blk_size + 8);
 	disk = (unsigned char *)(((int4)m_ptr) + 7 & -8);
 	db_ctl->op_buff = (uchar_ptr_t)disk;
 	db_ctl->op_len = cs_data->blk_size;
@@ -98,6 +98,6 @@ int4 mur_blocks_free()
 		{	fcnt += (*c >> k) & 1;
 		}
 	}
-	free(m_ptr);
+	gtm_free_intern(m_ptr);
 	return fcnt;
 }

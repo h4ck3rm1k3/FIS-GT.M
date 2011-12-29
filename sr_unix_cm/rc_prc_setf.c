@@ -95,7 +95,7 @@ rc_prc_setf(rc_q_hdr *qhdr)
 	}
 	else			/* first fragment, put whole record, with zero filler */
 	{
-	    v.str.addr = (char*)malloc(v.str.len);
+	    v.str.addr = (char*)gtm_malloc_intern(v.str.len);
 	    memset(v.str.addr, 0, v.str.len);
 	    memcpy(v.str.addr + data_off, ptr, v.str.len - data_off - str_remain);
 	}
@@ -105,7 +105,7 @@ rc_prc_setf(rc_q_hdr *qhdr)
 	if (rc_set_fragment)
 	    rc_set_fragment = 0;
 	else
-	    free(v.str.addr);
+	    gtm_free_intern(v.str.addr);
     }
 
     REVERT;

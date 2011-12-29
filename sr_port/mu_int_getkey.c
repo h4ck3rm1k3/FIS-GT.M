@@ -56,7 +56,7 @@ int mu_int_getkey(unsigned char *key_buff, int keylen)
 	startsrc = src;
 	for (iter = 0, top = src + keylen; (iter < 2) && (src < top); iter++)
 	{
-		muint_tmpkey = (gv_key *)malloc(sizeof(gv_key) -1 + keysize); /* same calculation as done in gv_init_reg() */
+		muint_tmpkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) -1 + keysize); /* same calculation as done in gv_init_reg() */
 		muint_tmpkey->top = keysize;
 		muint_tmpkey->prev = 0;
 		dest = muint_tmpkey->base;

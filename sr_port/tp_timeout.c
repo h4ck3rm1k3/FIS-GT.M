@@ -74,7 +74,7 @@
  */
 
 /* The transfer table */
-GBLREF int 			(* volatile xfer_table[])();
+GBLREF int 			(* volatile xfer_table[])(int,...);
 GBLREF volatile int4		outofband;
 
 void tptimeout_set(int4 dummy_param);

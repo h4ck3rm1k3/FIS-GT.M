@@ -60,13 +60,13 @@ boolean_t mur_jctl_from_next_gen(void)
 			assert(!jctl->next_gen->jfh->recover_interrupted);
 		while (0 != jctl->jfh->next_jnl_file_name_length)
 		{	/* create the linked list of journal files created by GT.M originally */
-			temp_jctl = (jnl_ctl_list *)malloc(sizeof(jnl_ctl_list));
+			temp_jctl = (jnl_ctl_list *)gtm_malloc_intern(sizeof(jnl_ctl_list));
 			memset(temp_jctl, 0, sizeof(jnl_ctl_list));
 			temp_jctl->jnl_fn_len = jctl->jfh->next_jnl_file_name_length;
 			memcpy(temp_jctl->jnl_fn, jctl->jfh->next_jnl_file_name, jctl->jfh->next_jnl_file_name_length);
 			if (!mur_fopen(temp_jctl))
 			{
-				free(temp_jctl);
+				gtm_free_intern(temp_jctl);
 				return FALSE;
 			}
 			/* note mur_fread_eof must be done after setting mur_ctl, mur_regno and mur_jctl */
@@ -76,7 +76,7 @@ boolean_t mur_jctl_from_next_gen(void)
 				gtm_putmsg(VARLSTCNT(9) ERR_JNLBADRECFMT, 3,
 					temp_jctl->jnl_fn_len, temp_jctl->jnl_fn, temp_jctl->rec_offset,
 						ERR_TEXT, 2, LEN_AND_LIT("mur_jctl_from_next_gen"));
-				free(temp_jctl);
+				gtm_free_intern(temp_jctl);
 				return FALSE;
 			}
 			temp_jctl->prev_gen = jctl;

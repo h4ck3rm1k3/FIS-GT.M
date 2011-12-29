@@ -102,9 +102,9 @@ void op_gvextnam( int something, ...)
 	if (extnam_str.len > extnam_str_alloc)
 	{
 		if (NULL != extnam_str.addr)
-			free(extnam_str.addr);
+			gtm_free_intern(extnam_str.addr);
 		extnam_str_alloc = extnam_str.len;
-		extnam_str.addr = (char *)malloc(extnam_str_alloc);
+		extnam_str.addr = (char *)gtm_malloc_intern(extnam_str_alloc);
 	}
 	memcpy(extnam_str.addr, tmp_mstr_ptr->addr, tmp_mstr_ptr->len);
 	if (gv_target)

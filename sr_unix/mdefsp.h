@@ -173,8 +173,8 @@ typedef struct
 #define VARLSTCNT(a)	a,		/* push count of arguments*/
 
 #ifndef GTSQL    /* these cannot be used within SQL */
-#define malloc gtm_malloc
-#define free gtm_free
+//#define malloc gtm_malloc_intern
+//#define free gtm_free_intern
 #endif
 
 #define CODE_ADDRESS(func)	(unsigned char *)func

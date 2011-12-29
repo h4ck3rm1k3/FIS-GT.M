@@ -36,8 +36,8 @@ void remove_rms (io_desc *ciod)
 #else
 			if (lp->iod->pair.out != ciod && rm_ptr->fifo)
 			{
-				free((lp->iod->pair.out)->dev_sp);
-				free(lp->iod->pair.out);
+				gtm_free_intern((lp->iod->pair.out)->dev_sp);
+				gtm_free_intern(lp->iod->pair.out);
 			}
 #endif
 			/*

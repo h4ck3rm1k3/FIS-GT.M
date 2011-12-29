@@ -101,7 +101,7 @@ bool gvcst_zprevious(void)
 				memcpy(c1, gv_currkey->base, bh->prev_rec.match);
 				c1 += bh->prev_rec.match;
 				if (NULL == temp_key)
-					temp_key = (gv_key *)malloc(sizeof(gv_key) + gv_keysize);
+					temp_key = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + gv_keysize);
 				temp_key->top = gv_currkey->top;
 				if (cdb_sc_normal != (status = gvcst_expand_key((blk_hdr_ptr_t)bh->buffaddr, bh->prev_rec.offset,
 									temp_key)))

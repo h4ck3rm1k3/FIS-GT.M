@@ -57,7 +57,7 @@ void gvzwr_fini(zshow_out *out, int pat)
 	assert(INVALID_GV_TARGET == reset_gv_target);
 	reset_gv_target = gv_target;
 	gvzwrite_block.old_targ = (unsigned char *)gv_target;
-	old = (gv_key *)malloc(sizeof(gv_key) + gv_currkey->end);
+	old = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + gv_currkey->end);
 	gvzwrite_block.old_key = (unsigned char *)old;
 	memcpy(gvzwrite_block.old_key, gv_currkey, sizeof(gv_key) + gv_currkey->end);
 	gvzwrite_block.old_map = gd_map;

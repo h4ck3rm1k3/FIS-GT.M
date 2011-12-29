@@ -27,8 +27,8 @@ void getzdir(void)
 	if (cwd.str.len > dollar_zdir.str.len)
 	{
 		if (NULL != dollar_zdir.str.addr)
-			free(dollar_zdir.str.addr);
-		dollar_zdir.str.addr = malloc(cwd.str.len);
+			gtm_free_intern(dollar_zdir.str.addr);
+		dollar_zdir.str.addr = (char*)gtm_malloc_intern(cwd.str.len);
 	}
 	dollar_zdir.str.len = cwd.str.len;
 	memcpy(dollar_zdir.str.addr, cwd.str.addr, cwd.str.len);

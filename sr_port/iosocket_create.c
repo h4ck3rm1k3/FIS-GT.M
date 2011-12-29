@@ -49,7 +49,7 @@ socket_struct *iosocket_create(char *sockaddr, uint4 bfsize)
 	error_def(ERR_INVADDRSPEC);
 	error_def(ERR_PROTNOTSUP);
 	error_def(ERR_TEXT);
-	socketptr = (socket_struct *)malloc(sizeof(socket_struct));
+	socketptr = (socket_struct *)gtm_malloc_intern(sizeof(socket_struct));
 	memset(socketptr, 0, sizeof(socket_struct));
 	if (SSCANF(sockaddr, "%[^:]:%hu:%3[^:]", temp_addr, &port, tcp) < 3)
 	{
@@ -57,7 +57,7 @@ socket_struct *iosocket_create(char *sockaddr, uint4 bfsize)
 		socketptr->local.sin.sin_addr.s_addr = INADDR_ANY;
 		if(SSCANF(sockaddr, "%hu:%3[^:]", &port, tcp) < 2)
 		{
-			free(socketptr);
+			gtm_free_intern(socketptr);
 			rts_error(VARLSTCNT(1) ERR_INVPORTSPEC);
 			return NULL;
 		}
@@ -79,7 +79,7 @@ socket_struct *iosocket_create(char *sockaddr, uint4 bfsize)
 		if (-1 == (socketptr->remote.sin.sin_addr.s_addr = tcp_routines.aa_inet_addr(addr)))
 		{
 			errptr = (char *)STRERROR(errno);
-			free(socketptr);
+			gtm_free_intern(socketptr);
 			rts_error(VARLSTCNT(6) ERR_INVADDRSPEC, 0, ERR_TEXT, 2, LEN_AND_STR(errptr));
 			return NULL;
 		}
@@ -93,11 +93,11 @@ socket_struct *iosocket_create(char *sockaddr, uint4 bfsize)
 		socketptr->protocol = socket_tcpip;
 	else
 	{
-		free(socketptr);
+		gtm_free_intern(socketptr);
 		rts_error(VARLSTCNT(4) ERR_PROTNOTSUP, 2, MIN(strlen(tcp), sizeof("TCP") - 1), tcp);
 		return NULL;
 	}
-	socketptr->buffer = (char *)malloc(bfsize);
+	socketptr->buffer = (char *)gtm_malloc_intern(bfsize);
 	socketptr->buffer_size = bfsize;
 	socketptr->buffered_length = socketptr->buffered_offset = 0;
 	socketptr->sd = -1; /* don't mess with 0 */

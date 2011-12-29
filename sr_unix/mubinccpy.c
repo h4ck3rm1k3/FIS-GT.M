@@ -179,7 +179,7 @@ bool	mubinccpy (backup_reg_list *list)
 		case backup_to_exec:
 			pipe_child = 0;
 			common_write = exec_write;
-			backup = (BFILE *)malloc(sizeof(BFILE));
+			backup = (BFILE *)gtm_malloc_intern(sizeof(BFILE));
 			backup->blksiz = DISK_BLOCK_SIZE;
 			backup->remaining = 0;		/* number of zeros to be added in the end, just use this field */
 			if (0 > (backup->fd = gtm_pipe(file->addr, output_to_comm)))
@@ -192,7 +192,7 @@ bool	mubinccpy (backup_reg_list *list)
 		case backup_to_tcp:
 			common_write = tcp_write;
 			iotcp_fillroutine();
-			backup = (BFILE *)malloc(sizeof(BFILE));
+			backup = (BFILE *)gtm_malloc_intern(sizeof(BFILE));
 			backup->blksiz = DISK_BLOCK_SIZE;
 			backup->remaining = 0; /* number of zeros to be added in the end, just use this field */
 			/* parse it first */
@@ -223,7 +223,7 @@ bool	mubinccpy (backup_reg_list *list)
 	}
 
 	/* ============================= write inc_header =========================================== */
-	outbuf = (inc_header*)malloc(sizeof(inc_header));
+	outbuf = (inc_header*)gtm_malloc_intern(sizeof(inc_header));
 	memcpy(&outbuf->label[0], INC_HEADER_LABEL, sizeof INC_HEADER_LABEL - 1);
 	stringpool.free = stringpool.base;
 	op_horolog(&val);
@@ -237,7 +237,7 @@ bool	mubinccpy (backup_reg_list *list)
 	outbuf->blk_size = header->blk_size;
 	util_out_print("MUPIP backup of database file !AD to !AD", TRUE, DB_LEN_STR(gv_cur_region), file->len, file->addr);
 	COMMON_WRITE(backup, (char *)outbuf, sizeof(inc_header));
-	free(outbuf);
+	gtm_free_intern(outbuf);
 
 	if (mu_ctrly_occurred  ||  mu_ctrlc_occurred)
 	{
@@ -251,7 +251,7 @@ bool	mubinccpy (backup_reg_list *list)
 	gds_ratio	= bsize / DISK_BLOCK_SIZE;
 	blks_per_buff	= BACKUP_READ_SIZE / bsize;
 	read_size	= blks_per_buff * bsize;
-	outptr		= (char *)malloc(sizeof(int4) + sizeof(block_id) + bsize);
+	outptr		= (char *)gtm_malloc_intern(sizeof(int4) + sizeof(block_id) + bsize);
 	bp		= (blk_hdr_ptr_t)mubbuf;
 	save_blks	= 0;
 
@@ -260,7 +260,7 @@ bool	mubinccpy (backup_reg_list *list)
 		util_out_print("Error reading from database file !AD.", TRUE, DB_LEN_STR(gv_cur_region));
 		util_out_print("WARNING: backup file !AD is not valid.", TRUE, DB_LEN_STR(gv_cur_region));
 		PERROR("fseek error: ");
-		free(outptr);
+		gtm_free_intern(outptr);
 		CLEANUP_AND_RETURN_FALSE;
 	}
 	for (blk_num = 0;  blk_num < header->trans_hist.total_blks;  blk_num += blks_per_buff)
@@ -277,7 +277,7 @@ bool	mubinccpy (backup_reg_list *list)
 			util_out_print("Error reading from database file !AD.", TRUE, DB_LEN_STR(gv_cur_region));
 			util_out_print("WARNING: backup file !AD is not valid.", TRUE, DB_LEN_STR(gv_cur_region));
 			PERROR("read error: ");
-			free(outptr);
+			gtm_free_intern(outptr);
 			CLEANUP_AND_RETURN_FALSE;
 		}
 		bptr = (blk_hdr *)bp;
@@ -285,7 +285,7 @@ bool	mubinccpy (backup_reg_list *list)
 		{
 			if (mu_ctrly_occurred  ||  mu_ctrlc_occurred)
 			{
-				free(outptr);
+				gtm_free_intern(outptr);
 				util_out_print("WARNING:  DB file !AD backup aborted, file !AD not valid", TRUE,
 					   DB_LEN_STR(gv_cur_region), file->len, file->addr);
 				CLEANUP_AND_RETURN_FALSE;
@@ -408,7 +408,7 @@ bool	mubinccpy (backup_reg_list *list)
 	}
 
 	/* ============================ output and return =========================================== */
-	free(outptr);
+	gtm_free_intern(outptr);
 	if (online && (0 != cs_addrs->backup_buffer->failed))
 	{
 		util_out_print("Process !UL encountered the following error.", TRUE,

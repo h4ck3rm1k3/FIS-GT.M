@@ -97,7 +97,7 @@ void	lke_show(void)
 				/* Local region */
 				cs_addrs = &FILE_INFO(gv_cur_region)->s_addrs;
 				ls_len = cs_addrs->lock_addrs[1] - cs_addrs->lock_addrs[0];
-				ctl = (mlk_ctldata_ptr_t)malloc(ls_len);
+				ctl = (mlk_ctldata_ptr_t)gtm_malloc_intern(ls_len);
 
 				/* Prevent any modification of the lock space while we make a local copy of it */
 				if (cs_addrs->critical != NULL)
@@ -113,7 +113,7 @@ void	lke_show(void)
 						lke_showtree(NULL, (mlk_shrblk_ptr_t)R2A(ctl->blkroot), all, wait, pid,
 												one_lock, memory);
 
-				free(ctl);
+				gtm_free_intern(ctl);
 			} else
 			{
 				util_out_print(NULL, RESET);

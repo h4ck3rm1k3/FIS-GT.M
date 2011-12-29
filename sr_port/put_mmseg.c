@@ -32,7 +32,7 @@ void put_mmseg(caddr_t begin, size_t size)
 	assert(8 == sizeof(caddr_t));
 
 	/* --- create the new item --- */
-	curr = (mmseg *)malloc(sizeof(mmseg));
+	curr = (mmseg *)gtm_malloc_intern(sizeof(mmseg));
 	memset((char *)curr, 0, sizeof(mmseg));
 	curr->begin = (sm_uc_ptr_t)begin;
 	curr->end = (sm_uc_ptr_t)begin + size;

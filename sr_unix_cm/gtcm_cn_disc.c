@@ -79,7 +79,7 @@ void gtcm_cn_disc(omi_conn *cptr, omi_conn_ll *cll)
 	/*  Release locks held on this connection */
 	omi_prc_unla(cptr, cptr->buff, cptr->buff, cptr->buff);
 	/*  Release the buffer and connection structure */
-	free(cptr->buff);
-	free(cptr);
+	gtm_free_intern(cptr->buff);
+	gtm_free_intern(cptr);
 	return;
 }

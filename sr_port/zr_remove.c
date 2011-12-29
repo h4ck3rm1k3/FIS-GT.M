@@ -21,9 +21,9 @@ void zr_remove(rhdtyp *rtn)
 	zbrk_struct	*zb_ptr;
 
 	for (zb_ptr = zbrk_recs.free - 1; NULL != zbrk_recs.beg && zb_ptr >= zbrk_recs.beg; zb_ptr--)
-	{ /* go in the reverse order to reduce memory movement in zr_put_free() */
+	{ /* go in the reverse order to reduce memory movement in zr_put_gtm_free_intern() */
 		if ((NULL == rtn) || (ADDR_IN_CODE(((unsigned char *)zb_ptr->mpc), rtn)))
-			zr_put_free(&zbrk_recs, zb_ptr);
+			zr_put_gtm_free_intern(&zbrk_recs, zb_ptr);
 	}
 	return;
 }

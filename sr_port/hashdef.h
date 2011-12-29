@@ -32,7 +32,7 @@ typedef struct htab_desc_struct{
 } htab_desc;
 
 ht_entry *ht_get(htab_desc *table, mname *target);
-ht_entry *ht_put(htab_desc *table, mname *target, char *stash);
+ht_entry *ht_put(htab_desc *table, mname *target, bool *stash);
 void ht_init(htab_desc *table, unsigned int req_ht_size);
 void ht_grow(htab_desc *table);
 

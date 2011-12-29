@@ -107,8 +107,8 @@ void gtcml_chklck(cm_lckblkreg *reg, bool timed)
 				if (lck->next == lckroot && lck->last == lckroot)
 				{  /* no more lcks for reg */
 					reg->lock = 0;
-					free(lck);
-					free(lckroot);    /* list header */
+					gtm_free_intern(lck);
+					gtm_free_intern(lckroot);    /* list header */
 					break;
 				}
 				lcktofree = lck;   /* not yet */
@@ -118,7 +118,7 @@ void gtcml_chklck(cm_lckblkreg *reg, bool timed)
 		lck = lck->next;
 		if (NULL != lcktofree)
 		{
-			free(lcktofree);
+			gtm_free_intern(lcktofree);
 			lcktofree = NULL;
 		}
 		if (lck == lckroot)

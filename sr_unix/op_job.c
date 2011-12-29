@@ -150,7 +150,7 @@ int	op_job(int foo,...)
 
 	if (argcnt)
 	{
-		jp = job_params.parms = (job_parm *)malloc(sizeof(job_parm) * argcnt);
+		jp = job_params.parms = (job_parm *)gtm_malloc_intern(sizeof(job_parm) * argcnt);
 		i = argcnt;
 		for(;;)
 		{
@@ -196,7 +196,7 @@ int	op_job(int foo,...)
 	} while (!single_attempt && status && !ojtimeout && job_try_again);
 
 	if (argcnt)
-		free(job_params.parms);
+		gtm_free_intern(job_params.parms);
 	if (timed && !ojtimeout)
 		cancel_timer((TID)&tid);
 

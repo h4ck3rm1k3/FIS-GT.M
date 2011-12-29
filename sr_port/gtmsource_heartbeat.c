@@ -86,7 +86,7 @@ int gtmsource_init_heartbeat(void)
 	num_q_entries = DIVIDE_ROUND_UP(heartbeat_max_wait, heartbeat_period) + 2;
 	REPL_DPRINT4("Initialized heartbeat, heartbeat_period = %d s, heartbeat_max_wait = %d s, num_q_entries = %d\n",
 			heartbeat_period, heartbeat_max_wait, num_q_entries);
-	if (!(repl_heartbeat_que_head = (repl_heartbeat_que_entry_t *)malloc(num_q_entries * sizeof(repl_heartbeat_que_entry_t))))
+	if (!(repl_heartbeat_que_head = (repl_heartbeat_que_entry_t *)gtm_malloc_intern(num_q_entries * sizeof(repl_heartbeat_que_entry_t))))
 		rts_error(VARLSTCNT(7) ERR_REPLCOMM, 0, ERR_TEXT, 2,
 			RTS_ERROR_LITERAL("Error in allocating heartbeat queue"), errno);
 
@@ -118,7 +118,7 @@ int gtmsource_stop_heartbeat(void)
 {
 	cancel_timer((TID)gtmsource_heartbeat_timer);
 	if (NULL != repl_heartbeat_que_head)
-		free(repl_heartbeat_que_head);
+		gtm_free_intern(repl_heartbeat_que_head);
 	repl_heartbeat_que_head = NULL;
 	repl_heartbeat_free_head = NULL;
 	last_sent_time = 0;

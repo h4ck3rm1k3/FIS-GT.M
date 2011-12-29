@@ -27,7 +27,7 @@ void ht_init(htab_desc *table, unsigned int req_ht_size)
  		cur_ht_size = ht_sizes[index];
 	if (cur_ht_size)
 	{
-		table->base = (ht_entry *)malloc(cur_ht_size * sizeof(ht_entry));
+		table->base = (ht_entry *)gtm_malloc_intern(cur_ht_size * sizeof(ht_entry));
 		longset((uchar_ptr_t)table->base, cur_ht_size * sizeof(ht_entry), 0);
 		table->r = table->base + (table->size = cur_ht_size);
 		/* Please add appropriate trigger factor to calculate trigger_size.

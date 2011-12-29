@@ -162,7 +162,7 @@ boolean_t mur_open_files()
 		gld_db_files = mur_db_files_from_jnllist(jnl_file_list, jnl_file_list_len, &max_reg_total);
 	if (NULL == gld_db_files)
 		return FALSE;
-	mur_ctl = (reg_ctl_list *)malloc(sizeof(reg_ctl_list) * max_reg_total);
+	mur_ctl = (reg_ctl_list *)gtm_malloc_intern(sizeof(reg_ctl_list) * max_reg_total);
 	memset(mur_ctl, 0, sizeof(reg_ctl_list) * max_reg_total);
 	curr = gld_db_files;
 	murgbl.max_extr_record_length = DEFAULT_EXTR_BUFSIZE;
@@ -235,9 +235,9 @@ boolean_t mur_open_files()
 		rctl->jctl = rctl->jctl_head = rctl->jctl_alt_head = rctl->jctl_turn_around = rctl->jctl_save_turn_around = NULL;
 		murgbl.reg_full_total++;	/* mur_close_files() expects rctl->csa and rctl->jctl to be initialized.
 						 * so consider this rctl only after those have been initialized. */
-		rctl->tab_ptr = (void *)malloc(sizeof(htab_desc));
+		rctl->tab_ptr = (void *)gtm_malloc_intern(sizeof(htab_desc));
 		ht_init((htab_desc *)rctl->tab_ptr, 0);	/* for mur_forward() */
-		rctl->db_ctl = (file_control *)malloc(sizeof(file_control));
+		rctl->db_ctl = (file_control *)gtm_malloc_intern(sizeof(file_control));
 		memset(rctl->db_ctl, 0, sizeof(file_control));
 		/* For redirect we just need to change the name of database. recovery will redirect to new database file */
 		if (mur_options.redirect)
@@ -383,7 +383,7 @@ boolean_t mur_open_files()
 				csa->jnl_before_image = csd->jnl_before_image;
 			} else
 			{	/* NOTE: csa field is NULL, if we do not open database */
-				csd = rctl->csd = (sgmnt_data_ptr_t) malloc(sizeof(sgmnt_data));
+				csd = rctl->csd = (sgmnt_data_ptr_t) gtm_malloc_intern(sizeof(sgmnt_data));
 				assert(0 == curr->gd->dyn.addr->fname[curr->gd->dyn.addr->fname_len]);
 				/* 1) show 2) extract 3) verify action does not need standalone access.
 				 * In this case csa is NULL */
@@ -402,7 +402,7 @@ boolean_t mur_open_files()
 			{	/* User implicitly specified current generation journal files.
                 		 * Only one journal per region is specified. So open them now.
 				 */
-        			mur_jctl = jctl = (jnl_ctl_list *)malloc(sizeof(jnl_ctl_list));
+        			mur_jctl = jctl = (jnl_ctl_list *)gtm_malloc_intern(sizeof(jnl_ctl_list));
 				memset(jctl, 0, sizeof(jnl_ctl_list));
                         	rctl->jctl_head = rctl->jctl = jctl;
                 		jctl->jnl_fn_len = csd->jnl_file_len;
@@ -442,7 +442,7 @@ boolean_t mur_open_files()
 		ctop = &jnl_file_list[jnl_file_list_len];
 		while (cptr < ctop)
 		{
-			mur_jctl = jctl = (jnl_ctl_list *)malloc(sizeof(jnl_ctl_list));
+			mur_jctl = jctl = (jnl_ctl_list *)gtm_malloc_intern(sizeof(jnl_ctl_list));
 			memset(jctl, 0, sizeof(jnl_ctl_list));
 			cptr_last = cptr;
 			while (0 != *cptr && ',' != *cptr && '"' != *cptr &&  ' ' != *cptr)

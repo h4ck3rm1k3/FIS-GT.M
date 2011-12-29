@@ -95,7 +95,7 @@ uint4	mur_forward(jnl_tm_t min_broken_time, seq_num min_broken_seqno, seq_num lo
 	error_def(ERR_BLKCNTEDITFAIL);
 	error_def(ERR_JNLTPNEST);
 
-	murgbl.extr_buff = (char *)malloc(murgbl.max_extr_record_length);
+	murgbl.extr_buff = (char *)gtm_malloc_intern(murgbl.max_extr_record_length);
 	for (recstat = 0; recstat < TOT_EXTR_TYPES; recstat++)
 		extr_file_create[recstat] = TRUE;
 	jgbl.dont_reset_gbl_jrec_time = jgbl.forw_phase_recovery = TRUE;

@@ -67,7 +67,7 @@ gd_region *mlk_region_lookup(mval *ptr, gd_addr *addr)
 				gv_init_reg (reg);
 			if (reg->dyn.addr->acc_meth == dba_cm || reg->dyn.addr->acc_meth == dba_usr)
 			{
-				h->ptr = (char *) malloc(sizeof(gv_namehead));
+				h->ptr = (char *) gtm_malloc_intern(sizeof(gv_namehead));
 				targ = (gv_namehead *)h->ptr;
 				targ->gd_reg = reg;
 				targ->nct = 0;

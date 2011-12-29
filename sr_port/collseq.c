@@ -79,7 +79,7 @@ collseq *ready_collseq(int act)
 		fspec.addr = (char *)filespec;
 		if (!map_collseq(&fspec, &temp_csp))
 			return NULL;
-		csp = (collseq *) malloc(sizeof(collseq));
+		csp = (collseq *) gtm_malloc_intern(sizeof(collseq));
 		*csp = temp_csp;
 		collseq_list = csp;
 	}

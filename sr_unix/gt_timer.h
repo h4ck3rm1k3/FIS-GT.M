@@ -67,7 +67,18 @@ void add_int_to_abs_time(ABS_TIME *atps, int4 ival, ABS_TIME *atpd);
 void cancel_timer(TID tid);
 void hiber_start(uint4 hiber);
 void hiber_start_wait_any(uint4 hiber);
+
+typedef void (* start_timer_func_t)(TID, int4, int*) ;
 void start_timer(TID tid, int4 time_to_expir, void(* handler)(), int4 data_length, void *handler_data);
+
+void start_timer(TID tid, int4 time_to_expir, start_timer_func_t, int4 data_length, void *handler_data);
+
+
+
+// 
+// void (*)(long int, long int, int*)
+
+
 ABS_TIME sub_abs_time(ABS_TIME *atp1, ABS_TIME *atp2);
 void sys_get_curr_time(ABS_TIME *atp);
 void uninit_timers(void);

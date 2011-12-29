@@ -15,7 +15,7 @@
 
 void zr_init(z_records *zrecs, int4 count)
 {
-	zrecs->beg = (zbrk_struct *)malloc(count * sizeof(zbrk_struct));
+	zrecs->beg = (zbrk_struct *)gtm_malloc_intern(count * sizeof(zbrk_struct));
 	zrecs->free = zrecs->beg;
 	zrecs->end = zrecs->beg + count;
 	return;

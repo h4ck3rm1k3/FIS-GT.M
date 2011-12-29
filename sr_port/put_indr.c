@@ -12,12 +12,11 @@
 #include "mdef.h"
 #include "compiler.h"
 
-oprtype put_indr(x)
-oprtype *x;
+oprtype put_indr(oprtype *x)
 {
-mval *p;
-oprtype a;
-a.oprclass = INDR_REF;
-a.oprval.indr = x;
-return a;
+  mval *p;
+  oprtype a;
+  a.oprclass = INDR_REF;
+  a.oprval.indr = x;
+  return a;
 }

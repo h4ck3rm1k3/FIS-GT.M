@@ -351,7 +351,7 @@ void	op_fnfgncal (uint4 n_mvals, mval *dst, mval *package, mval *extref, uint4 m
 				break;
 			}
 	}
-	param_list = (struct param_list_struct *)malloc(n);
+	param_list = (struct param_list_struct *)gtm_malloc_intern(n);
 	free_space_pointer = (int4 *)((char *)param_list + sizeof(int) + sizeof(void *)*argcnt);
 	free_string_pointer = (char *)param_list + entry_ptr->parmblk_size;
 	/* load-up the parameter list */
@@ -509,7 +509,7 @@ void	op_fnfgncal (uint4 n_mvals, mval *dst, mval *package, mval *extref, uint4 m
 				LEN_AND_STR(entry_ptr->call_name.addr), LEN_AND_STR(xtrnl_table_name));
 		}
 	}
-	free(param_list);
+	gtm_free_intern(param_list);
 	check_for_timer_pops();
 	return;
 }

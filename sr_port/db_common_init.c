@@ -45,7 +45,7 @@ void	db_common_init(gd_region *reg, sgmnt_addrs *csa, sgmnt_data_ptr_t csd)
 	/* Initialization of prc_vec is done even for no journaling. gtcm uses this always. Others might need it too. */
 	if (NULL == prc_vec)
 	{
-		prc_vec = (jnl_process_vector *)malloc(sizeof(jnl_process_vector));
+		prc_vec = (jnl_process_vector *)gtm_malloc_intern(sizeof(jnl_process_vector));
 		jnl_prc_vector(prc_vec);
 	}
 }

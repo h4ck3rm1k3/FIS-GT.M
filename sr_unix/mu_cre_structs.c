@@ -22,9 +22,9 @@
 #include "mu_cre_structs.h"
 
 void mu_cre_structs(gd_region *greg)
-{	greg->dyn.addr->file_cntl = (file_control *)malloc(sizeof(*greg->dyn.addr->file_cntl));
+{	greg->dyn.addr->file_cntl = (file_control *)gtm_malloc_intern(sizeof(*greg->dyn.addr->file_cntl));
 	memset(greg->dyn.addr->file_cntl, 0, sizeof(*greg->dyn.addr->file_cntl));
-	greg->dyn.addr->file_cntl->file_info = (void *)malloc(sizeof(unix_db_info));
+	greg->dyn.addr->file_cntl->file_info = (void *)gtm_malloc_intern(sizeof(unix_db_info));
 	memset(greg->dyn.addr->file_cntl->file_info, 0, sizeof(unix_db_info));
 	return;
 }

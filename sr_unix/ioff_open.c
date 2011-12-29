@@ -34,7 +34,7 @@ short ioff_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 	assert(iod->state >= 0 && iod->state < n_io_dev_states);
 	assert(iod->type == ff);
 	if (!(d_rm = (d_rm_struct *) iod->dev_sp))
-	{	iod->dev_sp = (void*)malloc(sizeof(d_rm_struct));
+	{	iod->dev_sp = (void*)gtm_malloc_intern(sizeof(d_rm_struct));
 		d_rm = (d_rm_struct *) iod->dev_sp;
 		iod->state = dev_closed;
                 d_rm->stream = FALSE;

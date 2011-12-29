@@ -40,11 +40,11 @@ void murgetlst(void)
 	for (c1 = c2 = buff; ; )
 	{	for ( ; *c2 && (*c2 != ',') ; c2++)
 			;
-		ptr->next = (inc_list_struct*)malloc(sizeof(inc_list_struct));
+		ptr->next = (inc_list_struct*)gtm_malloc_intern(sizeof(inc_list_struct));
 		ptr = ptr->next;
 		ptr->next = 0;
 		ptr->input_file.len = c2 - c1;
-		ptr->input_file.addr = (char *)malloc(c2 - c1 + 1);
+		ptr->input_file.addr = (char *)gtm_malloc_intern(c2 - c1 + 1);
 		memcpy(ptr->input_file.addr, c1, c2 - c1);
 		*(char*)(ptr->input_file.addr + (c2 - c1)) = '\0';
 		if (!*c2)

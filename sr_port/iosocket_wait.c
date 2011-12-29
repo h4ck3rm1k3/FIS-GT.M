@@ -131,7 +131,7 @@ boolean_t iosocket_wait(io_desc *iod, int4 timepar)
 			return FALSE;
 		}
 		/* got the connection, create a new socket in the device socket list */
-		newsocketptr = (socket_struct *)malloc(sizeof(socket_struct));
+		newsocketptr = (socket_struct *)gtm_malloc_intern(sizeof(socket_struct));
 		*newsocketptr = *socketptr;
 		newsocketptr->sd = rv;
 		memcpy(&newsocketptr->remote.sin, &peer, sizeof(struct sockaddr_in));
@@ -141,10 +141,10 @@ boolean_t iosocket_wait(io_desc *iod, int4 timepar)
 		newsocketptr->passive = FALSE;
 		for (ii = 0; ii < newsocketptr->n_delimiter; ii++)
 		{
-			newsocketptr->delimiter[ii].addr = (char *)malloc(socketptr->delimiter[ii].len);
+			newsocketptr->delimiter[ii].addr = (char *)gtm_malloc_intern(socketptr->delimiter[ii].len);
 			memcpy(newsocketptr->delimiter[ii].addr, socketptr->delimiter[ii].addr, socketptr->delimiter[ii].len);
 		}
-		newsocketptr->buffer = (char *)malloc(socketptr->buffer_size);
+		newsocketptr->buffer = (char *)gtm_malloc_intern(socketptr->buffer_size);
 		newsocketptr->buffer_size = socketptr->buffer_size;
 		newsocketptr->buffered_length = socketptr->buffered_offset = 0;
 		/* put the new-born socket to the list and create a handle for it */

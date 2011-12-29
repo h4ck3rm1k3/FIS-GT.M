@@ -83,7 +83,7 @@ void op_gvquery (mval *v)
 		} else
 		{
 			size = v->str.len - 1; /* exclude ^ */
-			glob_begin = v->str.addr + 1; /* skip ^ */
+			glob_begin = (unsigned char *)v->str.addr + 1; /* skip ^ */
 		}
 		/* Need to return a double-quote for every single-quote; assume worst case. */
 		/* Account for ^ in both cases - extnam and no extnam */
@@ -96,7 +96,10 @@ void op_gvquery (mval *v)
 		{
 			*extnamdst++ = extnamdelim[1];
 			*extnamdst++ = extnamdelim[2];
-			for (extnamsrc = extnam_str.addr, extnamtop = extnamsrc + extnam_str.len; extnamsrc < extnamtop; )
+			for (
+			     extnamsrc = (unsigned char *)extnam_str.addr, 
+			       extnamtop = extnamsrc + extnam_str.len; 
+			     extnamsrc < extnamtop; )
 			{
 				*extnamdst++ = *extnamsrc;
 				if ('"' == *extnamsrc++)	/* caution : pointer increment side-effect */
@@ -108,7 +111,7 @@ void op_gvquery (mval *v)
 		}
 		memcpy(extnamdst, glob_begin, size);
 		v->str.len = extnamdst - stringpool.free + size;
-		v->str.addr = stringpool.free;
+		v->str.addr = (char*) stringpool.free;
 		stringpool.free += v->str.len;
 		assert (v->str.addr < (char *)stringpool.top && v->str.addr >= (char *)stringpool.base);
 		assert (v->str.addr + v->str.len <= (char *)stringpool.top &&

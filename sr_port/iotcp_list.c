@@ -136,14 +136,14 @@ int	iotcp_newlsock(io_log_name *dev, d_tcp_struct *tcpptr)
 	/* copy all state information from the current device */
 
 	/* io descriptor */
-	ldev->iod = (io_desc *)malloc(sizeof(io_desc));
+	ldev->iod = (io_desc *)gtm_malloc_intern(sizeof(io_desc));
 	memcpy(ldev->iod, dev->iod, sizeof(io_desc));
 	ldev->iod->state = dev_open;
 	ldev->iod->pair.in  = ldev->iod;
 	ldev->iod->pair.out = ldev->iod;
 
 	/* tcp-specific information */
-	ldev->iod->dev_sp = (void *)malloc(sizeof(d_tcp_struct));
+	ldev->iod->dev_sp = (void *)gtm_malloc_intern(sizeof(d_tcp_struct));
 	lsock_tcp=(d_tcp_struct *)ldev->iod->dev_sp;
 	memcpy(lsock_tcp, tcpptr, sizeof(d_tcp_struct));
 
@@ -151,7 +151,7 @@ int	iotcp_newlsock(io_log_name *dev, d_tcp_struct *tcpptr)
 	ldev->iod->state = dev_open;
 
 	/* add to our list of tcp listening sockets */
-	new_lsock = (lsock_rec *)malloc(sizeof(lsock_rec));
+	new_lsock = (lsock_rec *)gtm_malloc_intern(sizeof(lsock_rec));
 	new_lsock->socket = lsock;
 	new_lsock->sin = tcpptr->sin;
 	new_lsock->next = lsock_list;
@@ -178,7 +178,7 @@ void iotcp_rmlsock(io_desc *iod)
 				lsock_list = ls->next;
 			tcp_routines.aa_close(ls->socket);
 			ls->ldev->iod->state = dev_closed;
-			free(ls);
+			gtm_free_intern(ls);
 		}
 		else
 			prev = ls;

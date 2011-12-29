@@ -114,23 +114,23 @@ void	turn_tracing_on(mval *gvn)
 		rts_error(VARLSTCNT(4) ERR_NOTGBL, 2, gvn->str.len, gvn->str.addr);
 	if (!mprof_ptr)
 	{
-		mprof_ptr = (struct mprof_struct *)malloc(sizeof(struct mprof_struct));
+		mprof_ptr = (struct mprof_struct *)gtm_malloc_intern(sizeof(struct mprof_struct));
 		memset(mprof_ptr, 0, sizeof(struct mprof_struct));
 	}
 	parse_gvn(gvn);
 	memcpy(&mprof_ptr->gbl_to_fill, gvn, sizeof(mprof_ptr->gbl_to_fill));
-	mprof_ptr->gbl_to_fill.str.addr = (char *)malloc(gvn->str.len); /*len was already setup*/
+	mprof_ptr->gbl_to_fill.str.addr = (char *)gtm_malloc_intern(gvn->str.len); /*len was already setup*/
 	memcpy(mprof_ptr->gbl_to_fill.str.addr, gvn->str.addr, gvn->str.len);
 	if (!mprof_ptr->pcavailbase)
 	{
-		mprof_ptr->pcavailbase = (char **) malloc(PROFCALLOC_DSBLKSIZE);
+		mprof_ptr->pcavailbase = (char **) gtm_malloc_intern(PROFCALLOC_DSBLKSIZE);
 		*mprof_ptr->pcavailbase = 0;
 	}
 	mprof_ptr->pcavailptr = mprof_ptr->pcavailbase;
 	mprof_ptr->pcavail = PROFCALLOC_DSBLKSIZE - sizeof(char *);
 	memset(mprof_ptr->pcavailptr + 1, 0, mprof_ptr->pcavail);
 	TIMES(&curr);
-	prof_stackptr = (unsigned char *)malloc(TOTAL_SIZE_OF_PROFILING_STACKS);
+	prof_stackptr = (unsigned char *)gtm_malloc_intern(TOTAL_SIZE_OF_PROFILING_STACKS);
 	prof_msp = profstack_base = prof_stackptr + (TOTAL_SIZE_OF_PROFILING_STACKS - GUARD_RING_FOR_PROFILING_STACK);
 	profstack_top = prof_stackptr;
 	profstack_warn = profstack_top + GUARD_RING_FOR_PROFILING_STACK;
@@ -158,11 +158,11 @@ void turn_tracing_off (mval *gvn)
 		parse_gvn(gvn);
 	is_tracing_on = mprof_ptr->is_tracing_ini = FALSE;
 	assert(0 != mprof_ptr->gbl_to_fill.str.addr);
-	free(mprof_ptr->gbl_to_fill.str.addr);
+	gtm_free_intern(mprof_ptr->gbl_to_fill.str.addr);
 	mprof_ptr->gbl_to_fill.str.addr = 0;
 	mprof_tree_walk(mprof_ptr->head_tblnd);
-	free(prof_stackptr);
-	pcfree();
+	gtm_free_intern(prof_stackptr);
+	pcgtm_free_intern();
 	CLEAR_PROFILING_TABLE();
 }
 
@@ -312,7 +312,7 @@ char *pcalloc(unsigned int n)
 			mprof_ptr->pcavailptr = (char ** ) *mprof_ptr->pcavailptr;
 		else
 		{
-			x = (char **) malloc(PROFCALLOC_DSBLKSIZE);
+			x = (char **) gtm_malloc_intern(PROFCALLOC_DSBLKSIZE);
 			*mprof_ptr->pcavailptr = (char *) x;
 			mprof_ptr->pcavailptr = x;
 			*mprof_ptr->pcavailptr = 0;
@@ -325,7 +325,7 @@ char *pcalloc(unsigned int n)
 	return (char *) mprof_ptr->pcavailptr + mprof_ptr->pcavail + sizeof(char *);
 }
 
-void pcfree(void)
+void pcgtm_free_intern(void)
 {
 	mprof_ptr->pcavailptr = mprof_ptr->pcavailbase;
 	mprof_ptr->pcavail = PROFCALLOC_DSBLKSIZE - sizeof(char *);
@@ -754,10 +754,10 @@ void parse_gvn(mval *gvn)
 		if (mprof_mstr.len)
 		{
 			assert(mprof_mstr.addr);
-			free(mprof_mstr.addr);
+			gtm_free_intern(mprof_mstr.addr);
 		}
 		mprof_mstr.len = 4 * gvn->str.len;
-		mprof_mstr.addr = (char *)malloc(mprof_mstr.len);
+		mprof_mstr.addr = (char *)gtm_malloc_intern(mprof_mstr.len);
 	}
 	mpsp = mprof_mstr.addr;
 	/* Parse the global variable passed to insert the information */

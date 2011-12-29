@@ -63,7 +63,7 @@ void mu_upgrd_adjust_blkptr(block_id blk, bool dirtree, sgmnt_data *new_head, in
 	error_def(ERR_DBPREMATEOF);
 
 	last_full_grp_startblk = ROUND_DOWN(new_head->trans_hist.total_blks, BLKS_PER_LMAP);
-	blk_base = (uchar_ptr_t) malloc(new_head->blk_size);
+	blk_base = (uchar_ptr_t) gtm_malloc_intern(new_head->blk_size);
 
 	LSEEKREAD(fd, (off_t)(new_head->start_vbn - 1) * DISK_BLOCK_SIZE + (off_t)blk * new_head->blk_size,
 		blk_base, new_head->blk_size, status);
@@ -120,6 +120,6 @@ void mu_upgrd_adjust_blkptr(block_id blk, bool dirtree, sgmnt_data *new_head, in
 		blk_base, new_head->blk_size, status);
 	if (0 != status) rts_error(VARLSTCNT(5) ERR_DBFILOPERR, 2, fn_len, fn, status);
 
-	free(blk_base);
+	gtm_free_intern(blk_base);
 }
 

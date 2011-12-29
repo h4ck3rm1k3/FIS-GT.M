@@ -93,7 +93,7 @@ void dse_rmrec(void)
 	blk_size = cs_addrs->hdr->blk_size;
 	if(!(bp = t_qread(patch_curr_blk, &dummy_hist.h[0].cycle, &dummy_hist.h[0].cr)))
 		rts_error(VARLSTCNT(1) ERR_DSEBLKRDFAIL);
-	lbp = (uchar_ptr_t)malloc(blk_size);
+	lbp = (uchar_ptr_t)gtm_malloc_intern(blk_size);
 	memcpy(lbp, bp, blk_size);
 
 	if (((blk_hdr_ptr_t)lbp)->bsiz > cs_addrs->hdr->blk_size)
@@ -106,13 +106,13 @@ void dse_rmrec(void)
 	{
 		if (!(rp = rp_base = skan_rnum(lbp, FALSE)))
 		{
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
 	} else if (!(rp = rp_base = skan_offset(lbp, FALSE)))
 	{
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
@@ -137,14 +137,14 @@ void dse_rmrec(void)
 				if (!BLK_FINI(bs_ptr, bs1))
 				{
 					util_out_print("Error: bad blk build.",TRUE);
-					free(lbp);
+					gtm_free_intern(lbp);
 					t_abort(gv_cur_region, cs_addrs);
 					return;
 				}
 				t_write(patch_curr_blk, (unsigned char *)bs1, 0, 0, bp, ((blk_hdr_ptr_t)lbp)->levl, TRUE, FALSE);
 				BUILD_AIMG_IF_JNL_ENABLED(cs_addrs, cs_data, non_tp_jfb_buff_ptr, cse);
 				t_end(&dummy_hist, 0);
-				free(lbp);
+				gtm_free_intern(lbp);
 				return;
 			}
 			r_top = b_top;
@@ -187,14 +187,14 @@ void dse_rmrec(void)
 		if (!BLK_FINI(bs_ptr, bs1))
 		{
 			util_out_print("Error: bad blk build.", TRUE);
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
 		t_write(patch_curr_blk, (unsigned char *)bs1, 0, 0, bp, ((blk_hdr_ptr_t)lbp)->levl, TRUE, FALSE);
 		BUILD_AIMG_IF_JNL_ENABLED(cs_addrs, cs_data, non_tp_jfb_buff_ptr, cse);
 		t_end(&dummy_hist, 0);
-		free(lbp);
+		gtm_free_intern(lbp);
 		return;
 	}
 }

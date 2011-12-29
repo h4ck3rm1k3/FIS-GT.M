@@ -80,13 +80,13 @@ short	iosocket_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4
 		if (STR_LIT_LEN("SOCKET") != mspace->str.len || 0 != memcmp(dev_type, "SOCKET", STR_LIT_LEN("SOCKET")))
 		{
 			if (ioptr->dev_sp)
-				free(ioptr->dev_sp);
+				gtm_free_intern(ioptr->dev_sp);
 			ioptr->state = dev_never_opened;
 		}
 	}
 	if (ioptr->state == dev_never_opened)
 	{
-		ioptr->dev_sp = (void *)malloc(sizeof(d_socket_struct));
+		ioptr->dev_sp = (void *)gtm_malloc_intern(sizeof(d_socket_struct));
 		memset(ioptr->dev_sp, 0, sizeof(d_socket_struct));
 	}
 	dsocketptr = (d_socket_struct *)ioptr->dev_sp;
@@ -220,7 +220,7 @@ short	iosocket_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4
 		{
 			if (iosocket_handle(sock_handle, &handle_len, FALSE, &newdsocket) >= 0)
 			{
-                  		free(socketptr);
+                  		gtm_free_intern(socketptr);
 				rts_error(VARLSTCNT(4) ERR_SOCKETEXIST, 2, handle_len, sock_handle);
                   		return FALSE;
                 	}
@@ -245,7 +245,7 @@ short	iosocket_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4
 		if (socketptr->sd > 0)
 			(void)tcp_routines.aa_close(socketptr->sd);
 		iosocket_delimiter((unsigned char *)NULL, 0, socketptr, TRUE);
-		free(socketptr);
+		gtm_free_intern(socketptr);
 		return FALSE;
 	}
 	/* commit the changes to the list */
@@ -258,7 +258,7 @@ short	iosocket_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4
 	    0 < (socketptr->zff.len = zff_len)) /* assign the new ZFF len, might be 0 from ZNOFF, or ZFF="" */
 	{ /* ZFF="non-zero-len-string" specified */
 		if (NULL == socketptr->zff.addr) /* we rely on socketptr->zff.addr being set to 0 in iosocket_create() */
-			socketptr->zff.addr = (char *)malloc(MAX_ZFF_LEN);
+			socketptr->zff.addr = (char *)gtm_malloc_intern(MAX_ZFF_LEN);
 		memcpy(socketptr->zff.addr, zff_buffer, zff_len);
 	}
        	ioptr->state = dev_open;

@@ -249,7 +249,7 @@ rc_srvc_xact(cptr, xend)
 					    "RC Request returned error.");
 			dumped = 1;
 #endif
-			eptr = (rc_clnt_err *) malloc(sizeof(rc_clnt_err));
+			eptr = (rc_clnt_err *) gtm_malloc_intern(sizeof(rc_clnt_err));
 			eptr->pid = (qhdr->r.pid1.value << 16) | qhdr->r.pid2.value;
 			eptr->next = elst;
 			elst = eptr;
@@ -292,8 +292,8 @@ rc_srvc_xact(cptr, xend)
 	if (elst)
 	{
 		for (eptr = elst->next; eptr; eptr = (elst = eptr)->next)
-			free(elst);
-		free(elst);
+			gtm_free_intern(elst);
+		gtm_free_intern(elst);
 	}
 	/*
 	 * If true, there was an XBLK, so fill in some of the response

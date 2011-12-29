@@ -40,9 +40,9 @@
 
 #define CLEANUP(XX)	{				\
 				if (cc)			\
-					free(cc);	\
+					gtm_free_intern(cc);	\
 				if (cs_data)		\
-					free(cs_data); 	\
+					gtm_free_intern(cs_data); 	\
 				if (0 < fd)		\
 					close(fd);	\
 				if (EXIT_ERR == XX)	\
@@ -202,7 +202,7 @@ unsigned char mu_cre_file(void)
 	gv_cur_region->dyn.addr->file_cntl = &fc;
 	fc.file_info = (void*)&udi_struct;
 	udi->fd = fd;
-	cs_data = (sgmnt_data_ptr_t)malloc(sizeof(sgmnt_data));
+	cs_data = (sgmnt_data_ptr_t)gtm_malloc_intern(sizeof(sgmnt_data));
 	memset(cs_data, 0, sizeof(*cs_data));
 	cs_data->createinprogress = TRUE;
 	cs_data->semid = INVALID_SEMID;
@@ -251,7 +251,7 @@ unsigned char mu_cre_file(void)
 		CLEANUP(EXIT_ERR);
 		return EXIT_ERR;
 	}
-	cc = (char*)malloc(DISK_BLOCK_SIZE);
+	cc = (char*)gtm_malloc_intern(DISK_BLOCK_SIZE);
 	memset(cc, 0, DISK_BLOCK_SIZE);
 	LSEEKWRITE(udi->fd,
 		   (cs_data->start_vbn - 1) * DISK_BLOCK_SIZE + ((off_t)(cs_data->trans_hist.total_blks) * cs_data->blk_size),

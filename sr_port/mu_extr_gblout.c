@@ -82,24 +82,24 @@ boolean_t mu_extr_gblout(mval *gn, struct RAB *outrab, mu_extr_stats *st, int fo
 
 	op_gvname(VARLSTCNT(1) gn);	/* op_gvname() must be done before any usage of cs_addrs or, gv_currkey */
 	if (NULL == key_buffer)
-		key_buffer = (unsigned char *)malloc(MAX_ZWR_KEY_SZ);
+		key_buffer = (unsigned char *)gtm_malloc_intern(MAX_ZWR_KEY_SZ);
 	if (ZWR_EXP_RATIO(cs_addrs->hdr->max_rec_size) > max_zwr_len)
 	{
 		if (NULL != zwr_buffer)
 			free (zwr_buffer);
 		max_zwr_len = ZWR_EXP_RATIO(cs_addrs->hdr->max_rec_size);
-		zwr_buffer = (unsigned char *)malloc(max_zwr_len);
+		zwr_buffer = (unsigned char *)gtm_malloc_intern(max_zwr_len);
 	}
 	assert(0 < cs_data->blk_size);
 	if (cs_data->blk_size > private_blksz)
 	{
 		if (NULL != private_blk)
-			free(private_blk);
+			gtm_free_intern(private_blk);
 		private_blksz = cs_data->blk_size;
-		private_blk = (unsigned char *)malloc(private_blksz);
+		private_blk = (unsigned char *)gtm_malloc_intern(private_blksz);
 	}
 	if (NULL == beg_gv_currkey)
-		beg_gv_currkey = (gv_key *)malloc(sizeof(gv_key) + MAX_KEY_SZ);
+		beg_gv_currkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + MAX_KEY_SZ);
 	memcpy(beg_gv_currkey->base, gv_currkey->base, (sizeof(gv_key) + gv_currkey->end));
 	gname_size = gv_currkey->end;
 	keytop = &gv_currkey->base[gv_currkey->top];

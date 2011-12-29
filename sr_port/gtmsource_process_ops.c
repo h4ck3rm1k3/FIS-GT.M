@@ -218,7 +218,7 @@ int gtmsource_alloc_tcombuff(void)
 	if (NULL == tcombuff)
 	{
 		assert(NULL == gtmsource_tcombuff_start);
-		tcombuff = (unsigned char *)malloc(gd_header->n_regions * TCOM_RECLEN + OS_PAGE_SIZE);
+		tcombuff = (unsigned char *)gtm_malloc_intern(gd_header->n_regions * TCOM_RECLEN + OS_PAGE_SIZE);
 		gtmsource_tcombuff_start = (unsigned char *)ROUND_UP2((unsigned long)tcombuff, OS_PAGE_SIZE);
 	}
 	return (SS_NORMAL);
@@ -228,7 +228,7 @@ void gtmsource_free_tcombuff(void)
 {
 	if (NULL != tcombuff)
 	{
-		free(tcombuff);
+		gtm_free_intern(tcombuff);
 		tcombuff = gtmsource_tcombuff_start = NULL;
 	}
 	return;
@@ -244,13 +244,13 @@ int gtmsource_alloc_filter_buff(int bufsiz)
 		REPL_DPRINT3("Expanding filter buff from %d to %d\n", repl_filter_bufsiz, bufsiz);
 		free_filter_buff = filterbuff;
 		old_filter_buff = repl_filter_buff;
-		filterbuff = (unsigned char *)malloc(bufsiz + OS_PAGE_SIZE);
+		filterbuff = (unsigned char *)gtm_malloc_intern(bufsiz + OS_PAGE_SIZE);
 		repl_filter_buff = (unsigned char *)ROUND_UP2((unsigned long)filterbuff, OS_PAGE_SIZE);
 		if (NULL != free_filter_buff)
 		{
 			assert(NULL != old_filter_buff);
 			memcpy(repl_filter_buff, old_filter_buff, repl_filter_bufsiz);
-			free(free_filter_buff);
+			gtm_free_intern(free_filter_buff);
 		}
 		repl_filter_bufsiz = bufsiz;
 	}
@@ -262,7 +262,7 @@ void gtmsource_free_filter_buff(void)
 	if (NULL != filterbuff)
 	{
 		assert(NULL != repl_filter_buff);
-		free(filterbuff);
+		gtm_free_intern(filterbuff);
 		filterbuff = repl_filter_buff = NULL;
 		repl_filter_bufsiz = 0;
 	}
@@ -281,13 +281,13 @@ int gtmsource_alloc_msgbuff(int maxbuffsize)
 		REPL_DPRINT3("Expanding message buff from %d to %d\n", gtmsource_msgbufsiz, maxbuffsize);
 		free_msgp = msgbuff;
 		oldmsgp = gtmsource_msgp;
-		msgbuff = (unsigned char *)malloc(maxbuffsize + OS_PAGE_SIZE);
+		msgbuff = (unsigned char *)gtm_malloc_intern(maxbuffsize + OS_PAGE_SIZE);
 		gtmsource_msgp = (repl_msg_ptr_t)ROUND_UP2((unsigned long)msgbuff, OS_PAGE_SIZE);
 		if (NULL != free_msgp)
 		{ /* Copy existing data */
 			assert(NULL != oldmsgp);
 			memcpy((unsigned char *)gtmsource_msgp, (unsigned char *)oldmsgp, gtmsource_msgbufsiz);
-			free(free_msgp);
+			gtm_free_intern(free_msgp);
 		}
 		gtmsource_msgbufsiz = maxbuffsize;
 		gtmsource_alloc_filter_buff(gtmsource_msgbufsiz);
@@ -300,7 +300,7 @@ void gtmsource_free_msgbuff(void)
 	if (NULL != msgbuff)
 	{
 		assert(NULL != gtmsource_msgp);
-		free(msgbuff);
+		gtm_free_intern(msgbuff);
 		msgbuff = NULL;
 		gtmsource_msgp = NULL;
 		gtmsource_msgbufsiz = 0;

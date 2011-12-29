@@ -36,7 +36,7 @@ void urx_resolve_port(rhdtyp *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top)
 #endif
 
 		rp1->addr = ap->next;
-		free(ap);
+		gtm_free_intern(ap);
 	}
 
 	while (lbl_tab < lbl_top)
@@ -50,14 +50,14 @@ void urx_resolve_port(rhdtyp *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top)
 					USHBIN_ONLY((int4)&lbl_tab->lnr_adr)
 					NON_USHBIN_ONLY((int4)LABENT_LNR_ENTRY(rtn, lbl_tab));
 				lp1->addr = ap->next;
-				free(ap);
+				gtm_free_intern(ap);
 			}
 			assert(lp1->addr == 0);
 			if (lp0 == (urx_labref *)rp1)
 				((urx_rtnref *)lp0)->lab = lp1->next;
 			else
 				lp0->next = lp1->next;
-			free(lp1);
+			gtm_free_intern(lp1);
 		}
 		lbl_tab++;
 	}
@@ -65,6 +65,6 @@ void urx_resolve_port(rhdtyp *rtn, LAB_TABENT *lbl_tab, LAB_TABENT *lbl_top)
 	if (0 == rp1->lab)
 	{
 		rp0->next = rp1->next;
-		free(rp1);
+		gtm_free_intern(rp1);
 	}
 }

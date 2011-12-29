@@ -33,7 +33,7 @@ boolean_t iosocket_delimiter(unsigned char *delimiter_buffer, int4 delimiter_len
 
 	/* free the previous delimiters if any */
 	for (ii = 0; ii < socketptr->n_delimiter; ii++)
-		free(socketptr->delimiter[ii].addr);
+		gtm_free_intern(socketptr->delimiter[ii].addr);
 	socketptr->n_delimiter = 0;
 	socketptr->delim0containsLF = FALSE;
 	if (rm)
@@ -50,7 +50,7 @@ boolean_t iosocket_delimiter(unsigned char *delimiter_buffer, int4 delimiter_len
 			/* end of the previous delimiter and start the next one */
 			if (1 < counter)
 			{
-				socketptr->delimiter[ii].addr = (char *)malloc(counter - 1);
+				socketptr->delimiter[ii].addr = (char *)gtm_malloc_intern(counter - 1);
 				memcpy(socketptr->delimiter[ii].addr, delimiter, counter - 1);
 				socketptr->delimiter[ii++].len = counter - 1;
 				socketptr->n_delimiter++;
@@ -71,7 +71,7 @@ boolean_t iosocket_delimiter(unsigned char *delimiter_buffer, int4 delimiter_len
 		}
 		if ((c == top) && (0 < counter))
 		{
-			socketptr->delimiter[ii].addr = (char *)malloc(counter);
+			socketptr->delimiter[ii].addr = (char *)gtm_malloc_intern(counter);
 			memcpy(socketptr->delimiter[ii].addr, delimiter, counter);
 			socketptr->delimiter[ii++].len = counter;
 			socketptr->n_delimiter++;

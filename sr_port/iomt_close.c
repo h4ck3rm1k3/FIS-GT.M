@@ -113,9 +113,9 @@ void iomt_close(io_desc *dv, mval *pp)
 			 * been malloc'ed.
 			 */
 			if (mt_ptr->bufftoggle < 0)
-				free(mt_ptr->buffer + mt_ptr->bufftoggle);
+				gtm_free_intern(mt_ptr->buffer + mt_ptr->bufftoggle);
 			else
-				free(mt_ptr->buffer);
+				gtm_free_intern(mt_ptr->buffer);
 		}
 #ifdef DP
 		FPRINTF(stderr, "<< iomt_close\n");

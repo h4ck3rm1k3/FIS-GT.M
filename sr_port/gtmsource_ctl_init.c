@@ -76,7 +76,7 @@ repl_buff_t *repl_buff_create(int buffsize)
 	repl_buff_t	*tmp_rb;
 	int		index;
 
-	tmp_rb = (repl_buff_t *)malloc(sizeof(repl_buff_t));
+	tmp_rb = (repl_buff_t *)gtm_malloc_intern(sizeof(repl_buff_t));
 	tmp_rb->buffindex = REPL_MAINBUFF;
 	for (index = REPL_MAINBUFF; REPL_NUMBUFF > index; index++)
 	{
@@ -84,10 +84,10 @@ repl_buff_t *repl_buff_create(int buffsize)
 		tmp_rb->buff[index].recaddr = JNL_FILE_FIRST_RECORD;
 		tmp_rb->buff[index].readaddr = JNL_FILE_FIRST_RECORD;
 		tmp_rb->buff[index].buffremaining = buffsize;
-		tmp_rb->buff[index].base = (unsigned char *)malloc(buffsize);
+		tmp_rb->buff[index].base = (unsigned char *)gtm_malloc_intern(buffsize);
 		tmp_rb->buff[index].recbuff = tmp_rb->buff[index].base;
 	}
-	tmp_rb->fc = (repl_file_control_t *)malloc(sizeof(repl_file_control_t));
+	tmp_rb->fc = (repl_file_control_t *)gtm_malloc_intern(sizeof(repl_file_control_t));
 	return (tmp_rb);
 }
 
@@ -118,7 +118,7 @@ int repl_ctl_create(repl_ctl_element **ctl, gd_region *reg,
 	status = SS_NORMAL;
 	jnl_status = 0;
 
-	tmp_ctl = (repl_ctl_element *)malloc(sizeof(repl_ctl_element));
+	tmp_ctl = (repl_ctl_element *)gtm_malloc_intern(sizeof(repl_ctl_element));
 	tmp_ctl->reg = reg;
 	csa = &FILE_INFO(reg)->s_addrs;
 
@@ -192,7 +192,7 @@ int repl_ctl_create(repl_ctl_element **ctl, gd_region *reg,
 
 	if (status == SS_NORMAL)
 	{
-		tmp_jfh = (jnl_file_header *)malloc(ROUND_UP(sizeof(jnl_file_header), 8));
+		tmp_jfh = (jnl_file_header *)gtm_malloc_intern(ROUND_UP(sizeof(jnl_file_header), 8));
 		F_READ_BLK_ALIGNED(tmp_fd, 0, tmp_jfh, ROUND_UP(sizeof(jnl_file_header), 8), status);
 		if (SS_NORMAL == status && 0 != memcmp(tmp_jfh->label, JNL_LABEL_TEXT, STR_LIT_LEN(JNL_LABEL_TEXT)))
 			status = (int4)ERR_JNLBADLABEL;
@@ -200,10 +200,10 @@ int repl_ctl_create(repl_ctl_element **ctl, gd_region *reg,
 
 	if (SS_NORMAL != status)
 	{
-		free(tmp_ctl);
+		gtm_free_intern(tmp_ctl);
 		tmp_ctl = NULL;
 		if (NULL != tmp_jfh)
-			free(tmp_jfh);
+			gtm_free_intern(tmp_jfh);
 		tmp_jfh = NULL;
 		rts_error(VARLSTCNT(7) ERR_JNLFILOPN, 4, jnl_fn_len, jnl_fn, DB_LEN_STR(reg), status);
 	}
@@ -252,7 +252,7 @@ int gtmsource_ctl_init(void)
 	unsigned char		jnl_file_name[JNL_NAME_SIZE];
 
 
-	repl_ctl_list = (repl_ctl_element *)malloc(sizeof(repl_ctl_element));
+	repl_ctl_list = (repl_ctl_element *)gtm_malloc_intern(sizeof(repl_ctl_element));
 	memset((char_ptr_t)repl_ctl_list, 0, sizeof(*repl_ctl_list));
 	prev_ctl = repl_ctl_list;
 
@@ -286,18 +286,18 @@ int repl_ctl_close(repl_ctl_element *ctl)
 		{
 			for (index = REPL_MAINBUFF; REPL_NUMBUFF > index; index++)
 				if (ctl->repl_buff->buff[index].base)
-					free(ctl->repl_buff->buff[index].base);
+					gtm_free_intern(ctl->repl_buff->buff[index].base);
 			if (ctl->repl_buff->fc)
 			{
 				if (ctl->repl_buff->fc->jfh)
-					free(ctl->repl_buff->fc->jfh);
+					gtm_free_intern(ctl->repl_buff->fc->jfh);
 				if (NOJNL != ctl->repl_buff->fc->fd)
 					F_CLOSE(ctl->repl_buff->fc->fd);
-				free(ctl->repl_buff->fc);
+				gtm_free_intern(ctl->repl_buff->fc);
 			}
-			free(ctl->repl_buff);
+			gtm_free_intern(ctl->repl_buff);
 		}
-		free(ctl);
+		gtm_free_intern(ctl);
 	}
 	return (SS_NORMAL);
 }
@@ -332,7 +332,7 @@ int gtmsource_ctl_close(void)
 		}
 		ctl = repl_ctl_list;
 		repl_ctl_list = NULL;
-		free(ctl);
+		gtm_free_intern(ctl);
 	}
 	return (SS_NORMAL);
 }

@@ -42,13 +42,13 @@ void	gv_xform_key(gv_key *keyp, bool xback)
 	if (gv_sparekey_size < gv_keysize)
 	{
 		if (gv_sparekey)
-			free(gv_sparekey);
+			gtm_free_intern(gv_sparekey);
 		else
 		{
 			temp.str.addr = (char *)buff;
 			temp.mvtype = MV_STR;
 		}
-		gv_sparekey = (gv_key *)malloc(sizeof(gv_key) - 1 + gv_keysize);
+		gv_sparekey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
 		gv_sparekey_size = gv_keysize;
 	}
 	assert(keyp->top == gv_keysize);

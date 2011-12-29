@@ -20,7 +20,7 @@
 #include "cli.h"
 #include "dse.h"
 
-int4 dse_lm_blk_free(int4 blk, sm_uc_ptr_t base_addr)
+int4 dse_lm_blk_gtm_free_intern(int4 blk, sm_uc_ptr_t base_addr)
 {
 	sm_uc_ptr_t 	ptr;
 	unsigned char	valid;

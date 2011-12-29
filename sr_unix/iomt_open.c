@@ -121,7 +121,7 @@ short iomt_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 	buff = 0;
 	memset(&newmt, 0, sizeof(newmt));	/* zero structure to start */
 	if (ioptr->state == dev_never_opened)
-		ioptr->dev_sp = (void *)(malloc(sizeof(d_mt_struct)));
+		ioptr->dev_sp = (void *)(gtm_malloc_intern(sizeof(d_mt_struct)));
 	mt = (d_mt_struct *)dev_name->iod->dev_sp;
 	if (ioptr->state == dev_open && mt->buffer)
 	{
@@ -350,15 +350,15 @@ short iomt_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 	}
 	if (newmt.fixed)
 	{
-		newmt.buffer = (unsigned char *)malloc(newmt.block_sz);
+		newmt.buffer = (unsigned char *)gtm_malloc_intern(newmt.block_sz);
 		newmt.bufftoggle = 0;
 	} else
 	{
-		newmt.buffer = (unsigned char *)malloc(newmt.block_sz * 2);
+		newmt.buffer = (unsigned char *)gtm_malloc_intern(newmt.block_sz * 2);
 		newmt.bufftoggle = newmt.block_sz;
 	}
 	if (buff)
-		free(buff);
+		gtm_free_intern(buff);
 	newmt.bufftop = newmt.buffptr = newmt.buffer;
 	newmt.last_op = mt_null;
 	ioptr->state = dev_open;

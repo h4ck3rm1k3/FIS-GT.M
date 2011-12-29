@@ -44,13 +44,13 @@ void gtcml_lkhold(void)
 				{
 					if (lk_walk == reg_walk->lockdata)
 					{	reg_walk->lockdata = lk_walk->next;
-						free(lk_walk);
+						gtm_free_intern(lk_walk);
 						lk_walk = lk_walk1 = reg_walk->lockdata;
 					}
 					else
 					{
 						lk_walk1->next = lk_walk->next;
-						free(lk_walk);
+						gtm_free_intern(lk_walk);
 						lk_walk = lk_walk1->next;
 					}
 				} /* delete list entry */

@@ -73,10 +73,10 @@ int gtcm_cn_acpt(omi_conn_ll *cll, int now)		/* now --> current time in seconds 
 #endif				/* defined(BSD_TCP) */
 
 	/*  Build the client data structure */
-	if (!(cptr = (omi_conn *)malloc(sizeof(omi_conn))) || !(cptr->buff = (char *)malloc(OMI_BUFSIZ)))
+	if (!(cptr = (omi_conn *)gtm_malloc_intern(sizeof(omi_conn))) || !(cptr->buff = (char *)gtm_malloc_intern(OMI_BUFSIZ)))
 	{
 		if (cptr)
-			free(cptr);
+			gtm_free_intern(cptr);
 		(void) close(fd);
 		return -1;
 	}
@@ -92,7 +92,7 @@ int gtcm_cn_acpt(omi_conn_ll *cll, int now)		/* now --> current time in seconds 
 	cptr->exts  = 0;
 	cptr->state = OMI_ST_DISC;
 	cptr->ga    = (ga_struct *)0; /* struct gd_addr_struct */
-	cptr->of = (oof_struct *) malloc(sizeof(struct rc_oflow));
+	cptr->of = (oof_struct *) gtm_malloc_intern(sizeof(struct rc_oflow));
 	memset(cptr->of, 0, sizeof(struct rc_oflow));
 	cptr->pklog = INV_FD;
 	/*  Initialize the statistics */

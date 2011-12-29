@@ -68,7 +68,7 @@ int op_open(mval *device, mval *devparms, int timeout, mval *mspace)
 				if (naml == tl)
 				{
 					prev->next = tl->next;
-					free(tl);
+					gtm_free_intern(tl);
 					break;
 				}
 			}

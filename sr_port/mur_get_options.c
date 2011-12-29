@@ -109,8 +109,8 @@ void	mur_get_options(void)
 	)
 #endif
 
-	qual_buffer = (char *)malloc(MAX_LINE);
-	entry = (char *)malloc(MAX_LINE);
+	qual_buffer = (char *)gtm_malloc_intern(MAX_LINE);
+	entry = (char *)gtm_malloc_intern(MAX_LINE);
 	memset(&mur_options, 0, sizeof mur_options);
 	/*----- 	-VERBOSE	-----*/
 	if (CLI_PRESENT == cli_present("VERBOSE"))
@@ -178,7 +178,7 @@ void	mur_get_options(void)
 			if (cli_get_str(extr_parms[extr_type], qual_buffer, &length))
 			{
 				mur_options.extr_fn_len[extr_type] = length;
-				mur_options.extr_fn[extr_type] = (char *)malloc(mur_options.extr_fn_len[extr_type] + 1);
+				mur_options.extr_fn[extr_type] = (char *)gtm_malloc_intern(mur_options.extr_fn_len[extr_type] + 1);
 				strncpy(mur_options.extr_fn[extr_type], qual_buffer, mur_options.extr_fn_len[extr_type]);
 			}
 		}
@@ -261,8 +261,8 @@ void	mur_get_options(void)
 	/*----- 	-REDIRECT=(old-file-name=new-file-name,...)	-----*/
 	if (cli_present("REDIRECT") == CLI_PRESENT)
 	{
-		file_name_specified = (char *)malloc(MAX_FN_LEN + 1);
-		file_name_expanded = (char *)malloc(MAX_FN_LEN + 1);
+		file_name_specified = (char *)gtm_malloc_intern(MAX_FN_LEN + 1);
+		file_name_expanded = (char *)gtm_malloc_intern(MAX_FN_LEN + 1);
 		length = MAX_LINE;
 		if (!CLI_GET_STR_ALL("REDIRECT", qual_buffer, &length))
 			mupip_exit(ERR_MUPCLIERR);
@@ -291,7 +291,7 @@ void	mur_get_options(void)
 				gtm_putmsg(VARLSTCNT(4) ERR_INVREDIRQUAL, 2, LEN_AND_LIT(REDIRECT_STR));
 				mupip_exit(ERR_MUPCLIERR);
 			}
-			rl_ptr1 = (redirect_list *)malloc(sizeof(redirect_list));
+			rl_ptr1 = (redirect_list *)gtm_malloc_intern(sizeof(redirect_list));
 			rl_ptr1->next = NULL;
 			if (mur_options.redirect == NULL)
 				mur_options.redirect = rl_ptr1;
@@ -320,7 +320,7 @@ void	mur_get_options(void)
 				}
 			}
 			rl_ptr->org_name_len = file_name_expanded_len;
-			rl_ptr->org_name = (char *)malloc(rl_ptr->org_name_len + 1);
+			rl_ptr->org_name = (char *)gtm_malloc_intern(rl_ptr->org_name_len + 1);
 			memcpy(rl_ptr->org_name, file_name_expanded, rl_ptr->org_name_len);
 			rl_ptr->org_name[rl_ptr->org_name_len] = '\0';
 			entry_ptr = cptr + 1; /* skip the = */
@@ -346,12 +346,12 @@ void	mur_get_options(void)
 				}
 			}
 			rl_ptr->new_name_len = file_name_expanded_len;
-			rl_ptr->new_name = (char *)malloc(rl_ptr->new_name_len + 1);
+			rl_ptr->new_name = (char *)gtm_malloc_intern(rl_ptr->new_name_len + 1);
 			memcpy(rl_ptr->new_name, file_name_expanded, rl_ptr->new_name_len);
 			rl_ptr->new_name[rl_ptr->new_name_len] = '\0';
 		}
-		free(file_name_specified);
-		free(file_name_expanded);
+		gtm_free_intern(file_name_specified);
+		gtm_free_intern(file_name_expanded);
 	}
 	/*----- 	-FENCES=NONE|ALWAYS|PROCESS 	-----*/
 	mur_options.fences = FENCE_PROCESS;
@@ -483,7 +483,7 @@ void	mur_get_options(void)
 			if (',' == *qual_buffer_ptr)
 				qual_buffer_ptr++;  /* skip separator */
 			entry_ptr = entry;
-			sl_ptr1 = (select_list *)malloc(sizeof(select_list));
+			sl_ptr1 = (select_list *)gtm_malloc_intern(sizeof(select_list));
 			sl_ptr1->next = NULL;
 			if (NULL == mur_options.global)
 				mur_options.global = sl_ptr1;
@@ -507,7 +507,7 @@ void	mur_get_options(void)
 			if (global_exclude)
 				sl_ptr->exclude = !sl_ptr->exclude;
 			sl_ptr->len = length;
-			sl_ptr->buff = (char *)malloc(sl_ptr->len);
+			sl_ptr->buff = (char *)gtm_malloc_intern(sl_ptr->len);
 			memcpy(sl_ptr->buff, entry_ptr, length);
 			sl_ptr->has_wildcard = FALSE;
 			sl_ptr->has_wildcard += ((NULL == memchr(sl_ptr->buff, WILDCARD_CHAR1, length)) ? FALSE : TRUE);
@@ -557,7 +557,7 @@ void	mur_get_options(void)
 			if (',' == *qual_buffer_ptr)
 				qual_buffer_ptr++;  /* skip separator */
 			entry_ptr = entry;
-			sl_ptr1 = (select_list *)malloc(sizeof(select_list));
+			sl_ptr1 = (select_list *)gtm_malloc_intern(sizeof(select_list));
 			sl_ptr1->next = NULL;
 			if (NULL == mur_options.user)
 				mur_options.user = sl_ptr1;
@@ -581,7 +581,7 @@ void	mur_get_options(void)
 			if (global_exclude)
 				sl_ptr->exclude = !sl_ptr->exclude;
 			sl_ptr->len = length;
-			sl_ptr->buff = (char *)malloc(sl_ptr->len);
+			sl_ptr->buff = (char *)gtm_malloc_intern(sl_ptr->len);
 			memcpy(sl_ptr->buff, entry_ptr, length);
 			sl_ptr->has_wildcard = FALSE;
 			sl_ptr->has_wildcard += ((NULL == memchr(sl_ptr->buff, WILDCARD_CHAR1, length)) ? FALSE : TRUE);
@@ -631,7 +631,7 @@ void	mur_get_options(void)
 			if (',' == *qual_buffer_ptr)
 				qual_buffer_ptr++;  /* skip separator */
 			entry_ptr = entry;
-			ll_ptr1 = (long_list *)malloc(sizeof(long_list));
+			ll_ptr1 = (long_list *)gtm_malloc_intern(sizeof(long_list));
 			ll_ptr1->next = NULL;
 			if (NULL == mur_options.id)
 				mur_options.id = ll_ptr1;
@@ -725,7 +725,7 @@ void	mur_get_options(void)
 			if (',' == *qual_buffer_ptr)
 				qual_buffer_ptr++;  /* skip separator */
 			entry_ptr = entry;
-			sl_ptr1 = (select_list *)malloc(sizeof(select_list));
+			sl_ptr1 = (select_list *)gtm_malloc_intern(sizeof(select_list));
 			sl_ptr1->next = NULL;
 			if (mur_options.process == NULL)
 				mur_options.process = sl_ptr1;
@@ -749,7 +749,7 @@ void	mur_get_options(void)
 			if (global_exclude)
 				sl_ptr->exclude = !sl_ptr->exclude;
 			sl_ptr->len = length;
-			sl_ptr->buff = (char *)malloc(length);
+			sl_ptr->buff = (char *)gtm_malloc_intern(length);
 			memcpy(sl_ptr->buff, entry_ptr, length);
 			sl_ptr->has_wildcard = FALSE;
 			sl_ptr->has_wildcard += ((NULL == memchr(sl_ptr->buff, WILDCARD_CHAR1, length)) ? FALSE : TRUE);
@@ -768,6 +768,6 @@ void	mur_get_options(void)
 	if ((SHOW_HEADER == mur_options.show) && !mur_options.update && !mur_options.verify &&
 			(CLI_PRESENT != cli_present("EXTRACT")))
 		mur_options.show_head_only = TRUE;
-	free(entry);
-	free(qual_buffer);
+	gtm_free_intern(entry);
+	gtm_free_intern(qual_buffer);
 }

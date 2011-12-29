@@ -160,7 +160,7 @@ void dse_over(void)
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
-	lbp = (uchar_ptr_t)malloc(blk_size);
+	lbp = (uchar_ptr_t)gtm_malloc_intern(blk_size);
 	memcpy (lbp, bp, blk_size);
 	memcpy(lbp + offset, &data[0], data_len);
 
@@ -169,7 +169,7 @@ void dse_over(void)
 	if (!BLK_FINI(bs_ptr, bs1))
 	{
 		util_out_print("Error: bad blk build.", TRUE);
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}

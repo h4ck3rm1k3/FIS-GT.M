@@ -90,7 +90,7 @@ void bin_load(int begin, int end)
 	error_def(ERR_COLLATIONUNDEF);
 	error_def(ERR_OLDBINEXTRACT);
 
-	tmp_gvkey = (gv_key *)malloc(sizeof(gv_key) + MAX_KEY_SZ - 1);
+	tmp_gvkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + MAX_KEY_SZ - 1);
 	assert(4 == sizeof(coll_hdr));
 	gvinit();
 	v.mvtype = MV_STR;
@@ -357,7 +357,7 @@ void bin_load(int begin, int end)
 			global_key_count++;
 		}
 	}
-	free(tmp_gvkey);
+	gtm_free_intern(tmp_gvkey);
 	mu_load_close();
 	util_out_print("LOAD TOTAL!_!_Key Cnt: !UL  Max Subsc Len: !UL  Max Data Len: !UL", TRUE, key_count, max_subsc_len,
 			max_data_len);

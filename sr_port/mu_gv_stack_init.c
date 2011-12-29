@@ -37,14 +37,14 @@ GBLREF  unsigned char           *msp, *stackbase, *stacktop, *stackwarn;
 
 void mu_gv_stack_init(unsigned char **mstack_ptr)
 {
-	gv_currkey = (gv_key *)malloc(sizeof(gv_key) - 1 + gv_keysize);
-	gv_altkey = (gv_key *)malloc(sizeof(gv_key) - 1 + gv_keysize);
+	gv_currkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
+	gv_altkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
 	gv_currkey->top = gv_altkey->top = gv_keysize;
 	gv_currkey->end = gv_currkey->prev = gv_altkey->end = gv_altkey->prev = 0;
 	gv_altkey->base[0] = gv_currkey->base[0] = '\0';
 	/* There may be M transactions in the journal files.  If so, op_tstart() and op_tcommit()
 	   will be called during recovery;  they require a couple of dummy stack frames to be set up */
-	*mstack_ptr = (unsigned char *)malloc(USER_STACK_SIZE);
+	*mstack_ptr = (unsigned char *)gtm_malloc_intern(USER_STACK_SIZE);
 	msp = stackbase = *mstack_ptr + USER_STACK_SIZE - 4;
 	mv_chain = (mv_stent *)msp;
 	stacktop = *mstack_ptr + 2 * mvs_size[MVST_NTAB];

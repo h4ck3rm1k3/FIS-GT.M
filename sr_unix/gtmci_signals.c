@@ -48,8 +48,8 @@ void 	sig_save_ext(struct sigaction* act)
 	int	i;
 	if (MUMPS_CALLIN & invocation_mode)
 	{  /* C  is the base */
-		gtm_sig_h = (struct sigaction*)malloc(NSIG * sizeof(struct sigaction));
-		ext_sig_h = (struct sigaction*)malloc(NSIG * sizeof(struct sigaction));
+		gtm_sig_h = (struct sigaction*)gtm_malloc_intern(NSIG * sizeof(struct sigaction));
+		ext_sig_h = (struct sigaction*)gtm_malloc_intern(NSIG * sizeof(struct sigaction));
 		for (i = 1; i <= NSIG; i++)
 			sigaction(i, act, &ext_sig_h[i-1]);
 	} else {  /* GT.M is the base */

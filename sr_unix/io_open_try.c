@@ -122,7 +122,7 @@ bool io_open_try(io_log_name *naml, io_log_name *tl, mval *pp, int4 timeout, mva
 	{
 		if (0 == tl->iod)
 		{
-			tl->iod =  (io_desc *)malloc(sizeof(io_desc));
+			tl->iod =  (io_desc *)gtm_malloc_intern(sizeof(io_desc));
 			memset((char*)tl->iod, 0, sizeof(io_desc));
 			tl->iod->pair.in  = tl->iod;
 			tl->iod->pair.out = tl->iod;
@@ -151,7 +151,7 @@ bool io_open_try(io_log_name *naml, io_log_name *tl, mval *pp, int4 timeout, mva
 					tl->iod->dollar.zeof = TRUE;
 #ifdef __MVS__
 					/*	create another one for fifo write	*/
-					tl->iod->pair.out = (io_desc *)malloc(sizeof(io_desc));
+					tl->iod->pair.out = (io_desc *)gtm_malloc_intern(sizeof(io_desc));
 					(tl->iod->pair.out)->pair.in = tl->iod;
 					(tl->iod->pair.out)->pair.out = (tl->iod->pair.out);
 					(tl->iod->pair.out)->trans_name = tl;
@@ -478,7 +478,7 @@ bool io_open_try(io_log_name *naml, io_log_name *tl, mval *pp, int4 timeout, mva
 			assert(io_ptr->state >= 0 && io_ptr->state < n_io_dev_states);
 			assert(io_ptr->type == ff);
 			if (!(d_rm = (d_rm_struct *) io_ptr->dev_sp))
-			{	io_ptr->dev_sp = (void*)malloc(sizeof(d_rm_struct));
+			{	io_ptr->dev_sp = (void*)gtm_malloc_intern(sizeof(d_rm_struct));
 				d_rm = (d_rm_struct *) io_ptr->dev_sp;
 				io_ptr->state = dev_closed;
                 		d_rm->stream = FALSE;

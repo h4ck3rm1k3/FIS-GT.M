@@ -67,11 +67,11 @@ int get_src_line(mval *routine, mval *label, int offset, mstr **srcret)
 	src_tbl = (uint4 *)ht->ptr;
 	if (not_present || ht->ptr == 0)
 	{
-		c = malloc(rtn_vector->src_full_name.len + 1);
+		c = gtm_malloc_intern(rtn_vector->src_full_name.len + 1);
 		memcpy(c,rtn_vector->src_full_name.addr, rtn_vector->src_full_name.len);
 		*(c + rtn_vector->src_full_name.len) = 0;	/* ensure string is null terminated */
 		fd = OPEN(c, O_RDONLY);
-		free(c);
+		gtm_free_intern(c);
 		if (fd == -1)
 		{
 			n = mid_len(&rtn_vector->routine_name);
@@ -85,7 +85,7 @@ int get_src_line(mval *routine, mval *label, int offset, mstr **srcret)
 			zro_search (0, 0, &src, &srcdir, TRUE);
 			if (srcdir)
 			{
-				c1 = malloc(src.len + srcdir->str.len + 2);
+				c1 = gtm_malloc_intern(src.len + srcdir->str.len + 2);
 				memcpy(c1,srcdir->str.addr,srcdir->str.len);
 				c2 = c1 + srcdir->str.len;
 				*c2++ = '/';
@@ -93,7 +93,7 @@ int get_src_line(mval *routine, mval *label, int offset, mstr **srcret)
 				c2 += src.len;
 				*c2++ = 0;
 				fd = OPEN(c1, O_RDONLY);
-				free(c1);
+				gtm_free_intern(c1);
 				if (fd == -1)
 					rts_error(VARLSTCNT(1) errno);
 				found = TRUE;
@@ -107,7 +107,7 @@ int get_src_line(mval *routine, mval *label, int offset, mstr **srcret)
 		n = found ? rtn_vector->lnrtab_len : 0;
 		assert((found && n >= 1) || (n == 0));
 		/* first two words are the status code and the number of entries */
-		src_tbl = (uint4 *)malloc(n * sizeof(mstr) + sizeof(uint4) * 2);
+		src_tbl = (uint4 *)gtm_malloc_intern(n * sizeof(mstr) + sizeof(uint4) * 2);
 		base = (mstr *)(src_tbl + 2);
 		*(src_tbl + 1) = n;
 		badfmt = FALSE;
@@ -154,11 +154,11 @@ int get_src_line(mval *routine, mval *label, int offset, mstr **srcret)
 					checksum >>= 1;
 				}
 				current->len = size;
-				current->addr = malloc(size);
+				current->addr = gtm_malloc_intern(size);
 				memcpy(current->addr, buff, size);
 			} else
 			{
-				current->addr = malloc(1);
+				current->addr = gtm_malloc_intern(1);
 				current->addr[0] = ' ';
 				current->len = 1;
 			}

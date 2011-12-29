@@ -127,9 +127,9 @@ void	op_tcommit(void)
 				{	/* reallocate a bigger cr_array. We need atmost read-set (si->num_of_blks) +
 					 * write-set (si->cw_set_depth) + bitmap-write-set (a max. of si->cw_set_depth)
 					 */
-					free(si->cr_array);
+					gtm_free_intern(si->cr_array);
 					si->cr_array_size = si->num_of_blks + (si->cw_set_depth * 2);
-					si->cr_array = (cache_rec_ptr_ptr_t)malloc(sizeof(cache_rec_ptr_t) * si->cr_array_size);
+					si->cr_array = (cache_rec_ptr_ptr_t)gtm_malloc_intern(sizeof(cache_rec_ptr_t) * si->cr_array_size);
 				}
 				assert(!is_mm || (0 == si->cr_array_size && NULL == si->cr_array));
 				/* whenever si->first_cw_set is non-NULL, ensure that si->update_trans is TRUE */
@@ -169,7 +169,7 @@ void	op_tcommit(void)
 							old_db_addrs[1] = csa->db_addrs[1];
 							first_cse = si->first_cw_set;
 							TRAVERSE_TO_LATEST_CSE(first_cse);
-							while (FILE_EXTENDED == (new_blk = bm_getfree(cse->blk, &blk_used,
+							while (FILE_EXTENDED == (new_blk = bm_get_free(cse->blk, &blk_used,
 								cw_depth, first_cse, &si->cw_set_depth)))
 							{
 								assert(is_mm);

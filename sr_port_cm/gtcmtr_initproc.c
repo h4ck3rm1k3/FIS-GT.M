@@ -58,7 +58,7 @@ bool gtcmtr_initproc(void)
 		rts_error(VARLSTCNT(1) CMERR_INVPROT);
 	curr_entry->query_is_queryget = gtcm_is_query_queryget((protocol_msg *)reply, &myproto);
 	curr_entry->err_compat = gtcm_err_compat((protocol_msg *)reply, &myproto);
-	originator_prc_vec = curr_entry->pvec = (jnl_process_vector *)malloc(sizeof(jnl_process_vector));
+	originator_prc_vec = curr_entry->pvec = (jnl_process_vector *)gtm_malloc_intern(sizeof(jnl_process_vector));
         jpv_size = sizeof(jnl_process_vector);
 	assert(jpv_size >= curr_entry->clb_ptr->cbl - S_HDRSIZE - S_PROTSIZE &&
 		S_HDRSIZE + S_PROTSIZE < curr_entry->clb_ptr->cbl);

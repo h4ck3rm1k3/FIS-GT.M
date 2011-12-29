@@ -56,7 +56,7 @@ void urx_putlab (char *lab, int lablen, urx_rtnref *rtn, char *addr)
 
 	if (!found)
 	{	/* Add new label name to list */
-		tmplp = (urx_labref *)malloc(sizeof(urx_labref));
+		tmplp = (urx_labref *)gtm_malloc_intern(sizeof(urx_labref));
 		tmplp->len = lablen;
 		memcpy(tmplp->name.c, lab, lablen);
 		tmplp->addr = 0;
@@ -69,7 +69,7 @@ void urx_putlab (char *lab, int lablen, urx_rtnref *rtn, char *addr)
 	}
 	assert(lp1 != 0);
 
-	tmpap = (urx_addr *)malloc(sizeof(urx_addr));
+	tmpap = (urx_addr *)gtm_malloc_intern(sizeof(urx_addr));
 	tmpap->next = lp1->addr;
 	tmpap->addr = (int4 *)addr;
 	lp1->addr = tmpap;

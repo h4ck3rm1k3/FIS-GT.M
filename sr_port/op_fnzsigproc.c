@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <signal.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include "mvalconv.h"
 #include "op.h"
 

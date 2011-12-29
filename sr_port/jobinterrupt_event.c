@@ -33,7 +33,7 @@
 #include "deferred_events.h"
 #include "jobinterrupt_event.h"
 
-GBLREF	int			(* volatile xfer_table[])();
+GBLREF	int			(* volatile xfer_table[])(int,...);
 GBLREF	volatile int4 		outofband;
 GBLREF	volatile boolean_t	dollar_zininterrupt;
 

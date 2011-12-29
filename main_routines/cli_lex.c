@@ -121,8 +121,8 @@ void	cli_lex_setup (int argc, char **argv)
 	if (!cli_lex_in_ptr || parmlen > cli_lex_in_ptr->buflen)
 	{	/* We have the cure for a missing or unusable buffer */
 		if (cli_lex_in_ptr)
-			free(cli_lex_in_ptr);
-		cli_lex_in_ptr = (IN_PARMS *)malloc(sizeof(IN_PARMS) + parmlen);
+			gtm_free_intern(cli_lex_in_ptr);
+		cli_lex_in_ptr = (IN_PARMS *)gtm_malloc_intern(sizeof(IN_PARMS) + parmlen);
 		cli_lex_in_ptr->buflen = parmlen;
 	}
 	cli_lex_in_ptr->argc = argc;
@@ -138,8 +138,8 @@ void cli_str_setup(int length, char *addr)
 	if (!cli_lex_in_ptr || length > cli_lex_in_ptr->buflen)
 	{	/* We have the cure for a missing or unusable buffer */
 		if (cli_lex_in_ptr)
-			free(cli_lex_in_ptr);
-		cli_lex_in_ptr = (IN_PARMS *)malloc(sizeof(IN_PARMS) + length);
+			gtm_free_intern(cli_lex_in_ptr);
+		cli_lex_in_ptr = (IN_PARMS *)gtm_malloc_intern(sizeof(IN_PARMS) + length);
 		cli_lex_in_ptr->buflen = length;
 	}
 	cli_lex_in_ptr->argv = NULL;
@@ -402,11 +402,11 @@ int	cli_gettoken (int *eof)
 			in_len = strlen(cli_token_buf);
 			if (cli_lex_in_ptr->buflen < in_len)
 			{
-				new_cli_lex_in_ptr = (IN_PARMS *)malloc(sizeof(IN_PARMS) + in_len);
+				new_cli_lex_in_ptr = (IN_PARMS *)gtm_malloc_intern(sizeof(IN_PARMS) + in_len);
 				new_cli_lex_in_ptr->argc = cli_lex_in_ptr->argc;
 				new_cli_lex_in_ptr->argv = cli_lex_in_ptr->argv;
 				new_cli_lex_in_ptr->buflen = in_len;
-				free(cli_lex_in_ptr);
+				gtm_free_intern(cli_lex_in_ptr);
 				cli_lex_in_ptr = new_cli_lex_in_ptr;
 			}
 			memcpy(cli_lex_in_ptr->in_str, cli_token_buf, in_len);
@@ -517,11 +517,11 @@ int cli_get_string_token(int *eof)
 			in_len = strlen(cli_token_buf);
 			if (cli_lex_in_ptr->buflen < in_len)
 			{
-				new_cli_lex_in_ptr = (IN_PARMS *)malloc(sizeof(IN_PARMS) + in_len);
+				new_cli_lex_in_ptr = (IN_PARMS *)gtm_malloc_intern(sizeof(IN_PARMS) + in_len);
 				new_cli_lex_in_ptr->argc = cli_lex_in_ptr->argc;
 				new_cli_lex_in_ptr->argv = cli_lex_in_ptr->argv;
 				new_cli_lex_in_ptr->buflen = in_len;
-				free(cli_lex_in_ptr);
+				gtm_free_intern(cli_lex_in_ptr);
 				cli_lex_in_ptr = new_cli_lex_in_ptr;
 			}
 			memcpy(cli_lex_in_ptr->in_str, cli_token_buf, in_len);

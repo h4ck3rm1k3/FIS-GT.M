@@ -296,7 +296,7 @@ void		wcs_recover(gd_region *reg)
 					total_blks = csd->trans_hist.total_blks - cr->blk;
 				else
 					total_blks = bplmap;
-				bml_full = bml_find_free(0, (sm_uc_ptr_t)(GDS_ANY_REL2ABS(csa, cr->buffaddr)) + sizeof(blk_hdr),
+				bml_full = bml_find_gtm_free_intern(0, (sm_uc_ptr_t)(GDS_ANY_REL2ABS(csa, cr->buffaddr)) + sizeof(blk_hdr),
 						total_blks, &blk_used);
 				if (NO_FREE_SPACE == bml_full)
 				{

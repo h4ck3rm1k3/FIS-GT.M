@@ -189,7 +189,7 @@ void zro_load (mstr *str)
 		{	/* release space held by translated entries */
 			assert (op->type == ZRO_TYPE_OBJECT || op->type == ZRO_TYPE_OBJLIB);
 			if (op->str.len)
-				free(op->str.addr);
+				gtm_free_intern(op->str.addr);
 			if ((op++)->type == ZRO_TYPE_OBJLIB)
 				continue;	/* i.e. no sources for shared library */
 			assert (op->type == ZRO_TYPE_COUNT);
@@ -198,7 +198,7 @@ void zro_load (mstr *str)
 			{
 				assert (op->type == ZRO_TYPE_SOURCE);
 				if (op->str.len)
-					free(op->str.addr);
+					gtm_free_intern(op->str.addr);
 			}
 		}
 		free (zro_root);
@@ -220,7 +220,7 @@ void zro_load (mstr *str)
 				rts_error(VARLSTCNT(9) ERR_ZROSYNTAX, 2, str->len, str->addr,
 					ERR_FILEPARSE, 2, op->str.len, op->str.addr, status);
 
-			op->str.addr = (char *)malloc(pblk.b_esl);
+			op->str.addr = (char *)gtm_malloc_intern(pblk.b_esl);
 			op->str.len = pblk.b_esl;
 			memcpy(op->str.addr, pblk.buffer, pblk.b_esl);
 		}
@@ -240,7 +240,7 @@ void zro_load (mstr *str)
 					rts_error(VARLSTCNT(9) ERR_ZROSYNTAX, 2, str->len, str->addr,
 						ERR_FILEPARSE, 2, op->str.len, op->str.addr, status);
 
-				op->str.addr = (char *)malloc(pblk.b_esl);
+				op->str.addr = (char *)gtm_malloc_intern(pblk.b_esl);
 				op->str.len = pblk.b_esl;
 				memcpy(op->str.addr, pblk.buffer, pblk.b_esl);
 			}

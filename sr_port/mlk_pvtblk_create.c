@@ -125,7 +125,7 @@ void	mlk_pvtblk_create (va_list subptr)
  * All strings are stored one after another in the buffer.
  * Each string is preceeded by 1 byte string len.
  */
-	r = (mlk_pvtblk *) malloc(MLK_PVTBLK_SIZE(len, subcnt));
+	r = (mlk_pvtblk *) gtm_malloc_intern(MLK_PVTBLK_SIZE(len, subcnt));
 	memset(r, 0, sizeof(mlk_pvtblk) - 1);
 	r->translev = 1;
 	r->subscript_cnt = subcnt;
@@ -149,7 +149,7 @@ void	mlk_pvtblk_create (va_list subptr)
 	r->ctlptr = (mlk_ctldata_ptr_t)sa->lock_addrs[0];
 
 	if (!mlk_pvtblk_insert(r))
-		free(r);
+		gtm_free_intern(r);
 
 	return;
 }

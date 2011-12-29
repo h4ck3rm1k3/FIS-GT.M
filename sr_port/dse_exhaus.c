@@ -176,7 +176,7 @@ void dse_exhaus(int4 pp, int4 op)
 			util_out_print(util_buff,FALSE);
 			temp = d_ptr;
 			d_ptr = d_ptr->next;
-			free(temp);
+			gtm_free_intern(temp);
 		    }
 		    global_roots_head->link->dir_path = 0;
 		    util_out_print("!/!/	Global paths!/	Path--blk:off",TRUE);

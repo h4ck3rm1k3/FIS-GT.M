@@ -37,7 +37,7 @@ void op_iocontrol(int something, ...)
 	mstr val;
 	error_def(ERR_CTLMNEMAXLEN);
 
-	var_start(var,something);
+	va_start(var,something);
 	n = va_arg(var, int4);
 	VAR_COPY(sav_var, var);
 	for (count = 0 ; count < n ; count++)

@@ -35,7 +35,7 @@ void gtm_env_xlate_init(void)
 	{
 		UNIX_ONLY(
 			env_gtm_env_xlate.len = tn.len;
-			env_gtm_env_xlate.addr = (char *)malloc(tn.len);
+			env_gtm_env_xlate.addr = (char *)gtm_malloc_intern(tn.len);
 			memcpy(env_gtm_env_xlate.addr, buf, tn.len);
 			)
 		VMS_ONLY(
@@ -54,4 +54,55 @@ void gtm_env_xlate_init(void)
 		rts_error(VARLSTCNT(5) ERR_TRNLOGFAIL, 2, LEN_AND_LIT(ZGTMENVXLATE), status);
 
 	return;
+}
+
+
+void DO_GTM_ENV_TRANSLATE(mval* VAL1, mval* VAL2) {									
+  mval val_xlated;
+
+	if (0 != env_gtm_env_xlate.len)									
+	{		
+
+	  //#define MSTR_CONST(name,string) mstr name = { LEN_AND_LIT(string) }
+	  //#define MSTR_DEF(name,length,string) mstr name = { length, string }
+										
+		MSTR_CONST(routine_name, GTM_ENV_XLATE_ROUTINE_NAME);					
+		int             ret_gtm_env_xlate;							
+		UNIX_ONLY(										
+			char		pakname[PATH_MAX + 1];						
+			void_ptr_t	pakhandle;							
+		)										       
+		VMS_ONLY(										
+			int4                    status;							
+			struct dsc$descriptor   filename;						
+			struct dsc$descriptor   entry_point;						
+		)											
+		MV_FORCE_STR(VAL2);									
+
+
+		///
+		memcpy(pakname, env_gtm_env_xlate.addr, env_gtm_env_xlate.len);			
+		pakname[env_gtm_env_xlate.len]='\0';						
+		pakhandle = fgn_getpak(pakname, ERROR);						
+		//gtm_env_xlate_entry = (int (*)())fgn_getrtn(pakhandle, &routine_name, ERROR);	
+
+
+		val_xlated.str.addr = NULL;							
+		//fgnfnc fgn_getrtn(void_ptr_t pak_handle, mstr *sym_name, int msgtype);
+		ret_gtm_env_xlate = fgn_getrtn(&(VAL1)->str, &(VAL2)->str, &(dollar_zdir.str));	 //(int)&(val_xlated.str)
+		if (MAX_DBSTRLEN < val_xlated.str.len)							
+			rts_error(VARLSTCNT(4) ERR_XTRNRETVAL, 2, val_xlated.str.len, MAX_DBSTRLEN);				
+		if (0 != ret_gtm_env_xlate)									
+		{												
+			if ((val_xlated.str.len) && (val_xlated.str.addr))					
+				rts_error(VARLSTCNT(6) ERR_XTRNTRANSERR, 0, ERR_TEXT,  2, val_xlated.str.len, 	
+					val_xlated.str.addr);							
+			else											
+				rts_error(VARLSTCNT(1) ERR_XTRNTRANSERR);					
+		}												
+		if ((NULL == val_xlated.str.addr) && (0 != val_xlated.str.len))					
+			rts_error(VARLSTCNT(1)ERR_XTRNRETSTR);							
+		val_xlated.mvtype = MV_STR;									
+		(VAL1) = &val_xlated;										
+	}													
 }

@@ -116,9 +116,9 @@ void gvcst_root_search(void)
 					if (global_collation_mstr.len < rlen - (hdr_len + sizeof(block_id)))
 					{
 						if (NULL != global_collation_mstr.addr)
-							free(global_collation_mstr.addr);
+							gtm_free_intern(global_collation_mstr.addr);
 						global_collation_mstr.len = rlen - (hdr_len + sizeof(block_id));
-						global_collation_mstr.addr = (char *)malloc(global_collation_mstr.len);
+						global_collation_mstr.addr = (char *)gtm_malloc_intern(global_collation_mstr.len);
 					}
 					/* the memcpy needs to be done here instead of out of for loop for
 					 * concurrency consideration. We don't use s2pool because the pointer rp is 64 bits

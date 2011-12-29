@@ -167,7 +167,7 @@ void mupip_integ(void)
 	error_mupip = FALSE;
 	if (NULL == gv_target)
 		gv_target = (gv_namehead *)targ_alloc(DUMMY_GLOBAL_VARIABLE_LEN);
- 	gv_altkey = (gv_key *)malloc(sizeof(gv_key) + MAX_KEY_SZ - 1);
+ 	gv_altkey = (gv_key *)gtm_malloc_intern(sizeof(gv_key) + MAX_KEY_SZ - 1);
 	if (CLI_PRESENT == (cli_status = cli_present("MAXKEYSIZE")))
 	{
 		assert(sizeof(disp_maxkey_errors) == sizeof(int4));
@@ -294,7 +294,7 @@ void mupip_integ(void)
 			}
 		} else  if (FALSE == mu_int_init())
 			mupip_exit(ERR_INTEGERRS);
-		trees_tail = trees = (global_list *)malloc(sizeof(global_list));
+		trees_tail = trees = (global_list *)gtm_malloc_intern(sizeof(global_list));
 		memset(trees, 0, sizeof(global_list));
 		trees->root = dir_root = get_dir_root();
 		master_dir = TRUE;
@@ -339,7 +339,7 @@ void mupip_integ(void)
 			block = TRUE;
 			disp_map_errors = 0;
 		}
-		for (trees->link = 0;  ;  master_dir = FALSE, temp = (char*)trees,  trees = trees->link,  free(temp))
+		for (trees->link = 0;  ;  master_dir = FALSE, temp = (char*)trees,  trees = trees->link,  gtm_free_intern(temp))
 		{
 			if (mu_ctrly_occurred || mu_ctrlc_occurred)
 			{

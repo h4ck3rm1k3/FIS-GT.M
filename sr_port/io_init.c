@@ -71,7 +71,7 @@ void io_init(bool term_ctrl)
 
 	io_init_name();
 	/* default logical names */
-	io_root_log_name = (io_log_name *)malloc(sizeof(*io_root_log_name));
+	io_root_log_name = (io_log_name *)gtm_malloc_intern(sizeof(*io_root_log_name));
 	memset(io_root_log_name, 0, sizeof(*io_root_log_name));
 	val.mvtype = MV_STR;
 	val.str.addr = "0";

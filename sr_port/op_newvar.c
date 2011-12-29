@@ -35,7 +35,7 @@ void op_newvar(uint4 arg1)
 	ht_entry	*hte;
 	stack_frame	*fp, *fp_prev, *fp_fix;
 	unsigned char	*old_sp, *top;
-	lv_val		*new;
+	lv_val		*new_data;
 	mident		*varname;
 	mvs_ntab_struct *ptab;
 	tp_frame	*tpp;
@@ -59,7 +59,7 @@ void op_newvar(uint4 arg1)
 		{	/* This is a normal counted frame with a stable variable name pointer */
 			PUSH_MV_STENT(MVST_PVAL);
 			mv_st_ent = mv_chain;
-			new = mv_st_ent->mv_st_cont.mvs_pval.mvs_val = lv_getslot(curr_symval);
+			new_data = mv_st_ent->mv_st_cont.mvs_pval.mvs_val = lv_getslot(curr_symval);
 			ptab = &mv_st_ent->mv_st_cont.mvs_pval.mvs_ptab;
 		} else
 		{	/* This is actually an indirect (likely XECUTE or ZINTERRUPT) so the varname
@@ -69,7 +69,7 @@ void op_newvar(uint4 arg1)
 			*/
 			PUSH_MV_STENT(MVST_NVAL);
 			mv_st_ent = mv_chain;
-			new = mv_st_ent->mv_st_cont.mvs_nval.mvs_val = lv_getslot(curr_symval);
+			new_data = mv_st_ent->mv_st_cont.mvs_nval.mvs_val = lv_getslot(curr_symval);
 			ptab = &mv_st_ent->mv_st_cont.mvs_nval.mvs_ptab;
 			varname = &mv_st_ent->mv_st_cont.mvs_nval.name;
 			memcpy(varname, &(((VAR_TABENT *)frame_pointer->vartab_ptr)[arg1]), sizeof(*varname));
@@ -80,7 +80,7 @@ void op_newvar(uint4 arg1)
 			ptab->lst_addr = (lv_val **)&frame_pointer->l_symtab[arg1];
 		else
 			ptab->lst_addr = NULL;
-		frame_pointer->l_symtab[arg1] = (mval *)new;
+		frame_pointer->l_symtab[arg1] = (mval *)new_data;
 		assert(0 <= arg1);
 	} else
 	{	/* Current (youngest) frame IS an indirect frame.
@@ -170,7 +170,7 @@ void op_newvar(uint4 arg1)
 			mvst_tmp->mv_st_next = (char *)mv_st_ent - (char *)mvst_tmp;
 			mv_st_ent->mv_st_next = (char *)mvst_prev - (char *)mv_st_ent + mvs_size[MVST_NVAL];
 		}
-		new = mv_st_ent->mv_st_cont.mvs_nval.mvs_val = lv_getslot(curr_symval);
+		new_data = mv_st_ent->mv_st_cont.mvs_nval.mvs_val = lv_getslot(curr_symval);
 		ptab = &mv_st_ent->mv_st_cont.mvs_nval.mvs_ptab;
 		varname = &mv_st_ent->mv_st_cont.mvs_nval.name;
 		memcpy(varname, &(((VAR_TABENT *)frame_pointer->vartab_ptr)[arg1]), sizeof(*varname));
@@ -188,7 +188,7 @@ void op_newvar(uint4 arg1)
 			if (fp_fix == fp_prev)		/* Have last substantive frame.. Set its value later */
 				break;
 			if (indx < fp_fix->vartab_len)
-				fp_fix->l_symtab[indx] = (mval *)new;
+				fp_fix->l_symtab[indx] = (mval *)new_data;
 		}
 		/* Do frame type specific initialization of restoration structure. Save old value if the value
 		   exists in this frame.
@@ -196,21 +196,21 @@ void op_newvar(uint4 arg1)
 		if (indx < fp_fix->vartab_len)
 		{
 			ptab->lst_addr = (lv_val **)&fp_fix->l_symtab[indx];			/* save restore symtab entry */
-			fp_fix->l_symtab[indx] = (mval *)new;
+			fp_fix->l_symtab[indx] = (mval *)new_data;
 		} else
 			ptab->lst_addr = NULL;
 	}
 
 	/* initialize new data cell */
-	new->v.mvtype = 0;
-	new->tp_var = NULL;
-	new->ptrs.val_ent.children = 0;
-	new->ptrs.val_ent.parent.sym = curr_symval;
-	new->ptrs.free_ent.next_free = 0;
+	new_data->v.mvtype = 0;
+	new_data->tp_var = NULL;
+	new_data->ptrs.val_ent.children = 0;
+	new_data->ptrs.val_ent.parent.sym = curr_symval;
+	new_data->ptrs.free_ent.next_free = 0;
 
 	/* finish initializing restoration structures */
 	ptab->save_value = (lv_val *)hte->ptr;
 	ptab->nam_addr = varname;
-	hte->ptr = (char *)new;
+	hte->ptr = (char *)new_data;
 	return;
 }

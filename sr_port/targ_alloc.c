@@ -28,7 +28,7 @@ gv_namehead *targ_alloc(int keysize)
 
 	keysize = (keysize + MAX_NUM_SUBSC_LEN + 4) & (-4);
 
-	gvt = (gv_namehead *)malloc(sizeof(gv_namehead) + 2 * sizeof(gv_key) + 3 * (keysize - 1));
+	gvt = (gv_namehead *)gtm_malloc_intern(sizeof(gv_namehead) + 2 * sizeof(gv_key) + 3 * (keysize - 1));
 	gvt->first_rec = (gv_key *)(gvt->clue.base + keysize);
 	gvt->last_rec = (gv_key *)(gvt->first_rec->base + keysize);
 	gvt->clue.top = gvt->last_rec->top = gvt->first_rec->top = keysize;
@@ -41,7 +41,7 @@ gv_namehead *targ_alloc(int keysize)
 	gvt->read_local_tn = (trans_num)0;
 	gvt->write_local_tn = (trans_num)0;
 	gvt->noisolation = FALSE;
-	gvt->alt_hist = (srch_hist *)malloc(sizeof(srch_hist));
+	gvt->alt_hist = (srch_hist *)gtm_malloc_intern(sizeof(srch_hist));
 	/* Initialize the 0:MAX_BT_DEPTH. Otherwise, memove of the array in mu_reorg can cause problem */
 	for (index = 0; index <= MAX_BT_DEPTH; index++)
 	{

@@ -186,7 +186,7 @@ int rc_prc_lock(rc_q_hdr *qhdr)
 			return -1;
 		}
 		temp += subcnt;
-		mp = (mlk_pvtblk*)malloc(sizeof(mlk_pvtblk) + temp + pid_len + 1);
+		mp = (mlk_pvtblk*)gtm_malloc_intern(sizeof(mlk_pvtblk) + temp + pid_len + 1);
 		memset(mp, 0, sizeof(mlk_pvtblk) - 1);
 		mp->subscript_cnt = subcnt;
 		mp->total_length = temp;
@@ -199,12 +199,12 @@ int rc_prc_lock(rc_q_hdr *qhdr)
 		{	if (!(mp->value[mp->total_length] == mlk_pvt_root->value[mlk_pvt_root->total_length]
 				&& !memcmp(&mp->value[mp->total_length + 1], &mlk_pvt_root->value[mp->total_length + 1],
 				mp->total_length + 1)))
-			{	free(mp);	/* Server owns lock on behalf of a different agent/client pair */
+			{	gtm_free_intern(mp);	/* Server owns lock on behalf of a different agent/client pair */
 				REVERT;
 				qhdr->a.erc.value = RC_LOCKCONFLICT;
 				return 0;	/* Return lock not granted */
 			}
-			free(mp);
+			gtm_free_intern(mp);
 		}else if (mp != mlk_pvt_root)
 		{	REVERT;
 			qhdr->a.erc.value = RC_GLOBERRUNSPEC;

@@ -43,11 +43,11 @@ int4 bml_init(block_id bml)
 	/* Allocate full block .. bml_newmap will set the write size, dsk_write will write part or all
 	   of it as appropriate..
 	*/
-	ptr = (blk_hdr_ptr_t)malloc(cs_addrs->hdr->blk_size);
+	ptr = (blk_hdr_ptr_t)gtm_malloc_intern(cs_addrs->hdr->blk_size);
 	bml_newmap(ptr, size, ((JNL_ENABLED(cs_data) && cs_addrs->jnl && cs_addrs->jnl->jnl_buff &&
 				cs_addrs->jnl->jnl_buff->before_images) ?  0 : cs_data->trans_hist.curr_tn));
 	/* status holds the status of any error return from dsk_write */
 	DSK_WRITE(gv_cur_region, bml, (sm_uc_ptr_t)ptr, status);
-	free(ptr);
+	gtm_free_intern(ptr);
 	return status;
 }

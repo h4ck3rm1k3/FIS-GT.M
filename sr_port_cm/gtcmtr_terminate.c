@@ -43,7 +43,7 @@ bool gtcmtr_terminate(bool cm_err)
 		gtcmd_rundown(curr_entry, cm_err);
 		if (curr_entry->pvec)
 		{
-			free(curr_entry->pvec);
+			gtm_free_intern(curr_entry->pvec);
 			curr_entry->pvec = NULL;
 		}
 		curr_entry->region_root = NULL;	/* make sure you can't access any regions through this entry... just in case */
@@ -60,7 +60,7 @@ bool gtcmtr_terminate(bool cm_err)
 			 */
 #ifdef VMS
 			if (mbuffer)
-				free(mbuffer);
+				gtm_free_intern(mbuffer);
 #endif
                         proc_to_clb[curr_entry->procnum] = NULL;
 			/*
@@ -72,7 +72,7 @@ bool gtcmtr_terminate(bool cm_err)
 		 * The connection struct is part of the memory allocated by
 		 * cmi_init on UNIX.  The cmi_free_clb has already dealt with it.
 		 */
-		VMS_ONLY(free(curr_entry));
+		VMS_ONLY(gtm_free_intern(curr_entry));
 		curr_entry = NULL;
 	}
 	gtcm_users--;

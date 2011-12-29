@@ -49,7 +49,7 @@ short	iorm_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 	assert(rm == iod->type);
 	if (dev_never_opened == iod->state)
 	{
-		iod->dev_sp = (void *)malloc(sizeof(d_rm_struct));
+		iod->dev_sp = (void *)gtm_malloc_intern(sizeof(d_rm_struct));
 		d_rm = (d_rm_struct *)iod->dev_sp;
 		iod->state = dev_closed;
 		d_rm->stream = FALSE;

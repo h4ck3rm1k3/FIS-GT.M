@@ -100,7 +100,7 @@ void	op_tstart(int something,...)
 //va_dcl
 {
 	bool			serial,			/* whether SERIAL keyword was present */
-				new;
+	  new_data;
 	ht_entry		*hte, *sym, *symtop;
 	int			dollar_t,		/* value of $T when TSTART */
 				prescnt,		/* number of names to save, -1 = no restart, -2 = preserve all */
@@ -267,7 +267,7 @@ void	op_tstart(int something,...)
 	mv_st_ent->mv_st_cont.mvs_tp_holder = dollar_tlevel;
 	if (NULL == tpstackbase)
 	{
-		tstack_ptr = (unsigned char *)malloc(32768);
+		tstack_ptr = (unsigned char *)gtm_malloc_intern(32768);
 		tp_sp = tpstackbase
 		      = tstack_ptr + 32764;
 		tpstacktop = tstack_ptr;
@@ -294,7 +294,7 @@ void	op_tstart(int something,...)
 	 */
 	if (NULL == gv_orig_key_ptr)
 	{	/* This need only be set once */
-		gv_orig_key_ptr = (struct gv_orig_key_struct *)malloc(sizeof(struct gv_orig_key_struct));
+		gv_orig_key_ptr = (struct gv_orig_key_struct *)gtm_malloc_intern(sizeof(struct gv_orig_key_struct));
 		memset(gv_orig_key_ptr, 0, sizeof(struct gv_orig_key_struct));
 	}
 	tf->orig_key = (gv_key *)&(gv_orig_key_ptr->gv_orig_key[dollar_tlevel][0]);
@@ -317,8 +317,8 @@ void	op_tstart(int something,...)
 				memset(&vname, 0, sizeof(vname));
 				memcpy(vname.c, mvname->str.addr,
 				       mvname->str.len < sizeof(vname) ? mvname->str.len : sizeof(vname));
-				hte = ht_put(&curr_symval->h_symtab, (mname *)&vname, &new);
-				if (new)
+				hte = ht_put(&curr_symval->h_symtab, (mname *)&vname, &new_data);
+				if (new_data)
 					lv_newname(hte, curr_symval);
 				lv = (lv_val *)hte->ptr;
 				/* In order to allow restart of a sub-transaction, this should chain rather than back stop,
@@ -326,7 +326,7 @@ void	op_tstart(int something,...)
 				if (NULL == lv->tp_var)
 				{
 					var = lv_getslot(lv->ptrs.val_ent.parent.sym);
-					restore_ent = (tp_var *)malloc(sizeof(tp_var));
+					restore_ent = (tp_var *)gtm_malloc_intern(sizeof(tp_var));
 					restore_ent->current_value = lv;
 					restore_ent->save_value = var;
 					restore_ent->next = tf->vars;
@@ -349,7 +349,7 @@ void	op_tstart(int something,...)
 				if (NULL == lv->tp_var)
 				{
 					var = lv_getslot(lv->ptrs.val_ent.parent.sym);
-					restore_ent = (tp_var *)malloc(sizeof(tp_var));
+					restore_ent = (tp_var *)gtm_malloc_intern(sizeof(tp_var));
 					restore_ent->current_value = lv;
 					restore_ent->save_value = var;
 					restore_ent->next = tf->vars;
@@ -366,7 +366,7 @@ void	op_tstart(int something,...)
 		if ((NULL == pre_lock->tp) || (pre_lock->tp->level != pre_lock->level)
 			|| (pre_lock->tp->zalloc != pre_lock->zalloc))
 		{	/* Only stack locks that have changed since last TSTART */
-			lck_tp = (mlk_tp *)malloc(sizeof(mlk_tp));
+			lck_tp = (mlk_tp *)gtm_malloc_intern(sizeof(mlk_tp));
 			lck_tp->tplevel = dollar_tlevel;
 			lck_tp->level = pre_lock->level;
 			lck_tp->zalloc = pre_lock->zalloc;

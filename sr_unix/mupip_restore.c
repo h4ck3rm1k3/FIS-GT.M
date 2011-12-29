@@ -163,8 +163,8 @@ void mupip_restore(void)
 		mupip_exit(save_errno);
 	}
 	murgetlst();
-	inbuf = (char*)malloc(INC_BACKUP_CHUNK_SIZE);
-	old_data = (sgmnt_data*)malloc(sizeof(sgmnt_data));
+	inbuf = (char*)gtm_malloc_intern(INC_BACKUP_CHUNK_SIZE);
+	old_data = (sgmnt_data*)gtm_malloc_intern(sizeof(sgmnt_data));
 	LSEEKREAD(db_fd, 0, old_data, sizeof(sgmnt_data), save_errno);
 	if (0 != save_errno)
 	{
@@ -174,22 +174,22 @@ void mupip_restore(void)
 			errptr = (char *)STRERROR(save_errno);
 			util_out_print("read : !AZ", TRUE, errptr);
 			db_ipcs_reset(gv_cur_region, TRUE);
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 			mupip_exit(save_errno);
 		} else
 		{
 			db_ipcs_reset(gv_cur_region, TRUE);
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 			mupip_exit(ERR_IOEOF);
 		}
 	}
 	if (memcmp(&old_data->label[0], &label[0], GDS_LABEL_SZ))
 	{
 		util_out_print("Output file !AD has an unrecognizable format", TRUE, n_len, db_name);
-		free(old_data);
-		free(inbuf);
+		gtm_free_intern(old_data);
+		gtm_free_intern(inbuf);
 		db_ipcs_reset(gv_cur_region, TRUE);
-		mu_gv_cur_reg_free();
+		mu_gv_cur_reg_gtm_free_intern();
 		mupip_exit(ERR_MUPRESTERR);
 	}
 
@@ -198,12 +198,12 @@ void mupip_restore(void)
 	old_tot_blks = old_data->trans_hist.total_blks;
 	old_start_vbn = old_data->start_vbn;
  	bplmap = old_data->bplmap;
-	free(old_data);
+	gtm_free_intern(old_data);
 
 	msg_string.addr = msg_buffer;
 	msg_string.len = sizeof(msg_buffer);
 
-	inhead = (inc_header *)malloc(sizeof(inc_header) + 8);
+	inhead = (inc_header *)gtm_malloc_intern(sizeof(inc_header) + 8);
 	inhead = (inc_header *)((((int4)inhead) + 7) & -8);
 	rest_blks = 0;
 
@@ -250,7 +250,7 @@ void mupip_restore(void)
 					errptr = (char *)STRERROR(save_errno);
 					util_out_print("open : !AZ", TRUE, errptr);
 					db_ipcs_reset(gv_cur_region, TRUE);
-					mu_gv_cur_reg_free();
+					mu_gv_cur_reg_gtm_free_intern();
 					mupip_exit(save_errno);
 				}
 				ESTABLISH(iob_io_error);
@@ -258,13 +258,13 @@ void mupip_restore(void)
 			case backup_to_exec:
 				pipe_child = 0;
 				common_read = exec_read;
-				in = (BFILE *)malloc(sizeof(BFILE));
+				in = (BFILE *)gtm_malloc_intern(sizeof(BFILE));
 				if (0 > (in->fd = gtm_pipe(ptr->input_file.addr, input_from_comm)))
 				{
 					util_out_print("Error creating input pipe from !AD.",
 						TRUE, ptr->input_file.len, ptr->input_file.addr);
 					db_ipcs_reset(gv_cur_region, TRUE);
-					mu_gv_cur_reg_free();
+					mu_gv_cur_reg_gtm_free_intern();
 					mupip_exit(ERR_MUPRESTERR);
 				}
 #ifdef DEBUG_ONLINE
@@ -284,19 +284,19 @@ void mupip_restore(void)
 					default :
 						util_out_print("Error : A hostname has to be specified.", TRUE);
 						db_ipcs_reset(gv_cur_region, TRUE);
-						mu_gv_cur_reg_free();
+						mu_gv_cur_reg_gtm_free_intern();
 						mupip_exit(ERR_MUPRESTERR);
 				}
 				if ((0 == cli_get_int("NETTIMEOUT", &timeout)) || (0 > timeout))
 					timeout = DEFAULT_BKRS_TIMEOUT;
-				in = (BFILE *)malloc(sizeof(BFILE));
+				in = (BFILE *)gtm_malloc_intern(sizeof(BFILE));
 				iotcp_fillroutine();
 				if (0 > (in->fd = tcp_open(addr, port, timeout, TRUE)))
 				{
 					util_out_print("Error establishing TCP connection to !AD.",
 						TRUE, ptr->input_file.len, ptr->input_file.addr);
 					db_ipcs_reset(gv_cur_region, TRUE);
-					mu_gv_cur_reg_free();
+					mu_gv_cur_reg_gtm_free_intern();
 					mupip_exit(ERR_MUPRESTERR);
 				}
 				break;
@@ -304,7 +304,7 @@ void mupip_restore(void)
 				util_out_print("Aborting restore!/", TRUE);
 				util_out_print("Unrecognized input format !AD", TRUE, ptr->input_file.len, ptr->input_file.addr);
 				db_ipcs_reset(gv_cur_region, TRUE);
-				mu_gv_cur_reg_free();
+				mu_gv_cur_reg_gtm_free_intern();
 				mupip_exit(ERR_MUPRESTERR);
 		}
 		COMMON_READ(in, inhead, sizeof(inc_header));
@@ -312,18 +312,18 @@ void mupip_restore(void)
 		{
 			util_out_print("Input file !AD has an unrecognizable format", TRUE, ptr->input_file.len,
 				ptr->input_file.addr);
-			free(inbuf);
+			gtm_free_intern(inbuf);
 			db_ipcs_reset(gv_cur_region, TRUE);
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 			mupip_exit(ERR_MUPRESTERR);
 		}
 		if (curr_tn != inhead->start_tn)
 		{
 			util_out_print("Transaction in input file !AD does not align with database TN.!/DB: !XL!_Input file: !XL",
 				TRUE, ptr->input_file.len, ptr->input_file.addr, curr_tn, inhead->start_tn);
-			free(inbuf);
+			gtm_free_intern(inbuf);
 			db_ipcs_reset(gv_cur_region, TRUE);
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 			mupip_exit(ERR_MUPRESTERR);
 		}
 		if (old_blk_size != inhead->blk_size)
@@ -331,9 +331,9 @@ void mupip_restore(void)
 			util_out_print("Incompatable block size.  Output file !AD has block size !XL,", TRUE, n_len, db_name);
 			util_out_print("while input file !AD is from a database with block size !XL,", TRUE, ptr->input_file.len,
 				ptr->input_file.addr, inhead->blk_size);
-			free(inbuf);
+			gtm_free_intern(inbuf);
 			db_ipcs_reset(gv_cur_region, TRUE);
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 			mupip_exit(ERR_MUPRESTERR);
 		}
 		if (old_tot_blks != inhead->db_total_blks)
@@ -346,9 +346,9 @@ void mupip_restore(void)
 				totblks = inhead->db_total_blks - DIVIDE_ROUND_UP(inhead->db_total_blks, DISK_BLOCK_SIZE);
 				util_out_print("while input file !AD is from a database with!/  !UL (!XL hex) total blocks",
 						TRUE, ptr->input_file.len, ptr->input_file.addr, totblks, totblks);
-				free(inbuf);
+				gtm_free_intern(inbuf);
 				db_ipcs_reset(gv_cur_region, TRUE);
-				mu_gv_cur_reg_free();
+				mu_gv_cur_reg_gtm_free_intern();
 				mupip_exit(ERR_MUPRESTERR);
 			} else
 			{	/* this part of the code is similar to gdsfilext except that you don't need to do
@@ -373,15 +373,15 @@ void mupip_restore(void)
 						TRUE, ptr->input_file.len, ptr->input_file.addr,
 						inhead->db_total_blks, inhead->db_total_blks);
 					gtm_putmsg(VARLSTCNT(1) status);
-					free(inbuf);
+					gtm_free_intern(inbuf);
 					db_ipcs_reset(gv_cur_region, TRUE);
-					mu_gv_cur_reg_free();
+					mu_gv_cur_reg_gtm_free_intern();
 					mupip_exit(ERR_MUPRESTERR);
 				}
 				/* --- initialize all new bitmaps, just in case they are not touched later --- */
         			if (DIVIDE_ROUND_DOWN(inhead->db_total_blks, bplmap) > DIVIDE_ROUND_DOWN(old_tot_blks, bplmap))
         			{	/* -- similar logic exist in bml_newmap.c, which need to pick up any new updates here -- */
-					newmap = (char *)malloc(old_blk_size);
+					newmap = (char *)gtm_malloc_intern(old_blk_size);
 					((blk_hdr *)newmap)->bsiz = BM_SIZE(bplmap);
 					((blk_hdr *)newmap)->levl = LCL_MAP_LEVL;
 					((blk_hdr *)newmap)->tn = curr_tn;
@@ -397,14 +397,14 @@ void mupip_restore(void)
 							util_out_print("Aborting restore!/", TRUE);
 							util_out_print("Bitmap 0x!XL initialization error!", TRUE, ii);
 							gtm_putmsg(VARLSTCNT(1) status);
-							free(inbuf);
-							free(newmap);
+							gtm_free_intern(inbuf);
+							gtm_free_intern(newmap);
 							db_ipcs_reset(gv_cur_region, TRUE);
-							mu_gv_cur_reg_free();
+							mu_gv_cur_reg_gtm_free_intern();
 							mupip_exit(ERR_MUPRESTERR);
 						}
 					}
-					free(newmap);
+					gtm_free_intern(newmap);
 				}
 				old_tot_blks = inhead->db_total_blks;
 			}
@@ -421,7 +421,7 @@ void mupip_restore(void)
 					ptr->input_file.addr);
 				iob_close(in);
 				db_ipcs_reset(gv_cur_region, TRUE);
-				mu_gv_cur_reg_free();
+				mu_gv_cur_reg_gtm_free_intern();
 				mupip_exit(ERR_MUPRESTERR);
 			}
 		    	COMMON_READ(in, inbuf, rsize);
@@ -442,7 +442,7 @@ void mupip_restore(void)
 				errptr = (char *)STRERROR(save_errno);
 				util_out_print("write : !AZ", TRUE, errptr);
 				db_ipcs_reset(gv_cur_region, TRUE);
-				mu_gv_cur_reg_free();
+				mu_gv_cur_reg_gtm_free_intern();
 				mupip_exit(save_errno);
 			}
 			GET_LONG(temp, (inbuf + rsize - sizeof(int4)));
@@ -468,7 +468,7 @@ void mupip_restore(void)
 				errptr = (char *)STRERROR(save_errno);
 				util_out_print("write : !AZ", TRUE, errptr);
 				db_ipcs_reset(gv_cur_region, TRUE);
-				mu_gv_cur_reg_free();
+				mu_gv_cur_reg_gtm_free_intern();
 				mupip_exit(save_errno);
 			}
 			vbn += rsize - sizeof(int4);
@@ -493,9 +493,9 @@ void mupip_restore(void)
 	}
 	util_out_print("!/RESTORE COMPLETED", TRUE);
 	util_out_print("!UL blocks restored", TRUE, rest_blks);
-	free(inbuf);
+	gtm_free_intern(inbuf);
 	db_ipcs_reset(gv_cur_region, FALSE);
-	mu_gv_cur_reg_free();
+	mu_gv_cur_reg_gtm_free_intern();
  	mupip_exit(SS_NORMAL);
 }
 

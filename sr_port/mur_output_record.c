@@ -89,7 +89,7 @@ uint4	mur_output_record()
 
 	assert(mur_options.update);
 	rec = mur_rab.jnlrec;
-	rectype = rec->prefix.jrec_type;
+	rectype = (jnl_record_type)rec->prefix.jrec_type;
 	if (JRT_ALIGN == rectype || JRT_EOF == rectype || JRT_EPOCH == rectype || JRT_PBLK == rectype || JRT_PINI == rectype)
 		return SS_NORMAL;
 	jgbl.gbl_jrec_time = rec->prefix.time;

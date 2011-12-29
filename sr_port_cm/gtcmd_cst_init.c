@@ -46,22 +46,22 @@ void gtcmd_cst_init(cm_region_head *ptr)
 	if (((ptr->reg->max_rec_size + MAX_NUM_SUBSC_LEN + 4) & (-4)) > gv_keysize)
 	{
 		gv_keysize = (ptr->reg->max_rec_size + MAX_NUM_SUBSC_LEN + 4) & (-4);
-		temp_key = (gv_key*)malloc(sizeof(gv_key) - 1 + gv_keysize);
+		temp_key = (gv_key*)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
 		if (gv_currkey)
 		{
 			assert(gv_keysize > gv_currkey->end);
 			memcpy(temp_key, gv_currkey, sizeof(gv_key) + gv_currkey->end);
-			free(gv_currkey);
+			gtm_free_intern(gv_currkey);
 		} else
 			temp_key->base[0] = '\0';
 		gv_currkey = temp_key;
 		gv_currkey->top = gv_keysize;
-		temp_key = (gv_key*)malloc(sizeof(gv_key) - 1 + gv_keysize);
+		temp_key = (gv_key*)gtm_malloc_intern(sizeof(gv_key) - 1 + gv_keysize);
 		if (gv_altkey)
 		{
 			assert(gv_keysize > gv_altkey->end);
 			memcpy(temp_key, gv_altkey, sizeof(gv_key) + gv_altkey->end);
-			free(gv_altkey);
+			gtm_free_intern(gv_altkey);
 		} else
 			temp_key->base[0] = '\0';
 		gv_altkey = temp_key;

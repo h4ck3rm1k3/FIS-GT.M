@@ -81,7 +81,7 @@ bool incr_link1(int file_desc)
 
 	assert (file_hdr.a_bss == 0);
 	code_size = file_hdr.a_text + file_hdr.a_data;
-	code = malloc(code_size);
+	code = gtm_malloc_intern(code_size);
 /*
 	read_size = read(file_desc, code, code_size);
 	if (read_size != code_size)
@@ -105,13 +105,13 @@ bool incr_link1(int file_desc)
 	memcpy(&zlink_mname.c[0], &hdr->routine_name, sizeof(mident));
 	if (!addr_fix(file_desc, &file_hdr, &urx_lcl_anchor, code))
 	{
-		urx_free(&urx_lcl_anchor);
+		urx_gtm_free_intern(&urx_lcl_anchor);
 		zl_error(file_desc, ERR_INVOBJ, RTS_ERROR_TEXT("address fixup failure"));
 	}
 
 	if (!zlput_rname (hdr))
 	{
-		urx_free(&urx_lcl_anchor);
+		urx_gtm_free_intern(&urx_lcl_anchor);
 		/* Copy routine name to local variable because zl_error free's it.  */
 		memcpy(module_name.c, hdr->routine_name.c, sizeof(mident));
 		zl_error(file_desc, ERR_LOADRUNNING, mid_len(&module_name), module_name.c);
@@ -162,7 +162,7 @@ typedef struct res_list_struct {
 	unsigned int	addr, symnum;
 	} res_list;
 
-void res_free(res_list *root);
+void res_gtm_free_intern(res_list *root);
 
 #define RELREAD 50	/* number of relocation entries to buffer */
 
@@ -193,13 +193,13 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 		DOREADRC(file, rel, rel_read * sizeof(struct relocation_info), status);
                 if (0 != status)
 		{
-			res_free(res_root);
+			res_gtm_free_intern(res_root);
 			return FALSE;
 		}
 		numrel -= rel_read;
 		for (i = 0; i < rel_read; i++)
 		{	if (rel[i].r_extern)
-			{	new_res = (res_list *) malloc(sizeof(*new_res));
+			{	new_res = (res_list *) gtm_malloc_intern(sizeof(*new_res));
 				new_res->symnum = rel[i].r_symbolnum;
 				new_res->addr = rel[i].r_address;
 				new_res->next = new_res->list = 0;
@@ -243,22 +243,22 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 		return TRUE;
 
 	if ((off_t)-1 == lseek(file, (off_t)fhead->a_syms, SEEK_CUR))
-	{	res_free(res_root);
+	{	res_gtm_free_intern(res_root);
 		return FALSE;
 	}
 	DOREADRC(file, &string_size, sizeof(string_size), status);
 	if (0 != status)
 	{
-		res_free(res_root);
+		res_gtm_free_intern(res_root);
 		return FALSE;
 	}
 	string_size -= sizeof(string_size);
-	symbols = malloc(string_size);
+	symbols = gtm_malloc_intern(string_size);
 	DOREADRC(file, symbols, string_size, status);
 	if (0 != status)
 	{
-		free(symbols);
-		res_free(res_root);
+		gtm_free_intern(symbols);
+		res_gtm_free_intern(res_root);
 		return FALSE;
 	}
 	sym_temp = sym_temp1 = symbols;
@@ -269,8 +269,8 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 			{
 				if (sym_temp >= symtop)
 				{
-					free(symbols);
-					res_free(res_root);
+					gtm_free_intern(symbols);
+					res_gtm_free_intern(res_root);
 					return FALSE;
 				}
 				sym_temp++;
@@ -283,8 +283,8 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 		while (*sym_temp1 != '.' && *sym_temp1)
 		{	if (sym_temp1 >= symtop)
 			{
-				free(symbols);
-				res_free(res_root);
+				gtm_free_intern(symbols);
+				res_gtm_free_intern(res_root);
 				return FALSE;
 			}
 			sym_temp1++;
@@ -307,8 +307,8 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 			while (*sym_temp1)
 			{	if (sym_temp1 >= symtop)
 				{
-					free(symbols);
-					res_free(res_root);
+					gtm_free_intern(symbols);
+					res_gtm_free_intern(res_root);
 					return FALSE;
 				}
 				sym_temp1++;
@@ -344,7 +344,7 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 				while(res_root)
 				{	*(uint4 *)(code + res_root->addr) = (unsigned int) res_addr;
 					res_temp1 = res_root->list;
-					free(res_root);
+					gtm_free_intern(res_root);
 					res_root = res_temp1;
 				}
 				res_root = res_temp;
@@ -358,33 +358,33 @@ bool addr_fix(int file, struct exec *fhead, urx_rtnref *urx_lcl, unsigned char *
 			if (labsym)
 				urx_putlab(&labid.c[0], sym_size, urx_rp, code + res_root->addr);
 			else
-			{	urx_tmpaddr = (urx_addr *) malloc(sizeof(urx_addr));
+			{	urx_tmpaddr = (urx_addr *) gtm_malloc_intern(sizeof(urx_addr));
 				urx_tmpaddr->next = urx_rp->addr;
 				urx_tmpaddr->addr = (int4 *)(code + res_root->addr);
 				urx_rp->addr = urx_tmpaddr;
 			}
 			res_temp1 = res_root->list;
-			free(res_root);
+			gtm_free_intern(res_root);
 			res_root = res_temp1;
 		}
 		res_root = res_temp;
 	}
-	free(symbols);
+	gtm_free_intern(symbols);
 	return TRUE;
 }
 
-void res_free(res_list *root)
+void res_gtm_free_intern(res_list *root)
 {
 	res_list *temp;
 
 	while (root)
 	{	while (root->list)
 		{	temp = root->list->list;
-			free(root->list);
+			gtm_free_intern(root->list);
 			root->list = temp;
 		}
 		temp = root->next;
-		free(root);
+		gtm_free_intern(root);
 		root = temp;
 	}
 }
@@ -396,7 +396,7 @@ void res_free(res_list *root)
 void zl_error(int4 file, int4 err, int4 len, char *addr)
 {
 	if (code)
-		free(code);
+		gtm_free_intern(code);
 
 	close(file);
 	if (!len)

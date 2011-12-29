@@ -325,7 +325,7 @@ void	gvcst_kill(bool do_subtree)
 			for (ks = kill_set_head.next_kill_set;  NULL != ks;  ks = temp_ks)
 			{
 				temp_ks = ks->next_kill_set;
-				free(ks);
+				gtm_free_intern(ks);
 			}
 		}
 		return;

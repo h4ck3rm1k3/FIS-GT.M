@@ -184,13 +184,13 @@ void gvcmy_open(gd_region *reg, parse_blk *pb)
 		if (li->buffered_count)
 		{
 			assert(li->buffer);
-			libuff = malloc(reg->max_rec_size);
+			libuff = gtm_malloc_intern(reg->max_rec_size);
 			memcpy(libuff, li->buffer, li->buffer_used);
-			free(li->buffer);
+			gtm_free_intern(li->buffer);
 			li->buffer = libuff;
 		} else if (li->buffer)
 		{
-			free(li->buffer);
+			gtm_free_intern(li->buffer);
 			li->buffer = 0;
 		}
 		li->buffer_size = reg->max_rec_size + CM_BUFFER_OVERHEAD;

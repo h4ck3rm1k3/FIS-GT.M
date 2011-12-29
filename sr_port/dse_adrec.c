@@ -98,7 +98,7 @@ void dse_adrec(void)
 	if (!(bp = t_qread(patch_curr_blk, &dummy_hist.h[0].cycle, &dummy_hist.h[0].cr)))
 		rts_error(VARLSTCNT(1) ERR_DSEBLKRDFAIL);
 
-	lbp = (uchar_ptr_t)malloc(blk_size);
+	lbp = (uchar_ptr_t)gtm_malloc_intern(blk_size);
 	MEMCP(lbp, bp, 0, blk_size, blk_size);
 
 	if (((blk_hdr_ptr_t)lbp)->bsiz > blk_size)
@@ -112,20 +112,20 @@ void dse_adrec(void)
 		if (cli_present("POINTER") != CLI_PRESENT)
 		{
 			util_out_print("Error: block pointer must be specified for this index block record.", TRUE);
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
 		if (!cli_get_hex("POINTER", &blk))
 		{
 			t_abort(gv_cur_region, cs_addrs);
-			free(lbp);
+			gtm_free_intern(lbp);
 			return;
 		}
 		if (blk < 0 || blk >= cs_addrs->ti->total_blks || !(blk % cs_addrs->hdr->bplmap))
 		{
 			util_out_print("Error: pointer is an invalid block number.", TRUE);
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
@@ -136,13 +136,13 @@ void dse_adrec(void)
 		if (cli_present("DATA") != CLI_PRESENT)
 		{
 			util_out_print("Error:  data must be specified for this data block record.", TRUE);
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
 		if (FALSE == dse_data(&data[0], &data_len))
 		{
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
@@ -157,7 +157,7 @@ void dse_adrec(void)
 	{
 		if (!(rp = skan_rnum(lbp, TRUE)))
 		{
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
@@ -165,19 +165,19 @@ void dse_adrec(void)
 	{
 		if (!(rp = skan_offset(lbp, TRUE)))
 		{
-			free(lbp);
+			gtm_free_intern(lbp);
 			t_abort(gv_cur_region, cs_addrs);
 			return;
 		}
 	} else
 	{
 		util_out_print("Error:  must specify a record number or offset for the record to be added.", TRUE);
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
 
-	new_bp = (uchar_ptr_t)malloc(blk_size);
+	new_bp = (uchar_ptr_t)gtm_malloc_intern(blk_size);
 	size = (key_len < patch_comp_count) ? key_len : patch_comp_count;
 	for (cc = 0; cc < size && patch_comp_key[cc] ==  key[cc]; cc++)
 		;
@@ -227,13 +227,13 @@ void dse_adrec(void)
 	if (rp - lbp + new_len > blk_size)
 	{
 		util_out_print("Error: record too large for remaining space in block.", TRUE);
-		free(lbp);
-		free(new_bp);
+		gtm_free_intern(lbp);
+		gtm_free_intern(new_bp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
 	memcpy(rp, new_bp, new_len);
-	free(new_bp);
+	gtm_free_intern(new_bp);
 	((blk_hdr_ptr_t)lbp)->bsiz += new_len + rp - b_top;
 
 	BLK_INIT(bs_ptr, bs1);
@@ -241,7 +241,7 @@ void dse_adrec(void)
 	if (!BLK_FINI(bs_ptr, bs1))
 	{
 		util_out_print("Error: bad blk build.", TRUE);
-		free(lbp);
+		gtm_free_intern(lbp);
 		t_abort(gv_cur_region, cs_addrs);
 		return;
 	}
@@ -249,6 +249,6 @@ void dse_adrec(void)
 	BUILD_AIMG_IF_JNL_ENABLED(cs_addrs, cs_data, non_tp_jfb_buff_ptr, cse);
 	t_end(&dummy_hist, 0);
 
-	free(lbp);
+	gtm_free_intern(lbp);
 	return;
 }

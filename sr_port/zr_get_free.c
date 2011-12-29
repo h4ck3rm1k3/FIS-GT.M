@@ -16,7 +16,7 @@
 #include "rtnhdr.h"
 #include "zbreak.h"
 
-zbrk_struct *zr_get_free(z_records *zrecs, zb_code *addr)
+zbrk_struct *zr_get_gtm_free_intern(z_records *zrecs, zb_code *addr)
 {
 	z_records	temp;
 	zbrk_struct 	*z_ptr;
@@ -40,7 +40,7 @@ zbrk_struct *zr_get_free(z_records *zrecs, zb_code *addr)
 		assert(zrecs->free == zrecs->beg);
 		zrecs->free += (temp.free - temp.beg);
 		z_ptr = zrecs->beg + (z_ptr - temp.beg);
-		free(temp.beg);
+		gtm_free_intern(temp.beg);
 	}
 	/* shift records down into the bottom spot which was allocated */
 	memmove((char *)(z_ptr + 1), (char *)z_ptr, (zrecs->free - z_ptr) * sizeof(zbrk_struct));

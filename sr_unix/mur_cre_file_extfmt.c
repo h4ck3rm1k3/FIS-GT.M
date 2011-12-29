@@ -66,10 +66,10 @@ int4 mur_cre_file_extfmt(int recstat)
 	while (DOT != *ptr)	/* we know journal file name alway has a DOT */
 		ptr--;
 	base_len = ptr - (char *)&mur_jctl->jnl_fn[0];
-	file_info = murgbl.file_info[recstat] = (void *)malloc(sizeof(fi_type));
+	file_info = murgbl.file_info[recstat] = (void *)gtm_malloc_intern(sizeof(fi_type));
 	if (0 == mur_options.extr_fn_len[recstat])
 	{
-		mur_options.extr_fn[recstat] = malloc(MAX_FN_LEN);
+		mur_options.extr_fn[recstat] = gtm_malloc_intern(MAX_FN_LEN);
 		mur_options.extr_fn_len[recstat] = base_len;
 		memcpy(mur_options.extr_fn[recstat], mur_jctl->jnl_fn, base_len);
 		fn_exten_size = strlen(fn_exten[recstat]);

@@ -31,13 +31,13 @@ void gtcm_init_ast(struct CLB *c)
 	connection_struct *cs;
 
 	cs = UNIX_ONLY(c->usr;) /* for Unix, allocated already -- setup now */
-	     VMS_ONLY((connection_struct *)malloc(sizeof(connection_struct));)
+	     VMS_ONLY((connection_struct *)gtm_malloc_intern(sizeof(connection_struct));)
 	memset(cs, 0, sizeof(*cs));
 	UNIX_ONLY(gettimeofday((struct timeval *)&cs->connect[0], NULL);)
 	VMS_ONLY(
 		sys$gettim(&cs->connect[0]);
 		c->usr = cs;
-		c->mbf = malloc(CM_MSG_BUF_SIZE + CM_BUFFER_OVERHEAD);
+		c->mbf = gtm_malloc_intern(CM_MSG_BUF_SIZE + CM_BUFFER_OVERHEAD);
 		c->mbl = CM_MSG_BUF_SIZE + CM_BUFFER_OVERHEAD;
 	)
 	cs->lk_cancel = cs->last_cancelled = CM_NOLKCANCEL;

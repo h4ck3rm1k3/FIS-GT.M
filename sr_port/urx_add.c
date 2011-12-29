@@ -50,9 +50,9 @@ void urx_add (urx_rtnref *lcl_anchor)
 				lpp = urx_addlab(lpp, lp);
 				if (lpp != &(lp->next))
 					/* The label already existed */
-					free(lp);
+					gtm_free_intern(lp);
 			}
-			free(rp);
+			gtm_free_intern(rp);
 		}
 	}
 }

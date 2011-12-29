@@ -77,7 +77,7 @@ bool zlput_rname (rhdtyp *hdr)
 		{	/* Not enough room, recreate table in larger area */
 			size = (char *) rtn_names_end - (char *) rtn_names + sizeof(RTN_TABENT)
 				* FREE_RTNTBL_SPACE;
-			new = malloc(size);
+			new = gtm_malloc_intern(size);
 			memcpy(new, rtn_names, (char *)mid - (char *)rtn_names);
 			mid = (RTN_TABENT *)((char *)mid + (new - (char *)rtn_names));
 			old_table = (char *) rtn_names;
@@ -90,7 +90,7 @@ bool zlput_rname (rhdtyp *hdr)
 		memmove(mid->rt_name.c, name, sizeof(mident));
 		rtn_names_end++;
 		if (old_table && old_table != (char *)rtn_fst_table)
-			free(old_table);		/* original table can't be freed */
+			gtm_free_intern(old_table);		/* original table can't be freed */
 	} else
 	{	/* Entry exists. Update it */
 		old_rhead = (rhdtyp *) mid->RTNENT_RT_ADR;
@@ -113,11 +113,11 @@ bool zlput_rname (rhdtyp *hdr)
 				   We also can release the read-only releasable segment as it is no longer needed.
 				*/
 			        stp_move(old_rhead->literal_text_adr, old_rhead->literal_text_adr + old_rhead->literal_text_len);
-				free(old_rhead->ptext_adr);
+				gtm_free_intern(old_rhead->ptext_adr);
 			}
 			urx_remove(old_rhead->linkage_adr, old_rhead->linkage_len);
-			free(old_rhead->literal_adr);	/* Release the read-write releasable segments */
-			free(old_rhead->linkage_adr);
+			gtm_free_intern(old_rhead->literal_adr);	/* Release the read-write releasable segments */
+			gtm_free_intern(old_rhead->linkage_adr);
 			old_rhead->literal_adr = NULL;
 			old_rhead->linkage_adr = NULL;
 			hdr->old_rhead_adr = old_rhead;
@@ -137,9 +137,9 @@ bool zlput_rname (rhdtyp *hdr)
 				for (curline = (mstr *)(src_tbl + 2) + 1; 0 != entries; --entries, ++curline)
 				{
 					assert(curline->len);
-					free(curline->addr);
+					gtm_free_intern(curline->addr);
 				}
-				free(ht->ptr);
+				gtm_free_intern(ht->ptr);
 				ht->ptr = 0;
 			}
 		}

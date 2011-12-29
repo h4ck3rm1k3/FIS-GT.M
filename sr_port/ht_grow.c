@@ -34,7 +34,7 @@ void ht_grow(htab_desc *table)
 			if ((p->nb.val.i1 != 0) || (p->nb.val.i2 !=0))
 				ht_put(table, &(p->nb), &dummy)->ptr = p->ptr;
 		}
-		free((char *)s);
+		gtm_free_intern((char *)s);
 	}
 	return;
 }

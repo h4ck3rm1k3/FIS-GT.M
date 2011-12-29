@@ -74,7 +74,7 @@ rhdtyp *auto_zlink_i386 (unsigned char *pc, int4 *line)
 			rname.addr to an address that is freed during op_zlink
 			and before the call to find_rtn_hdr.
 		*/
-		rname_local = (char *)malloc(rname.len);
+		rname_local = (char *)gtm_malloc_intern(rname.len);
 		memcpy(rname_local, rname.addr, rname.len);
 		rname.addr = rname_local;
 		assert (rtnurx);
@@ -90,10 +90,10 @@ rhdtyp *auto_zlink_i386 (unsigned char *pc, int4 *line)
 			*line = *(int4 *) (adj_pc - PEA_SZ + INST_SZ);
 			if (!(*line))
 				rts_error(VARLSTCNT(1) ERR_LABELUNKNOWN);
-			free(rname_local);
+			gtm_free_intern(rname_local);
 			return rhead;
 		}
-		free(rname_local);
+		gtm_free_intern(rname_local);
 	}
 	rts_error(VARLSTCNT(1) ERR_ROUTINEUNKNOWN);
 	return NULL;

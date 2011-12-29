@@ -50,7 +50,7 @@ void mubclnup(backup_reg_list *curr_ptr, clnup_stage stage)
 
 	assert(stage >= need_to_free_space && stage < num_of_clnup_stage);
 
-	free(stringpool.base);
+	gtm_free_intern(stringpool.base);
 
 	switch(stage)
 	{
@@ -69,7 +69,7 @@ void mubclnup(backup_reg_list *curr_ptr, clnup_stage stage)
 		{
 			if (keep_going == ptr->not_this_time || give_up_after_create_tempfile == ptr->not_this_time)
 			{
-				free(ptr->backup_hdr);
+				gtm_free_intern(ptr->backup_hdr);
 				if (online)
 				{
 					/* get rid of the temporary file */
@@ -116,8 +116,8 @@ void mubclnup(backup_reg_list *curr_ptr, clnup_stage stage)
 			if (keep_going != ptr->not_this_time)
 				error_mupip = TRUE;
 			if (NULL != ptr->backup_file.addr)
-				free(ptr->backup_file.addr);
-			free(ptr);
+				gtm_free_intern(ptr->backup_file.addr);
+			gtm_free_intern(ptr);
 			ptr = next;
 		}
 	}

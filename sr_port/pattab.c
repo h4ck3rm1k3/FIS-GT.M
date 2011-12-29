@@ -375,15 +375,15 @@ int load_pattern_table(int name_len,char *file_name)
 				} else if (cmp < 0)
 					break;
 			}
-			newpat = (pattern *) malloc(sizeof(pattern) + newnamlen);
+			newpat = (pattern *) gtm_malloc_intern(sizeof(pattern) + newnamlen);
 			newpat->flink = (*patp);
 			newpat->namlen = newnamlen;
 			memcpy(newpat->name, newtabnam, newnamlen + 1);
-			newpat->typemask = (uint4 *) malloc(sizeof(typemask));
+			newpat->typemask = (uint4 *) gtm_malloc_intern(sizeof(typemask));
 			memcpy(newpat->typemask, newtable, sizeof(typemask));
-			newpat->patYZnam = (unsigned char *) malloc(sizeof(newYZnam));
+			newpat->patYZnam = (unsigned char *) gtm_malloc_intern(sizeof(newYZnam));
 			memcpy(newpat->patYZnam, newYZnam, sizeof(newYZnam));
-			newpat->patYZlen = (int *) malloc(sizeof(newYZlen));
+			newpat->patYZlen = (int *) gtm_malloc_intern(sizeof(newYZlen));
 			memcpy(newpat->patYZlen, newYZlen, sizeof(newYZlen));
 			newpat->patYZnum = newYZnum;
 			(*patp) = newpat;
@@ -426,11 +426,11 @@ static int open_patfile(int name_len, char *file_name)
 	if (RMS$_NORMAL != status)
 		return 0;
 #else
-	name_copy = malloc(name_len + 1);
+	name_copy = gtm_malloc_intern(name_len + 1);
 	memcpy(name_copy, file_name, name_len);
 	name_copy[name_len] = '\0';
 	patfile = Fopen((const char *)name_copy, "r");
-	free(name_copy);
+	gtm_free_intern(name_copy);
 	if (NULL == patfile)
 		return 0;
 #endif

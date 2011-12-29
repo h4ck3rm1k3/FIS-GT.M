@@ -344,8 +344,8 @@ void mupip_upgrade(void)
 	    endif
 	*/
 	bufsize = old_head->blk_size * BLKS_PER_LMAP;
-	upgrd_buff[0] = (unsigned char*) malloc(bufsize);
-	upgrd_buff[1] = (unsigned char*) malloc(bufsize);
+	upgrd_buff[0] = (unsigned char*) gtm_malloc_intern(bufsize);
+	upgrd_buff[1] = (unsigned char*) gtm_malloc_intern(bufsize);
 	read_off =  old_start_vbn_off = (off_t)(old_head->start_vbn - 1) * DISK_BLOCK_SIZE; /* start vbn offset in bytes */
 	last_full_grp_startblk = ROUND_DOWN(new_head->trans_hist.total_blks, BLKS_PER_LMAP); /* in block_id */
 	last_full_grp_startoff = old_start_vbn_off + (off_t)last_full_grp_startblk * new_head->blk_size; /* offset in bytes */
@@ -441,8 +441,8 @@ void mupip_upgrade(void)
 		if (0 != status)
 			rts_error(VARLSTCNT(5) ERR_DBFILOPERR, 2, fn_len, fn, status);
 	} /* end if small database */
-	free(upgrd_buff[0]);
-	free(upgrd_buff[1]);
+	gtm_free_intern(upgrd_buff[0]);
+	gtm_free_intern(upgrd_buff[1]);
 	close(fd);
 	util_out_print("File !AD successfully upgraded.!/", FLUSH, fn_len, fn);
 	REVERT;

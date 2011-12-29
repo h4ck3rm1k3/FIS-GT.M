@@ -30,9 +30,9 @@
 
 typedef struct gdr_name_struct
 {
-	mstr		name;
-	struct gdr_name	*link;
-	gd_addr		*gd_ptr;
+  mstr		name;
+  struct gdr_name_struct	*link;
+  gd_addr		*gd_ptr;
 } gdr_name;
 
 static gdr_name	*gdr_name_head;
@@ -50,7 +50,7 @@ gd_addr *create_dummy_gbldir(void)
 	uint4		t_offset, size;
 
 	size = sizeof(header_struct) + sizeof(gd_addr) + 3 * sizeof(gd_binding) + 1 * sizeof(gd_region) + 1 * sizeof(gd_segment);
-	header = (header_struct *)malloc(ROUND_UP(size, DISK_BLOCK_SIZE));
+	header = (header_struct *)gtm_malloc_intern(ROUND_UP(size, DISK_BLOCK_SIZE));
 	memset(header, 0, ROUND_UP(size, DISK_BLOCK_SIZE));
 	header->filesize = size;
 	size = ROUND_UP(size, DISK_BLOCK_SIZE);
@@ -93,21 +93,21 @@ gd_addr *create_dummy_gbldir(void)
 		region->dyn.addr = (gd_segment *)((char *)addr + t_offset);
 	}
 
-	/* Should be using gd_id_ptr_t below, but ok for now since malloc won't return > 4G
+	/* Should be using gd_id_ptr_t below, but ok for now since gtm_malloc_intern won't return > 4G
 	 * and since addr->id is a 4-byte pointer only until we change the format of the global directory.
 	 */
-	addr->id = (gd_id *)malloc(sizeof(gd_id));
+	addr->id = (gd_id *)gtm_malloc_intern(sizeof(gd_id));
 	memset(addr->id, 0, sizeof(gd_id));
 
-	addr->tab_ptr = (htab_desc *)malloc(sizeof(htab_desc));
+	addr->tab_ptr = (htab_desc *)gtm_malloc_intern(sizeof(htab_desc));
 	ht_init(addr->tab_ptr,0);
 
-	name = (gdr_name *)malloc(sizeof(gdr_name));
-	name->name.addr = (char *)malloc(10);
+	name = (gdr_name *)gtm_malloc_intern(sizeof(gdr_name));
+	name->name.addr = (char *)gtm_malloc_intern(10);
 	strcpy(name->name.addr,"DUMMY.GLD");
 
 	if (gdr_name_head)
-		name->link = (struct gdr_name *)gdr_name_head;
+		name->link = (gdr_name *)gdr_name_head;
 	else
 		name->link = 0;
 

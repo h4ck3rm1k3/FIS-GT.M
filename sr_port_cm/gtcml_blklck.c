@@ -41,17 +41,17 @@ void gtcml_blklck(cm_region_list *region, mlk_pvtblk *lock, uint4 wake)
 	if (!b)
 	{
 		new = TRUE;
-		b = (cm_lckblkreg *)malloc(sizeof(cm_lckblkreg));
+		b = (cm_lckblkreg *)gtm_malloc_intern(sizeof(cm_lckblkreg));
 		b->next = 0;
 		b->region = region->reghead;
 		b->pass = CM_BLKPASS;
-		b->lock	 = (cm_lckblklck *)malloc(sizeof(cm_lckblklck));
-		l = (cm_lckblklck *)malloc(sizeof(cm_lckblklck));
+		b->lock	 = (cm_lckblklck *)gtm_malloc_intern(sizeof(cm_lckblklck));
+		l = (cm_lckblklck *)gtm_malloc_intern(sizeof(cm_lckblklck));
 		l->node = lock->nodptr;
 		l->next = l->last = b->lock;
 		l->sequence = lock->nodptr->sequence;
 		sys_get_curr_time(&l->blktime);
-		p = (cm_lckblkprc *)malloc(sizeof(cm_lckblkprc));
+		p = (cm_lckblkprc *)gtm_malloc_intern(sizeof(cm_lckblkprc));
 		p->user = curr_entry;
 		p->blocked = lock->blocked;
 		assert(lock->blocked);
@@ -76,7 +76,7 @@ void gtcml_blklck(cm_region_list *region, mlk_pvtblk *lock, uint4 wake)
 		}
 		if (l1->node != lock->nodptr)
 		{
-			tl1 = (cm_lckblklck *)malloc(sizeof(cm_lckblklck));
+			tl1 = (cm_lckblklck *)gtm_malloc_intern(sizeof(cm_lckblklck));
 			tl1->node = lock->nodptr;
 			tl1->next = l1->next;
 			tl1->last = l1;
@@ -98,7 +98,7 @@ void gtcml_blklck(cm_region_list *region, mlk_pvtblk *lock, uint4 wake)
 		}
 		if (!p1 || p1->user != curr_entry)
 		{
-			pl1 = (cm_lckblkprc *)malloc(sizeof(cm_lckblkprc));
+			pl1 = (cm_lckblkprc *)gtm_malloc_intern(sizeof(cm_lckblkprc));
 			if (!p1)
 			{
 				l1->prc = pl1;

@@ -47,8 +47,8 @@ void cache_cleanup(stack_frame *sf)
 				dqdel(indce, linktemp);
 			}
 			if (indce->obj.len)
-				free(indce->obj.addr);
-			free(indce);
+				gtm_free_intern(indce->obj.addr);
+			gtm_free_intern(indce);
 			assert(cache_temp_cnt);
 			DBG_DECR_CNT(cache_temp_cnt);
 		}

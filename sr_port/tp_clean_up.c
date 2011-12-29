@@ -63,14 +63,14 @@ void	tp_clean_up(boolean_t rollback_flag)
 		/* if no database activity, cw_stagnate should be uninitialized or reinitialized */
 	if (first_sgm_info != NULL)
 	{	/* It is possible that first_ua is NULL at this point due to a prior call to tp_clean_up() that failed in
-		 * malloc() of tmp_ua->update_array. This is possible because we might have originally had two chunks of
+		 * gtm_malloc_intern() of tmp_ua->update_array. This is possible because we might have originally had two chunks of
 		 * update_arrays each x-bytes in size and we freed them up and requested 2x-bytes of contiguous storage
 		 * and we might error out on that malloc attempt (though this is very improbable).
 		 */
 		if ((NULL != first_ua) && (NULL != first_ua->next_ua))
 		{	/* if the original update array was too small, make a new larger one */
 			/* tmp_update_array_size is used below instead of the global variables (update_array_size,
-			 * first_ua->update_array_size or cumul_update_array_size) to handle error returns from	malloc()
+			 * first_ua->update_array_size or cumul_update_array_size) to handle error returns from	gtm_malloc_intern()
 			 * The global variables are reset to represent a NULL update_array before the malloc. If the malloc
 			 * succeeds, they will be assigned the value of tmp_update_array_size and otherwise (if malloc fails
 			 * due to memory exhausted situation) they stay NULL which is the right thing to do.
@@ -85,12 +85,12 @@ void	tp_clean_up(boolean_t rollback_flag)
 				 */
 				if (NULL != &curr_ua->update_array[0])
 				{
-					free(curr_ua->update_array);
+					gtm_free_intern(curr_ua->update_array);
 					tmp_update_array_size += curr_ua->update_array_size;
 						/* add up only those update arrays that have been successfully malloced */
 				}
 				if (curr_ua != first_ua)
-					free(curr_ua);
+					gtm_free_intern(curr_ua);
 			}
 			assert(tmp_update_array_size == cumul_update_array_size);
 			tmp_ua = first_ua;
@@ -102,8 +102,8 @@ void	tp_clean_up(boolean_t rollback_flag)
 				tmp_ua->update_array_size = cumul_update_array_size = 0;
 				if (BIG_UA < tmp_update_array_size)
 					tmp_update_array_size = BIG_UA;
-				tmp_ua->update_array = (char *)malloc(tmp_update_array_size);
-				/* assign global variables only after malloc() succeeds */
+				tmp_ua->update_array = (char *)gtm_malloc_intern(tmp_update_array_size);
+				/* assign global variables only after gtm_malloc_intern() succeeds */
 				update_array = tmp_ua->update_array;
 				cumul_update_array_size = update_array_size = tmp_ua->update_array_size = tmp_update_array_size;
 				curr_ua = first_ua = tmp_ua; /* set first_ua to non-NULL value once all mallocs are successful */
@@ -146,7 +146,7 @@ void	tp_clean_up(boolean_t rollback_flag)
 			for (ks = si->kill_set_head;  ks != NULL;  ks = next_ks)
 			{
 				next_ks = ks->next_kill_set;
-				free(ks);
+				gtm_free_intern(ks);
 			}
 			si->kill_set_head = si->kill_set_tail = NULL;
 			if (si->jnl_head)

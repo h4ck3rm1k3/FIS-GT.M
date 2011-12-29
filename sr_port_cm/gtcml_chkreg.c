@@ -61,13 +61,13 @@ void gtcml_chkreg(void)
 			if (reg == blkdlist)
 			{
 				blkdlist = reg->next;
-				free(reg);
+				gtm_free_intern(reg);
 				reg = reg1 = blkdlist;
 			}
 			else
 			{
 				reg1->next = reg->next;
-				free(reg);
+				gtm_free_intern(reg);
 				reg = reg1->next;
 			}
 		}

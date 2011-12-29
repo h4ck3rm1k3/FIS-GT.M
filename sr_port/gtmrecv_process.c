@@ -381,13 +381,13 @@ int gtmrecv_alloc_filter_buff(int bufsiz)
 		REPL_DPRINT3("Expanding filter buff from %d to %d\n", repl_filter_bufsiz, bufsiz);
 		free_filter_buff = filterbuff;
 		old_filter_buff = repl_filter_buff;
-		filterbuff = (unsigned char *)malloc(bufsiz + OS_PAGE_SIZE);
+		filterbuff = (unsigned char *)gtm_malloc_intern(bufsiz + OS_PAGE_SIZE);
 		repl_filter_buff = (uchar_ptr_t)ROUND_UP2((unsigned long)filterbuff, OS_PAGE_SIZE);
 		if (NULL != free_filter_buff)
 		{
 			assert(NULL != old_filter_buff);
 			memcpy(repl_filter_buff, old_filter_buff, repl_filter_bufsiz);
-			free(free_filter_buff);
+			gtm_free_intern(free_filter_buff);
 		}
 		repl_filter_bufsiz = bufsiz;
 	}
@@ -399,7 +399,7 @@ void gtmrecv_free_filter_buff(void)
 	if (NULL != filterbuff)
 	{
 		assert(NULL != repl_filter_buff);
-		free(filterbuff);
+		gtm_free_intern(filterbuff);
 		filterbuff = repl_filter_buff = NULL;
 		repl_filter_bufsiz = 0;
 	}
@@ -412,7 +412,7 @@ int gtmrecv_alloc_msgbuff(void)
 
 	gtmrecv_max_repl_msglen = MAX_REPL_MSGLEN + sizeof(gtmrecv_msgp->type); /* add sizeof(...) for alignment */
 	assert(NULL == gtmrecv_msgp); /* first time initialization. The receiver server doesn't need to re-allocate */
-	msgbuff = (unsigned char *)malloc(gtmrecv_max_repl_msglen + OS_PAGE_SIZE);
+	msgbuff = (unsigned char *)gtm_malloc_intern(gtmrecv_max_repl_msglen + OS_PAGE_SIZE);
 	gtmrecv_msgp = (repl_msg_ptr_t)ROUND_UP2((unsigned long)msgbuff, OS_PAGE_SIZE);
 	gtmrecv_alloc_filter_buff(gtmrecv_max_repl_msglen);
 	return (SS_NORMAL);
@@ -423,7 +423,7 @@ void gtmrecv_free_msgbuff(void)
 	if (NULL != msgbuff)
 	{
 		assert(NULL != gtmrecv_msgp);
-		free(msgbuff);
+		gtm_free_intern(msgbuff);
 		msgbuff = NULL;
 		gtmrecv_msgp = NULL;
 	}
@@ -673,7 +673,7 @@ static void do_main_loop(boolean_t crash_restart)
 {
 	/* The work-horse of the Receiver Server */
 
-	void		do_flow_control();
+	void		do_flow_control(	uint4		);
 
 	recvpool_ctl_ptr_t	recvpool_ctl;
 	upd_proc_local_ptr_t	upd_proc_local;
@@ -741,7 +741,10 @@ static void do_main_loop(boolean_t crash_restart)
 			{
 				repl_close(&gtmrecv_sock_fd);
 				repl_connection_reset = TRUE;
-				sgtm_putmsg(print_msg, VARLSTCNT(4) ERR_REPLWARN, 2, RTS_ERROR_LITERAL("Connection closed"));
+				sgtm_putmsg(print_msg, 
+					    VARLSTCNT(4) ERR_REPLWARN, 
+					    2, 
+					    RTS_ERROR_LITERAL("Connection closed"));
 				repl_log(gtmrecv_log_fp, TRUE, TRUE, print_msg);
 				gtm_event_log(GTM_EVENT_LOG_ARGC, "MUPIP", "ERR_REPLWARN", print_msg);
 				return;

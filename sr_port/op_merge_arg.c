@@ -80,18 +80,18 @@ void op_merge_arg(int m_opr_type, lv_val *lvp)
 
 	if (!mglvnp)
 	{
-		mglvnp = (merge_glvn_ptr) malloc(sizeof(struct merge_glvn_struct_type));
+		mglvnp = (merge_glvn_ptr) gtm_malloc_intern(sizeof(struct merge_glvn_struct_type));
 		memset(mglvnp, 0, sizeof(struct merge_glvn_struct_type));
 	}
 	if ((MARG1_GBL == m_opr_type || MARG2_GBL == m_opr_type) && !mglvnp->gblp[IND1])
 	{
 		assert(!mglvnp->gblp[IND1] && !mglvnp->gblp[IND2]);
 		maxkeysz = (MAX_KEY_SZ + MAX_NUM_SUBSC_LEN + 4) & (-4);
-		mglvnp->gblp[IND1] = (gvname_info *)malloc(sizeof(struct gvname_info_struct));
-		mglvnp->gblp[IND1]->s_gv_currkey =  (gv_key *)malloc(sizeof(gv_key) + maxkeysz - 1);
+		mglvnp->gblp[IND1] = (gvname_info *)gtm_malloc_intern(sizeof(struct gvname_info_struct));
+		mglvnp->gblp[IND1]->s_gv_currkey =  (gv_key *)gtm_malloc_intern(sizeof(gv_key) + maxkeysz - 1);
 		mglvnp->gblp[IND1]->s_gv_currkey->top = maxkeysz;
-		mglvnp->gblp[IND2] = (gvname_info *)malloc(sizeof(struct gvname_info_struct));
-		mglvnp->gblp[IND2]->s_gv_currkey =  (gv_key *)malloc(sizeof(gv_key) + maxkeysz - 1);
+		mglvnp->gblp[IND2] = (gvname_info *)gtm_malloc_intern(sizeof(struct gvname_info_struct));
+		mglvnp->gblp[IND2]->s_gv_currkey =  (gv_key *)gtm_malloc_intern(sizeof(gv_key) + maxkeysz - 1);
 		mglvnp->gblp[IND2]->s_gv_currkey->top = maxkeysz;
 	}
 	merge_args |= m_opr_type;

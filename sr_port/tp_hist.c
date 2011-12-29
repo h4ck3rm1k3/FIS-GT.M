@@ -298,7 +298,7 @@ void	gds_tp_hist_moved(sgm_info *si, srch_hist *hist1)
 
 	assert(si->cur_tp_hist_size < si->tp_hist_size);
 	si->cur_tp_hist_size <<= 1;
-	new_first_tp_hist = (srch_blk_status *)malloc(sizeof(srch_blk_status) * si->cur_tp_hist_size);
+	new_first_tp_hist = (srch_blk_status *)gtm_malloc_intern(sizeof(srch_blk_status) * si->cur_tp_hist_size);
 	longcpy((uchar_ptr_t)new_first_tp_hist, (uchar_ptr_t)si->first_tp_hist,
 		(sm_uc_ptr_t)si->last_tp_hist - (sm_uc_ptr_t)si->first_tp_hist);
 	delta = (sm_uc_ptr_t)new_first_tp_hist - (sm_uc_ptr_t)si->first_tp_hist;
@@ -330,7 +330,7 @@ void	gds_tp_hist_moved(sgm_info *si, srch_hist *hist1)
 			REPOSITION_PTR(t1->first_tp_srch_status, struct srch_blk_status_struct,
 									delta, si->first_tp_hist, si->last_tp_hist);
 	}
-	free(si->first_tp_hist);
+	gtm_free_intern(si->first_tp_hist);
 	si->first_tp_hist = new_first_tp_hist;
 	si->last_tp_hist = (srch_blk_status *)((sm_uc_ptr_t)si->last_tp_hist + delta);
 }

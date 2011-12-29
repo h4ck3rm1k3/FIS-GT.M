@@ -18,41 +18,44 @@
 #define ZWRITE_LOWER 6
 #define ZWRITE_PATTERN 7
 
+typedef struct subsc_list_struct
+{
+  unsigned char subsc_type;
+  mval *actual;
+  mval *first,*second;
+} subsc_list_t;
+
+
 typedef struct zwr_sub_lst_struct
 {
-	struct
-	{
-		unsigned char subsc_type;
-		mval *actual;
-		mval *first,*second;
-	} subsc_list[1];
+  subsc_list_t subsc_list[1];
 } zwr_sub_lst;
 
-typedef struct
+typedef struct lvzwrite_struct_internal
 {
-	bool name_type;
-	unsigned char subsc_count;
-	unsigned char curr_subsc;
-	mval *pat;
-	mident *curr_name;
-	bool fixed;
-	uint4 mask;
-	struct zwr_sub_lst *sub;
+  bool name_type;
+  unsigned char subsc_count;
+  unsigned char curr_subsc;
+  mval *pat;
+  mident *curr_name;
+  bool fixed;
+  uint4 mask;
+  zwr_sub_lst *sub;
 } lvzwrite_struct;
 
-typedef struct
+typedef struct gvzwrite_struct_internal
 {
-	bool		type;
-	unsigned short	subsc_count;
-	unsigned short	curr_subsc;
-	mval		*pat;
-	bool		fixed;
-	uint4	mask;
-	unsigned char	*old_key;
-	unsigned char	*old_targ;
-	struct zwr_sub_lst *sub;
-	gd_binding	*old_map;
-	gd_binding	*old_map_top;
+  bool		type;
+  unsigned short	subsc_count;
+  unsigned short	curr_subsc;
+  mval		*pat;
+  bool		fixed;
+  uint4	mask;
+  unsigned char	*old_key;
+  unsigned char	*old_targ;
+  zwr_sub_lst *sub;
+  gd_binding	*old_map;
+  gd_binding	*old_map_top;
 } gvzwrite_struct;
 
 void gvzwr_arg(int t, mval *a1, mval *a2);

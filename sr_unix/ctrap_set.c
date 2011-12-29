@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------
  */
 GBLREF volatile int4 	ctrap_action_is;
-GBLREF int		(* volatile xfer_table[])();
+GBLREF int		(* volatile xfer_table[])(int,...);
 GBLREF volatile int4 	outofband;
 
 void ctrap_set(int4 ob_char)

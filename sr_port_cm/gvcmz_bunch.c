@@ -99,13 +99,13 @@ void gvcmz_bunch(mval *v)
 		usr->buffer_size = zdefbufsiz;
 		if (usr->buffer)
 		{
-			free(usr->buffer);
+			gtm_free_intern(usr->buffer);
 			usr->buffer = 0;
 		}
 	}
 
 	if (!usr->buffer)
-		usr->buffer = malloc(usr->buffer_size);
+		usr->buffer = gtm_malloc_intern(usr->buffer_size);
 
 	if (!usr->buffer_used)
 	{

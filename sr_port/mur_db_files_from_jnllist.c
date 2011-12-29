@@ -86,7 +86,7 @@ gld_dbname_list *mur_db_files_from_jnllist(char *jnl_file_list, unsigned short j
 	 		cre_jnl_file_intrpt_rename(jctl->jnl_fn_len, jctl->jnl_fn);
 			if (!mur_fopen_sp(jctl))
 				return NULL;
-			jctl->jfh = (jnl_file_header *)malloc(JNL_HDR_LEN);
+			jctl->jfh = (jnl_file_header *)gtm_malloc_intern(JNL_HDR_LEN);
 			DO_FILE_READ(jctl->channel, 0, jctl->jfh, JNL_HDR_LEN, jctl->status, jctl->status2);
 			if (SS_NORMAL != jctl->status) /* read fails */
 			{
@@ -118,13 +118,13 @@ gld_dbname_list *mur_db_files_from_jnllist(char *jnl_file_list, unsigned short j
 		}
 		if (NULL == tdblist)
 		{
-			dblist = dblist->next = (gld_dbname_list *)malloc(sizeof(gld_dbname_list));
+			dblist = dblist->next = (gld_dbname_list *)gtm_malloc_intern(sizeof(gld_dbname_list));
 			memset(dblist, 0, sizeof(gld_dbname_list));
 			gv_cur_region->stat.addr = (void *)dblist; /* is it necessary ??? */
 			dblist->gd = gv_cur_region;
 			db_tot++;
 		} else
-			mu_gv_cur_reg_free();
+			mu_gv_cur_reg_gtm_free_intern();
 	}
 	*db_total = db_tot;
 	return head.next;

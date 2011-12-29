@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	size = sizeof(header_struct) + sizeof(gd_addr) + 3 * sizeof(gd_binding) + 1 * sizeof(gd_region) + 1 * sizeof(gd_segment);
-	header = (header_struct *)malloc(ROUND_UP(size, DISK_BLOCK_SIZE));
+	header = (header_struct *)gtm_malloc_intern(ROUND_UP(size, DISK_BLOCK_SIZE));
 	memset(header, 0, ROUND_UP(size, DISK_BLOCK_SIZE));
 	header->filesize = size;
 	size = ROUND_UP(size, DISK_BLOCK_SIZE);

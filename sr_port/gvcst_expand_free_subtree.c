@@ -69,7 +69,7 @@ void	gvcst_expand_free_subtree(kill_set *ks_head)
 	csd = cs_data;
 	/* If ever the following assert is removed, "flush_cache" shouldn't be set to FALSE unconditionally as it is now */
 	assert(!csd->dsid);	/* see related comment in gvcst_kill before the call to this routine */
-	temp_buff = (unsigned char *)malloc(cs_data->blk_size);
+	temp_buff = (unsigned char *)gtm_malloc_intern(cs_data->blk_size);
 	for (ks = ks_head; NULL != ks; ks = ks->next_kill_set)
 	{
 		for (cnt = 0; cnt < ks->used; ++cnt)
@@ -90,7 +90,7 @@ void	gvcst_expand_free_subtree(kill_set *ks_head)
 					blk = ksb->block;
 				if (!(bp = (blk_hdr_ptr_t)t_qread(blk, (sm_int_ptr_t)&cycle, &cr)))
 				{	/* This should have worked because t_qread was done in crit */
-					free(temp_buff);
+					gtm_free_intern(temp_buff);
 					rts_error(VARLSTCNT(4) ERR_GVKILLFAIL, 2, 1, &rdfail_detail);
 				}
 				memcpy(temp_buff, bp, bp->bsiz);
@@ -107,7 +107,7 @@ void	gvcst_expand_free_subtree(kill_set *ks_head)
 					{	/* This should have worked because a local copy was made while crit */
 						assert(FALSE);
 						kill_error = cdb_sc_rmisalign;
-						free(temp_buff);
+						gtm_free_intern(temp_buff);
 						rts_error(VARLSTCNT(4) ERR_GVKILLFAIL, 2, 1, &kill_error);
 					}
 					GET_LONG(temp_long, (block_id_ptr_t)((sm_uc_ptr_t)rp1 - sizeof(block_id)));
@@ -141,6 +141,6 @@ void	gvcst_expand_free_subtree(kill_set *ks_head)
 		GVCST_BMP_MARK_FREE(ks, ret_tn, inctn_invalid_op, inctn_bmp_mark_free_gtm, inctn_opcode, csa)
 		dollar_tlevel = save_dollar_tlevel;
 	}
-	free(temp_buff);
+	gtm_free_intern(temp_buff);
 }
 

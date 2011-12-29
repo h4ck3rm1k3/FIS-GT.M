@@ -64,7 +64,7 @@ void mupip_set_jnl_cleanup(boolean_t clean_exit)
 			assert(NULL != rptr->sd);
 			if (NULL == rptr->sd)
 				continue;
-			free(rptr->sd);
+			gtm_free_intern(rptr->sd);
 			rptr->sd = NULL;
 			fc = gv_cur_region->dyn.addr->file_cntl;
 			fc->op = FC_CLOSE;

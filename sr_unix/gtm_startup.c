@@ -101,7 +101,7 @@ GBLREF stack_frame 	*frame_pointer;
 GBLREF unsigned char 	*stackbase, *stacktop, *stackwarn, *msp;
 GBLREF unsigned char	*fgncal_stack;
 GBLREF mv_stent		*mv_chain;
-GBLREF int		(* volatile xfer_table[])();
+GBLREF int		(* volatile xfer_table[])(int,...);
 GBLREF mval		dollar_system;
 GBLREF mval		dollar_ztrap;
 GBLREF mval		dollar_zstatus;
@@ -150,7 +150,7 @@ void gtm_startup(struct startup_vector *svec)
 		svec->user_stack_size = 4096;
 	if (svec->user_stack_size > 8388608)
 		svec->user_stack_size = 8388608;
-	mstack_ptr = (unsigned char *)malloc(svec->user_stack_size);
+	mstack_ptr = (unsigned char *)gtm_malloc_intern(svec->user_stack_size);
 	msp = stackbase = mstack_ptr + svec->user_stack_size - 4;
 
 	/* mark the stack base so that if error occur during call-in gtm_init(), the unwind
@@ -168,8 +168,8 @@ void gtm_startup(struct startup_vector *svec)
 	stp_init(svec->user_strpl_size);
 	if (svec->user_indrcache_size > MAX_INDIRECTION_NESTING || svec->user_indrcache_size < MIN_INDIRECTION_NESTING)
 		svec->user_indrcache_size = MIN_INDIRECTION_NESTING;
-	ind_result_array = (mval **) malloc(sizeof(int4) * svec->user_indrcache_size);
-	ind_source_array = (mval **) malloc(sizeof(int4) * svec->user_indrcache_size);
+	ind_result_array = (mval **) gtm_malloc_intern(sizeof(int4) * svec->user_indrcache_size);
+	ind_source_array = (mval **) gtm_malloc_intern(sizeof(int4) * svec->user_indrcache_size);
 	ind_result_sp = ind_result_array;
 	ind_result_top = ind_result_sp + svec->user_indrcache_size;
 	ind_source_sp = ind_source_array;
@@ -198,7 +198,7 @@ void gtm_startup(struct startup_vector *svec)
 	frame_pointer->ctxt = CONTEXT(gtm_ret_code);
 	frame_pointer->mpc = CODE_ADDRESS(gtm_ret_code);
 	frame_pointer->type = SFT_COUNT;
-	frame_pointer->rvector = (rhdtyp*)malloc(sizeof(rhdtyp));
+	frame_pointer->rvector = (rhdtyp*)gtm_malloc_intern(sizeof(rhdtyp));
 	memset(frame_pointer->rvector,0,sizeof(rhdtyp));
 	symbinit();
 	/* Variables for supporting $ZSEARCH sorting and wildcard expansion */

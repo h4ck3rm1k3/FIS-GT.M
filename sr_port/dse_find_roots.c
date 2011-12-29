@@ -54,20 +54,20 @@ void dse_find_roots(block_id index)
 			r_top = b_top;
 		if (r_top - rp < sizeof(block_id))
 			break;
-		global_roots_tail->link = (global_root_list *)malloc(sizeof(global_root_list));
+		global_roots_tail->link = (global_root_list *)gtm_malloc_intern(sizeof(global_root_list));
 		global_roots_tail = global_roots_tail->link;
 		global_roots_tail->link = 0;
 		for (key_top = rp + sizeof(rec_hdr); key_top < r_top; )
 			if(!*key_top++ && !*key_top++)
 				break;
 		GET_LONG(global_roots_tail->root,key_top);
-		global_roots_tail->dir_path = (global_dir_path *)malloc(sizeof(global_dir_path));
+		global_roots_tail->dir_path = (global_dir_path *)gtm_malloc_intern(sizeof(global_dir_path));
 		d_ptr = global_roots_tail->dir_path;
 		for (count = 0; ; count++)
 		{	d_ptr->block = patch_path[count];
 			d_ptr->offset = patch_offset[count];
 			if (count < patch_path_count - 1)
-				d_ptr->next = (global_dir_path *)malloc(sizeof(global_dir_path));
+				d_ptr->next = (global_dir_path *)gtm_malloc_intern(sizeof(global_dir_path));
 			else
 			{	d_ptr->next = 0;
 				d_ptr->offset = rp - bp;

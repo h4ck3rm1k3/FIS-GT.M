@@ -212,7 +212,7 @@ uint4	 gdsfilext (uint4 blocks, uint4 filesize)
 			sigprocmask(SIG_BLOCK, &blockalrm, &savemask);
 			need_to_restore_mask = TRUE;
 			tmp_csd = cs_data;
-			cs_data = (sgmnt_data_ptr_t)malloc(sizeof(*cs_data));
+			cs_data = (sgmnt_data_ptr_t)gtm_malloc_intern(sizeof(*cs_data));
 			memcpy((sm_uc_ptr_t)cs_data, (uchar_ptr_t)tmp_csd, sizeof(*cs_data));
 			status = munmap((caddr_t)cs_addrs->db_addrs[0],
 					     (size_t)(cs_addrs->db_addrs[1] - cs_addrs->db_addrs[0]));
@@ -226,7 +226,7 @@ uint4	 gdsfilext (uint4 blocks, uint4 filesize)
 		{
 			if (tmp_csd)
 			{
-				free(cs_data);
+				gtm_free_intern(cs_data);
 				cs_data = tmp_csd;
 			}
 			GDSFILEXT_CLNUP;
@@ -243,7 +243,7 @@ uint4	 gdsfilext (uint4 blocks, uint4 filesize)
 	}
 	new_total = cs_data->trans_hist.total_blks + new_blocks;
 	new_eof = ((off_t)(cs_data->start_vbn - 1) * DISK_BLOCK_SIZE) + ((off_t)new_total * cs_data->blk_size);
-	buff = (char *)malloc(DISK_BLOCK_SIZE);
+	buff = (char *)gtm_malloc_intern(DISK_BLOCK_SIZE);
 	memset(buff, 0, DISK_BLOCK_SIZE);
 	LSEEKWRITE(udi->fd, new_eof, buff, DISK_BLOCK_SIZE, save_errno);
 	if ((ENOSPC == save_errno) && run_time)
@@ -277,7 +277,7 @@ uint4	 gdsfilext (uint4 blocks, uint4 filesize)
 			LSEEKWRITE(udi->fd, new_eof, buff, DISK_BLOCK_SIZE, save_errno);
 		}
 	}
-	free(buff);
+	gtm_free_intern(buff);
 	if (0 != save_errno)
 	{
 		GDSFILEXT_CLNUP;
@@ -328,7 +328,7 @@ uint4	 gdsfilext (uint4 blocks, uint4 filesize)
 			return (NO_FREE_SPACE);
 		}
 #endif
-		free(cs_data);			/* note current assumption that cs_data has not changed since memcpy above */
+		gtm_free_intern(cs_data);			/* note current assumption that cs_data has not changed since memcpy above */
 		cs_data = cs_addrs->hdr = (sgmnt_data_ptr_t)cs_addrs->db_addrs[0];
 		cs_addrs->db_addrs[1] = cs_addrs->db_addrs[0] + new_eof - 1;
 		cs_addrs->bmm = cs_data->master_map;

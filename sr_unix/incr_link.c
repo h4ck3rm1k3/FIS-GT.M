@@ -58,7 +58,7 @@ const int COFFHDRLEN=1000;
 		status = errno;									\
 	if (0 == status && 0 == MEMCMP_LIT(marker, JSB_MARKER))					\
         {											\
-                free(hdr);									\
+                gtm_free_intern(hdr);									\
 		return FALSE;	/* Signal recompile */						\
         }											\
 }
@@ -133,7 +133,7 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 	}
 
 	/* Get the routine header where we can make use of it */
-	hdr = (rhdtyp *)malloc(sizeof(rhdtyp));
+	hdr = (rhdtyp *)gtm_malloc_intern(sizeof(rhdtyp));
 	if (shlib)
 	{	/* Make writable copy of header as header of record */
 		/* On some platforms, the address returned by dlsym() is not the actual shared code address, but normally
@@ -184,7 +184,7 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 	else
 	{
 		sect_ro_rel_size = (unsigned int)hdr->literal_adr - (unsigned int)hdr->ptext_adr;
-		sect_ro_rel = malloc(sect_ro_rel_size);
+		sect_ro_rel = gtm_malloc_intern(sect_ro_rel_size);
 		/* It should be aligned well at this point but make a debug level check to verify */
 		assert((int)sect_ro_rel == ((int)sect_ro_rel & ~(LINKAGE_PSECT_BOUNDARY - 1)));
 		DOREADRC(file_desc, sect_ro_rel, sect_ro_rel_size, status);
@@ -223,7 +223,7 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 
 	/* Read-write releasable section */
 	sect_rw_rel_size = (int)hdr->labtab_adr - (int)hdr->literal_adr;
-	sect_rw_rel = malloc(sect_rw_rel_size);
+	sect_rw_rel = gtm_malloc_intern(sect_rw_rel_size);
 	if (shlib)
 		memcpy(sect_rw_rel, shdr + (int)hdr->literal_adr, sect_rw_rel_size);
 	else
@@ -239,7 +239,7 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 	   not resident in the object. The values in this section will be setup later by addr_fix()
 	   and/or auto-zlink.
 	*/
-	hdr->linkage_adr = (lnk_tabent *)malloc(hdr->linkage_len * sizeof(lnk_tabent));
+	hdr->linkage_adr = (lnk_tabent *)gtm_malloc_intern(hdr->linkage_len * sizeof(lnk_tabent));
 	memset((char *)hdr->linkage_adr, 0, (hdr->linkage_len * sizeof(lnk_tabent)));
 	/* Relocations for read-write releasable section. Perform relocation on all string literals. The
 	   relocations for the linkage section is done in addr_fix()
@@ -261,7 +261,7 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 
 	/* Read-write non-releasable section */
 	sect_rw_nonrel_size = hdr->labtab_len * sizeof(lab_tabent);
-	sect_rw_nonrel = malloc(sect_rw_nonrel_size);
+	sect_rw_nonrel = gtm_malloc_intern(sect_rw_nonrel_size);
 	if (shlib)
 		memcpy(sect_rw_nonrel, shdr + (int)hdr->labtab_adr, sect_rw_nonrel_size);
 	else
@@ -285,14 +285,14 @@ bool	incr_link (int file_desc, zro_ent *zro_entry)
 	*/
 	if (!addr_fix(file_desc, shdr, &urx_lcl_anchor))
 	{
-		urx_free(&urx_lcl_anchor);
+		urx_gtm_free_intern(&urx_lcl_anchor);
 		zl_error(file_desc, zro_entry, ERR_INVOBJ, 0, 0, 0, 0);
 	}
 
 	/* Register new routine in routine name vector displacing old one and performing any necessary cleanup */
 	if (!zlput_rname (hdr))
 	{
-		urx_free(&urx_lcl_anchor);
+		urx_gtm_free_intern(&urx_lcl_anchor);
 
 		/* Copy routine name to local variable because zl_error free's it.  */
 		memcpy(module_name.c, hdr->routine_name.c, sizeof(mident));
@@ -374,7 +374,7 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 			DOREADRC(file, &rel[0], rel_read * sizeof(struct relocation_info), status);
 			if (0 != status)
 			{
-				res_free(res_root);
+				res_gtm_free_intern(res_root);
 				return FALSE;
 			}
 			rel_ptr = &rel[0];
@@ -382,7 +382,7 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 		numrel -= rel_read;
 		for (; rel_read;  --rel_read, ++rel_ptr)
 		{
-			new_res = (res_list *)malloc(sizeof(*new_res));
+			new_res = (res_list *)gtm_malloc_intern(sizeof(*new_res));
 			new_res->symnum = rel_ptr->r_symbolnum;
 			new_res->addr = rel_ptr->r_address;
 			new_res->next = new_res->list = 0;
@@ -435,16 +435,16 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 		DOREADRC(file, &string_size, sizeof(string_size), status);
 		if (0 != status)
 		{
-			res_free(res_root);
+			res_gtm_free_intern(res_root);
 			return FALSE;
 		}
 		string_size -= sizeof(string_size);
-		symbols = malloc(string_size);
+		symbols = gtm_malloc_intern(string_size);
 		DOREADRC(file, symbols, string_size, status);
 		if (0 != status)
 		{
-			free(symbols);
-			res_free(res_root);
+			gtm_free_intern(symbols);
+			res_gtm_free_intern(res_root);
 			return FALSE;
 		}
 	}
@@ -465,8 +465,8 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 				if (sym_temp >= symtop)
 				{
 					if (!shlib)
-						free(symbols);
-					res_free(res_root);
+						gtm_free_intern(symbols);
+					res_gtm_free_intern(res_root);
 					return FALSE;
 				}
 			}
@@ -480,8 +480,8 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 			if (sym_temp1 >= symtop)
 			{
 				if (!shlib)
-					free(symbols);
-				res_free(res_root);
+					gtm_free_intern(symbols);
+				res_gtm_free_intern(res_root);
 				return FALSE;
 			}
 		}
@@ -507,8 +507,8 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 				if (sym_temp1 >= symtop)
 				{
 					if (!shlib)
-						free(symbols);
-					res_free(res_root);
+						gtm_free_intern(symbols);
+					res_gtm_free_intern(res_root);
 					return FALSE;
 				}
 			}
@@ -549,7 +549,7 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 					((lnk_tabent * )((char *)hdr->linkage_adr + res_root->addr))->ext_ref =
 						(char_ptr_t)res_addr;
 					res_temp1 = res_root->list;
-					free(res_root);
+					gtm_free_intern(res_root);
 					res_root = res_temp1;
 				}
 				res_root = res_temp;
@@ -565,19 +565,19 @@ boolean_t addr_fix_generic (int file, unsigned char *shdr, urx_rtnref *urx_lcl)
 				urx_putlab(&labid.c[0], sym_size, urx_rp, (char *)hdr->linkage_adr + res_root->addr);
 			else
 			{
-				urx_tmpaddr = (urx_addr *)malloc(sizeof(urx_addr));
+				urx_tmpaddr = (urx_addr *)gtm_malloc_intern(sizeof(urx_addr));
 				urx_tmpaddr->next = urx_rp->addr;
 				urx_tmpaddr->addr = (int4 *)((char *)hdr->linkage_adr + res_root->addr);
 				urx_rp->addr = urx_tmpaddr;
 			}
 			res_temp1 = res_root->list;
-			free(res_root);
+			gtm_free_intern(res_root);
 			res_root = res_temp1;
 		}
 		res_root = res_temp;
 	}
 	if (!shlib)
-		free(symbols);
+		gtm_free_intern(symbols);
 	return TRUE;
 }
 
@@ -594,11 +594,11 @@ void	res_free_generic (res_list *root)
 		while (root->list)
 		{
 			temp = root->list->list;
-			free(root->list);
+			gtm_free_intern(root->list);
 			root->list = temp;
 		}
 		temp = root->next;
-		free(root);
+		gtm_free_intern(root);
 		root = temp;
 	}
 }
@@ -611,13 +611,13 @@ void	zl_error_generic (int4 file, zro_ent *zroe, int4 err, int4 len, char *addr,
 	if (!shlib)
 	{	/* Only non shared library links have these areas to free */
 		if (hdr)
-			free(hdr);
+			gtm_free_intern(hdr);
 		if (sect_ro_rel)
-			free(sect_ro_rel);
+			gtm_free_intern(sect_ro_rel);
 		if (sect_rw_rel)
-			free(sect_rw_rel);
+			gtm_free_intern(sect_rw_rel);
 		if (sect_rw_nonrel)
-			free(sect_rw_nonrel);
+			gtm_free_intern(sect_rw_nonrel);
 		close(file);
 	}
 	/* 0, 2, or 4 arguments */

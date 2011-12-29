@@ -64,7 +64,7 @@ void jobinterrupt_process_cleanup(void)
 	dollar_zininterrupt = FALSE;	/* No longer in a $zinterrupt */
 
 	/* Now build message for operator log with the form ERRWZINTR, compiler-error */
-	util_out_print(NULL, RESET);
+	util_out_print((const char*)NULL, RESET);
 	msgbuff.addr = (char *)msgbuf;
 	msgbuff.len = sizeof(msgbuf);
 	gtm_getmsg(ERR_ERRWZINTR, &msgbuff);

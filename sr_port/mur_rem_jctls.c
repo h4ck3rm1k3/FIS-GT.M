@@ -72,6 +72,6 @@ void	mur_rem_jctls(reg_ctl_list *rctl)
 		free_this = jctl;
 		jctl = jctl->prev_gen;
 		assert(!rem_jctls_done || (jctl->next_gen != free_this));
-		free(free_this);
+		gtm_free_intern(free_this);
 	} while (!rem_jctls_done);
 }

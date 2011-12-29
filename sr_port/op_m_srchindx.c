@@ -47,7 +47,7 @@ lv_val* op_m_srchindx(int something, ...)
 	static lvname_info_ptr	lvn_info = NULL;
 
 	if (!lvn_info)
-		lvn_info = (lvname_info_ptr) malloc(sizeof(struct lvname_info_struct));
+		lvn_info = (lvname_info_ptr) gtm_malloc_intern(sizeof(struct lvname_info_struct));
 	va_start(var,something);
 	lvn_info->total_lv_subs = va_arg(var, int4);
 	lvn_info->start_lvp = va_arg(var, lv_val *);  	/* process arg[1] */

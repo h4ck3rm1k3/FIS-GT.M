@@ -199,7 +199,7 @@ void	prealloc_gt_timers(void)
 	   Allocate them with 16 bytes of possible data each. */
 
 	timeblk_hdrlen = (int4)offsetof(GT_TIMER, hd_data[0]);
-	timeblk = timeblks = (GT_TIMER *)malloc((timeblk_hdrlen + GT_TIMER_INIT_DATA_LEN) * INIT_GT_TIMERS);
+	timeblk = timeblks = (GT_TIMER *)gtm_malloc_intern((timeblk_hdrlen + GT_TIMER_INIT_DATA_LEN) * INIT_GT_TIMERS);
 	for (gt_timer_cnt = INIT_GT_TIMERS; 0 < gt_timer_cnt; --gt_timer_cnt)
 	{
 		timeblk->hd_len_max = GT_TIMER_INIT_DATA_LEN;	/* Set amount it can store */
@@ -665,7 +665,7 @@ static void add_timer(ABS_TIME *atp,
 		assert(FALSE);			/* If dbg, we should have enough already */
 		if (timer_in_handler)
 			GTMASSERT;	/* malloc not safe in interrupt */
-		ntp = (GT_TIMER *) malloc(timeblk_hdrlen + hdata_len);
+		ntp = (GT_TIMER *) gtm_malloc_intern(timeblk_hdrlen + hdata_len);
 		ntp->hd_len_max = hdata_len;
 	}
 

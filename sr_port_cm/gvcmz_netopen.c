@@ -91,7 +91,7 @@ void gvcmz_netopen_attempt(struct CLB *c)
 		proto_str = (unsigned char *)&myproto;
 		if (!prc_vec)
 		{
-			prc_vec = malloc(sizeof(*prc_vec));
+			prc_vec = gtm_malloc_intern(sizeof(*prc_vec));
 			jnl_prc_vector(prc_vec);
 		}
 		prc_vec_size = sizeof(*prc_vec);
@@ -166,7 +166,7 @@ struct CLB *gvcmz_netopen(struct CLB *c, cmi_descriptor *node, cmi_descriptor *t
 	error_def(CMERR_INVPROT);
 
 	c = UNIX_ONLY(cmi_alloc_clb())VMS_ONLY(cmu_makclb());
-	c->usr = malloc(sizeof(link_info));
+	c->usr = gtm_malloc_intern(sizeof(link_info));
 	li = c->usr;
 	memset(li, 0, sizeof(*li));
 	c->err = gvcmz_neterr_set;
@@ -174,10 +174,10 @@ struct CLB *gvcmz_netopen(struct CLB *c, cmi_descriptor *node, cmi_descriptor *t
 	c->nod.dsc$b_dtype = c->tnd.dsc$b_dtype = DSC$K_DTYPE_T;
 	c->nod.dsc$b_class = c->tnd.dsc$b_class = DSC$K_CLASS_S;
 	c->nod.dsc$w_length = node->dsc$w_length;
-	c->nod.dsc$a_pointer = malloc(c->nod.dsc$w_length);
+	c->nod.dsc$a_pointer = gtm_malloc_intern(c->nod.dsc$w_length);
 	memcpy(c->nod.dsc$a_pointer, node->dsc$a_pointer, node->dsc$w_length);
 	c->tnd.dsc$w_length = task->dsc$w_length;
-	c->tnd.dsc$a_pointer = malloc(c->tnd.dsc$w_length);
+	c->tnd.dsc$a_pointer = gtm_malloc_intern(c->tnd.dsc$w_length);
 	memcpy(c->tnd.dsc$a_pointer, task->dsc$a_pointer, task->dsc$w_length);
 	for (i = 0; i < 2; i++) /* This retry should really be pushed down into cmi_open */
 	{
@@ -187,11 +187,11 @@ struct CLB *gvcmz_netopen(struct CLB *c, cmi_descriptor *node, cmi_descriptor *t
 		hiber_start_wait_any(10);
 	}
 #elif defined(UNIX)
-	c->nod.addr = malloc(node->len);
+	c->nod.addr = gtm_malloc_intern(node->len);
 	c->nod.len = node->len;
 	memcpy(c->nod.addr, node->addr, node->len);
 	c->tnd.len = task->len;
-	c->tnd.addr = malloc(c->tnd.len);
+	c->tnd.addr = gtm_malloc_intern(c->tnd.len);
 	memcpy(c->tnd.addr, task->addr, task->len);
 	status = cmi_open(c);
 #else
@@ -199,9 +199,9 @@ struct CLB *gvcmz_netopen(struct CLB *c, cmi_descriptor *node, cmi_descriptor *t
 #endif
 	if (CMI_ERROR(status))
 	{
-		free(c->usr);
-		free(VMS_ONLY(c->nod.dsc$a_pointer) UNIX_ONLY(c->nod.addr));
-		free(VMS_ONLY(c->tnd.dsc$a_pointer) UNIX_ONLY(c->tnd.addr));
+		gtm_free_intern(c->usr);
+		gtm_free_intern(VMS_ONLY(c->nod.dsc$a_pointer) UNIX_ONLY(c->nod.addr));
+		gtm_free_intern(VMS_ONLY(c->tnd.dsc$a_pointer) UNIX_ONLY(c->tnd.addr));
 		VMS_ONLY(lib$free_vm(&sizeof(*c), &c, 0);)
 		UNIX_ONLY(cmi_free_clb(c));
 		rts_error(VARLSTCNT(3) ERR_NETDBOPNERR, 0, status);

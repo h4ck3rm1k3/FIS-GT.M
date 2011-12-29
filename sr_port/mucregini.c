@@ -169,7 +169,7 @@ void mucregini(int4 blk_init_size)
 	cs_data->max_update_array_size = cs_data->max_non_bm_update_array_size
 				       = ROUND_UP2(MAX_NON_BITMAP_UPDATE_ARRAY_SIZE(cs_data), UPDATE_ARRAY_ALIGN_SIZE);
 	cs_data->max_update_array_size += ROUND_UP2(MAX_BITMAP_UPDATE_ARRAY_SIZE, UPDATE_ARRAY_ALIGN_SIZE);
-	/* bt_malloc(cs_addrs) Done by db_init at file open time -- not needed here */
+	/* bt_gtm_malloc_intern(cs_addrs) Done by db_init at file open time -- not needed here */
 	if (dba_bg == gv_cur_region->dyn.addr->acc_meth)
 		cs_data->flush_time[0] = TIM_FLU_MOD_BG;
 	else

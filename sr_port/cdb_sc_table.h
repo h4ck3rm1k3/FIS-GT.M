@@ -88,3 +88,4 @@ CDB_SC_LCHAR_ENTRY(cdb_sc_jnlstatemod,      FALSE, 'h') /* 'h'  csd->jnl_state c
 CDB_SC_LCHAR_ENTRY(cdb_sc_unfreeze_getcrit, FALSE, 'i') /* 'i'  gdsfilext found region frozen. Wait for unfreeze and reattempt crit */
 CDB_SC_LCHAR_ENTRY(cdb_sc_backupstatemod,   FALSE, 'j') /* 'j'  t_end/tp_tend found online-backup-in-progress state changed since start of transaction */
 CDB_SC_LCHAR_ENTRY(cdb_sc_crbtmismatch,     TRUE,  'k') /* 'k'  cr->blk and bt->blk does not match */
+

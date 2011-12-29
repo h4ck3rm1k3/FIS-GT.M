@@ -336,7 +336,7 @@ int patstr(mstr *instr, ptstr *obj, unsigned char **relay)
 					instr->addr = (char *)inchar;
 					return ERR_PATCLASS;
 				}
-				cur_alt->next = (unsigned char *)malloc(sizeof(alternation));
+				cur_alt->next = (unsigned char *)gtm_malloc_intern(sizeof(alternation));
 				cur_alt = (alternation *)cur_alt->next;
 				cur_alt->next = NULL;
 				done_free = FALSE;
@@ -719,7 +719,7 @@ int patstr(mstr *instr, ptstr *obj, unsigned char **relay)
 			let_go = (cur_alt != (alternation *)&init_alt) ? (unsigned char *)cur_alt : NULL;
 			cur_alt = (alternation *)cur_alt->next;
 			if (let_go)
-				free(let_go);
+				gtm_free_intern(let_go);
 		}
 		init_alt.next = NULL;
 		init_alt.altpat.len = 0;

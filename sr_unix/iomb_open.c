@@ -37,7 +37,7 @@ short iomb_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 	assert(iod->type == mb);
 	if (iod->state == dev_never_opened)
 	{
-		iod->dev_sp = (void *)malloc(sizeof(d_mb_struct));
+		iod->dev_sp = (void *)gtm_malloc_intern(sizeof(d_mb_struct));
 		d_mb = (d_mb_struct *)iod->dev_sp;
 		d_mb->maxmsg = DEF_MB_MAXMSG;
 		d_mb->promsk = 0;
@@ -89,7 +89,7 @@ short iomb_open(io_log_name *dev_name, mval *pp, int fd, mval *mspace, int4 time
 			p_offset += ((IOP_VAR_SIZE == io_params_size[ch]) ?
 				(unsigned char)*(pp->str.addr + p_offset) + 1 : io_params_size[ch]);
 		}
-		d_mb->in_pos = d_mb->in_top = d_mb->inbuf = (unsigned char *)malloc(DEF_MB_MAXMSG);
+		d_mb->in_pos = d_mb->in_top = d_mb->inbuf = (unsigned char *)gtm_malloc_intern(DEF_MB_MAXMSG);
 		memset(d_mb->inbuf, 0, DEF_MB_MAXMSG);
 		assert(fd >= 0);
 		d_mb->channel = fd;
