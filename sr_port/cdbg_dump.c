@@ -264,7 +264,7 @@ void cdbg_dump_mstr(int indent, mstr *ms)
 	int		len;
 
 	len = ms->len;
-	buffer = gtm_malloc_intern(len + 1);
+	buffer = (unsigned char *)gtm_malloc_intern(len + 1);
 	memcpy(buffer, ms->addr, len);
 	buffer[len] = 0;
 	PRINTF("%s   String value: %s\n", cdbg_indent(indent), buffer);
@@ -289,7 +289,7 @@ char *cdbg_indent(int indent)
 /* Make a given addr/len string into a null terminate string */
 char *cdbg_makstr(char *str, char **buf, int len)
 {
-	*buf = gtm_malloc_intern(len + 1);
+  *buf = (char*)gtm_malloc_intern(len + 1);
 	memcpy(*buf, str, len);
 	(*buf)[len] = 0;
 	return *buf;

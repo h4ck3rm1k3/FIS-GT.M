@@ -16,7 +16,7 @@
 GBLREF int mcavail;
 GBLREF char **mcavailptr, **mcavailbase;
 
-void mcgtm_free_intern(void)
+void mc_free(void)
 {
 	mcavailptr = mcavailbase;
 	mcavail = MC_DSBLKSIZE - sizeof(char_ptr_t);

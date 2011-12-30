@@ -15,6 +15,9 @@
 #ifndef JNLSP_H_INCLUDED
 #include "jnlsp.h"
 #endif
+#include "jnl_state_code.h"
+#include "repl_state_code.h"
+
 
 #define TID_STR_SIZE		8
 #define JPV_LEN_NODE		16
@@ -132,18 +135,6 @@ enum jnl_record_type
 	JRT_RECTYPES		/* Total number of journal record types */
 };
 
-enum jnl_state_codes
-{
-	jnl_notallowed,
-	jnl_closed,
-	jnl_open
-};
-
-enum repl_state_codes
-{
-	repl_closed,
-	repl_open
-};
 
 typedef struct
 {
@@ -287,7 +278,7 @@ typedef struct
 
 typedef struct
 {
-	uint4			jrec_type : 8;		/* Actually, enum jnl_record_type */
+	jnl_record_type		jrec_type : 8;		/* Actually, enum jnl_record_type */
 	uint4			forwptr : 24;		/* Offset to beginning of next record */
 	off_jnl_t		pini_addr;		/* Offset in the journal file which contains pini record */
 	jnl_tm_t		time;			/* 4-byte time stamp both for UNIX and VMS */
@@ -333,7 +324,7 @@ typedef struct
 	boolean_t		before_images;	/* before image enabled in this journal */
 	uint4			alignsize;	/* align size of journal (where a valid record start) */
 	int4			epoch_interval;	/* Time between successive epochs in epoch-seconds */
-	int4			repl_state;	/* To state whether replication is turned on for this journal file */
+	repl_state_codes			repl_state;	/* To state whether replication is turned on for this journal file */
  	uint4			autoswitchlimit;/* Limit in disk blocks (max 4GBytes) when jnl should be auto switched */
 	uint4			jnl_alq;	/* initial allocation (in blocks) */
 	uint4			jnl_deq;	/* extension (in blocks) */
@@ -373,8 +364,8 @@ typedef struct
 	int4			epoch_interval;		/* Time between successive epochs in epoch-seconds */
 	char			*prev_jnl;
 	int4			prev_jnl_len;
-	int4                    jnl_state;              /* current csd->jnl_state */
-	int4			repl_state;
+	jnl_state_codes         jnl_state;              /* current csd->jnl_state */
+	repl_state_codes			repl_state;
 	seq_num			reg_seqno;
 	uint4			status2;		/* for secondary error status information in VMS */
 	boolean_t		no_rename;
@@ -617,8 +608,8 @@ typedef struct mu_set_reglist
 	sgmnt_data_ptr_t 	sd;
 	bool			exclusive;	/* standalone access is required for this region */
 	int			fd;
-	enum jnl_state_codes	jnl_new_state;
-	enum repl_state_codes	repl_new_state;
+	jnl_state_codes	jnl_new_state;
+	repl_state_codes	repl_new_state;
 	boolean_t		before_images;
 } mu_set_rlist;
 
@@ -733,7 +724,7 @@ DEBUG_ONLY(
 /* For future portability JNLBUFF_ALLOC is defined in jnl.h instead of jnlsp.h */
 #define JPC_ALLOC(csa)								\
 {										\
-	csa->jnl = (jnl_private_control *)malloc(sizeof(*csa->jnl));		\
+	csa->jnl = (jnl_private_control *)gtm_malloc_intern(sizeof(*csa->jnl));		\
 	memset(csa->jnl, 0, sizeof(*csa->jnl));					\
 }
 #define	ASSERT_JNLFILEID_NOT_NULL(csa)						\
@@ -752,9 +743,9 @@ DEBUG_ONLY(
 	vms_lock_sb	*tmp_jnllsb;						\
 	if (NULL == csa->jnl)							\
 	{									\
-		csa->jnl = (jnl_private_control *)malloc(sizeof(*csa->jnl));	\
+		csa->jnl = (jnl_private_control *)gtm_malloc_intern(sizeof(*csa->jnl));	\
 		memset(csa->jnl, 0, sizeof(*csa->jnl));				\
-		csa->jnl->jnllsb = malloc(sizeof(vms_lock_sb));			\
+		csa->jnl->jnllsb = gtm_malloc_intern(sizeof(vms_lock_sb));			\
 	} else									\
 	{									\
 		tmp_jnllsb = csa->jnl->jnllsb;					\

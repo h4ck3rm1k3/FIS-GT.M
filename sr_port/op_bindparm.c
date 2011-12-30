@@ -42,7 +42,7 @@ void op_bindparm(int something, ...)
 	lv_val		*new_var;
 	mvs_ntab_struct	*ntab;
 	ht_entry	*hte;
-	bool		new;
+	bool		new_data;
 	error_def	(ERR_STACKOFLOW);
 	error_def	(ERR_STACKCRIT);
 	error_def	(ERR_ACTLSTTOOLONG);
@@ -80,8 +80,8 @@ void op_bindparm(int something, ...)
 		lspp = (lv_val **)&frame_pointer->l_symtab[frmp];	/* address of l_symtab entry */
 		labname = &(((VAR_TABENT *)frame_pointer->vartab_ptr)[frmp]);
 		assert(0 <= frmp && frmp < frame_pointer->vartab_len);
-		hte = ht_put(&curr_symval->h_symtab, (mname *)labname, &new);
-		if (new)
+		hte = ht_put(&curr_symval->h_symtab, (mname *)labname, &new_data);
+		if (new_data)
 			lv_newname(hte, curr_symval);
 		ntab->nam_addr = labname;				/* address of mident */
 		ntab->lst_addr = 0;

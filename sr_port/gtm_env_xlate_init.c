@@ -20,6 +20,8 @@
 #include "error.h"
 #include "gtm_env_xlate_init.h"
 #include "stringpool.h"
+#include "../sr_unix/fgncalsp.h"
+
 
 void gtm_env_xlate_init(void)
 {
@@ -57,6 +59,9 @@ void gtm_env_xlate_init(void)
 }
 
 
+
+//void_ptr_t	fgn_getpak(const char *, int ERROR){}
+
 void DO_GTM_ENV_TRANSLATE(mval* VAL1, mval* VAL2) {									
   mval val_xlated;
 
@@ -84,12 +89,21 @@ void DO_GTM_ENV_TRANSLATE(mval* VAL1, mval* VAL2) {
 		memcpy(pakname, env_gtm_env_xlate.addr, env_gtm_env_xlate.len);			
 		pakname[env_gtm_env_xlate.len]='\0';						
 		pakhandle = fgn_getpak(pakname, ERROR);						
-		//gtm_env_xlate_entry = (int (*)())fgn_getrtn(pakhandle, &routine_name, ERROR);	
+
 
 
 		val_xlated.str.addr = NULL;							
+
+
+		fgnfnc gtm_env_xlate_entry = fgn_getrtn(pakhandle, &routine_name, ERROR);	
+
 		//fgnfnc fgn_getrtn(void_ptr_t pak_handle, mstr *sym_name, int msgtype);
-		ret_gtm_env_xlate = fgn_getrtn(&(VAL1)->str, &(VAL2)->str, &(dollar_zdir.str));	 //(int)&(val_xlated.str)
+		
+		ret_gtm_env_xlate = gtm_env_xlate_entry(
+							&(VAL1)->str, 
+							&(VAL2)->str, 
+							&(dollar_zdir.str)
+					       );	 //(int)&(val_xlated.str)
 		if (MAX_DBSTRLEN < val_xlated.str.len)							
 			rts_error(VARLSTCNT(4) ERR_XTRNRETVAL, 2, val_xlated.str.len, MAX_DBSTRLEN);				
 		if (0 != ret_gtm_env_xlate)									

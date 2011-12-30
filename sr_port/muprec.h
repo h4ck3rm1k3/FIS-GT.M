@@ -261,7 +261,11 @@ typedef struct
 	buddy_list     		*pini_buddy_list;	/* Buddy list for pini_list */
 	char			*extr_buff;
 	jnl_process_vector	*prc_vec;		/* for recover process */
-	void			*file_info[TOT_EXTR_TYPES];/* for a pointer to a structure described in filestruct.h */
+
+
+  //void			*
+  unix_file_info *
+	file_info[TOT_EXTR_TYPES];/* for a pointer to a structure described in filestruct.h */
 } mur_gbls_t;
 
 typedef struct

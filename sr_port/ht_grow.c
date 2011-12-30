@@ -15,7 +15,7 @@
 void ht_grow(htab_desc *table)
 {
 	ht_entry 	*p, *q, *s;
-	char 		dummy;
+	bool 		dummy;
 	unsigned int	prev_size;
 
 	p = s = table->base;

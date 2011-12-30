@@ -74,7 +74,7 @@ int comp_fini(bool status, mstr *obj, opctype retcode, oprtype *retopr, int src_
 		cg_phase = CGP_NOSTATE;
 	}
 	transform = TRUE;
-	mcgtm_free_intern();
+	mc_free();
 	return status;
 
 }

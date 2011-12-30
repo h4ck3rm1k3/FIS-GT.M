@@ -60,7 +60,7 @@ typedef unsigned short mstr_len_t;
 	typedef int		boolean_t;
 #	endif
 #endif
-typedef char		bool;
+//typedef char		bool;
 typedef unsigned char	mreg;
 typedef int4		mint;
 

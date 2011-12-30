@@ -22,7 +22,7 @@
 /* Returns the location of the first set bit in the field.	*/
 /* The search starts at the hint and wraps if necessary.	*/
 
-int4 bmm_find_gtm_free_intern(uint4 hint, uchar_ptr_t base_addr, uint4 total_bits)
+int4 bmm_find_free(uint4 hint, uchar_ptr_t base_addr, uint4 total_bits)
 {
 	int4		answer, width;
 	uint4		start, top;

@@ -68,7 +68,7 @@ GBLREF uint4		t_err;
 GBLREF cw_set_element 	cw_set[];
 GBLREF unsigned char    cw_map_depth;
 GBLREF unsigned char	cw_set_depth;
-GBLREF unsigned char	rdfail_detail;
+GBLREF cdb_sc	rdfail_detail;
 GBLREF unsigned int     t_tries;
 GBLREF gv_key 		*gv_currkey;
 GBLREF hashtab          *cw_stagnate;

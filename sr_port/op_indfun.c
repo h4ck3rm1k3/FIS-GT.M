@@ -18,7 +18,7 @@
 #include "cache.h"
 #include "op.h"
 
-UNIX_ONLY(GBLREF) VMS_ONLY(LITREF) int (*indir_fcn[])();
+UNIX_ONLY(GBLREF) VMS_ONLY(LITREF) int (*indir_fcn[])(oprtype* type, int code);
 GBLREF mval **ind_result_sp, **ind_result_top;
 
 #define INDIR(a, b, c) c

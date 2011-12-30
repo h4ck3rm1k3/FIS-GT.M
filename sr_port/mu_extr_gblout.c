@@ -86,7 +86,7 @@ boolean_t mu_extr_gblout(mval *gn, struct RAB *outrab, mu_extr_stats *st, int fo
 	if (ZWR_EXP_RATIO(cs_addrs->hdr->max_rec_size) > max_zwr_len)
 	{
 		if (NULL != zwr_buffer)
-			free (zwr_buffer);
+			gtm_free_intern (zwr_buffer);
 		max_zwr_len = ZWR_EXP_RATIO(cs_addrs->hdr->max_rec_size);
 		zwr_buffer = (unsigned char *)gtm_malloc_intern(max_zwr_len);
 	}

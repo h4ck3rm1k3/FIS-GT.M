@@ -40,7 +40,7 @@ void mu_gv_cur_reg_init(void)
 	memset(gv_cur_region->dyn.addr->file_cntl->file_info, 0, sizeof(GDS_INFO));
 }
 
-void mu_gv_cur_reg_gtm_free_intern(void)
+void mu_gv_cur_reg_free(void)
 {
 	gtm_free_intern(gv_cur_region->dyn.addr->file_cntl->file_info);
 	gtm_free_intern(gv_cur_region->dyn.addr->file_cntl);

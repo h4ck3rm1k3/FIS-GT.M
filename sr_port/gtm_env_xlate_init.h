@@ -30,7 +30,7 @@ error_def(ERR_TEXT);
  * which defines PATH_MAX macro) */
 
 // declaration
-fgnfnc fgn_getrtn(void_ptr_t pak_handle, mstr *sym_name, int msgtype);
+//fgnfnc fgn_getrtn(void_ptr_t pak_handle, mstr *sym_name, int msgtype);
 
 void DO_GTM_ENV_TRANSLATE(mval* VAL1, mval* VAL2) ;									
 

@@ -65,10 +65,11 @@ GBLREF	bool			out_of_time;
 GBLREF	spdesc 			stringpool;
 GBLREF	tcp_library_struct	tcp_routines;
 GBLREF	int4			outofband;
-ssize_t iosocket_snr(socket_struct *socketptr, void *buffer, size_t maxlength, int flags, ABS_TIME *time_for_read)
+ssize_t iosocket_snr(socket_struct *socketptr, void *buffer, size_t maxlength, int flags, timeval *time_for_read)
 {
 	fd_set		tcp_fd;
-	ABS_TIME	lcl_time_for_read;
+	//	ABS_TIME	lcl_time_for_read;
+	timeval *	lcl_time_for_read;
 	int		status;
 	ssize_t		bytesread, recvsize;
 	void		*recvbuff;
@@ -99,8 +100,13 @@ ssize_t iosocket_snr(socket_struct *socketptr, void *buffer, size_t maxlength, i
 	FD_ZERO(&tcp_fd);
 	FD_SET(socketptr->sd, &tcp_fd);
 	assert(0 != FD_ISSET(socketptr->sd, &tcp_fd));
-	lcl_time_for_read = *time_for_read;
-	status = tcp_routines.aa_select(socketptr->sd + 1, (void *)(&tcp_fd), (void *)0, (void *)0, &lcl_time_for_read);
+	lcl_time_for_read = time_for_read;
+	status = tcp_routines.aa_select(
+					socketptr->sd + 1, 
+					(&tcp_fd), 
+					0, 
+					0, 
+					lcl_time_for_read);
 	if (0 < status)
 	{
 		bytesread = tcp_routines.aa_recv(socketptr->sd, recvbuff, recvsize, flags);

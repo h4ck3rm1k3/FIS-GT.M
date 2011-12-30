@@ -25,7 +25,7 @@
 #define MAX_TABLINE_LEN		1024	/* maximum length of a line estimated to be sufficient
 					   to specify MAXIMUM_PARAMETERS parameters in the
 					   callin/xcall table */
-typedef int4	(*fgnfnc)();
+typedef int4	(*fgnfnc)(mstr* one ,mstr* two,mstr * dollar);
 
 struct extcall_string
 {

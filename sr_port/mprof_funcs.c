@@ -325,7 +325,7 @@ char *pcalloc(unsigned int n)
 	return (char *) mprof_ptr->pcavailptr + mprof_ptr->pcavail + sizeof(char *);
 }
 
-void pcgtm_free_intern(void)
+void pc_free(void)
 {
 	mprof_ptr->pcavailptr = mprof_ptr->pcavailbase;
 	mprof_ptr->pcavail = PROFCALLOC_DSBLKSIZE - sizeof(char *);

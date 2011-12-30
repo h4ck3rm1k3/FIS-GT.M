@@ -91,9 +91,15 @@ typedef char		bool;
 typedef unsigned char	mreg;
 typedef int4		mint;
 
-typedef struct
+typedef struct mident_struct
 {
-	char	c[8];
+  mident_struct ()
+  : c ({ ' ',' ',' ',' ',' ',' ',' ',' ',})
+  {
+  }
+
+  char	c[8];
+
 } mident;
 int mid_len(mident *name);
 

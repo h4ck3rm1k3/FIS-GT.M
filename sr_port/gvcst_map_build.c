@@ -33,7 +33,10 @@ void gvcst_map_build(uint4 *array,
 		     trans_num ctn)
 {
 	boolean_t	busy, status;
-	uint4		ret, (*bml_func)();
+	uint4		ret, (*bml_func)(
+					 uint4, 
+					 sm_uc_ptr_t
+					 );
 
 	VALIDATE_BM_BLK(cs->blk, (blk_hdr_ptr_t)base_addr, cs_addrs, gv_cur_region, status);
 	if (!status)

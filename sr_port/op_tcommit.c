@@ -78,6 +78,8 @@ GBLREF	tp_region		*tp_reg_list;	/* Chained list of regions used in this transact
 GBLREF	jnl_gbls_t		jgbl;
 GBLREF	boolean_t		gvdupsetnoop; /* if TRUE, duplicate SETs update journal but not database (except for curr_tn++) */
 
+block_id bm_get_free(block_id orig_hint, bool *blk_used, unsigned int cw_work, cw_set_element *cs, int *cw_depth_ptr);
+
 void	op_tcommit(void)
 {
 	bool			blk_used, is_mm;
@@ -169,9 +171,15 @@ void	op_tcommit(void)
 							old_db_addrs[1] = csa->db_addrs[1];
 							first_cse = si->first_cw_set;
 							TRAVERSE_TO_LATEST_CSE(first_cse);
-							while (FILE_EXTENDED == (new_blk = bm_get_free(cse->blk, &blk_used,
-								cw_depth, first_cse, &si->cw_set_depth)))
-							{
+							while (FILE_EXTENDED == (new_blk = 
+
+										 bm_get_free(cse->blk, 
+											     &blk_used,
+											     cw_depth, 
+											     first_cse, 
+											     &si->cw_set_depth)
+										 ))
+							  {
 								assert(is_mm);
 								wcs_mm_recover(si->gv_cur_region);
 								delta = (sm_uc_ptr_t)csa->hdr - (sm_uc_ptr_t)csd;
@@ -224,7 +232,7 @@ void	op_tcommit(void)
 										(sm_int_ptr_t)&cse->cycle, &cse->cr);
 								if (NULL == cse->old_block)
 								{
-									status = rdfail_detail;
+								  status = (cdb_sc)rdfail_detail;
 									t_fail_hist[t_tries] = status;
 									SET_WC_BLOCKED_FINAL_RETRY_IF_NEEDED(csa, status);
 									TP_RETRY_ACCOUNTING(csa, csd, status);

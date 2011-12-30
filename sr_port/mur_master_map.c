@@ -54,14 +54,14 @@ void	mur_master_map()
 		db_ctl->op_len = bml_size;
 		db_ctl->op_pos = cs_addrs->hdr->start_vbn + cs_addrs->hdr->blk_size / DISK_BLOCK_SIZE * blk_index;
 		dbfilop(db_ctl);
-		if (bml_find_gtm_free_intern(0, bml_buffer + sizeof(blk_hdr), bplmap, &dummy) == NO_FREE_SPACE)
+		if (bml_find_free(0, bml_buffer + sizeof(blk_hdr), bplmap, &dummy) == NO_FREE_SPACE)
 			bit_clear(blk_index / bplmap, cs_addrs->bmm);
 		else
 			bit_set(blk_index / bplmap, cs_addrs->bmm);
 	}
 
 	/* Last local map may be smaller than bplmap so redo with correct bit count */
-	if (bml_find_gtm_free_intern(0, bml_buffer + sizeof(blk_hdr), cs_addrs->ti->total_blks - cs_addrs->ti->total_blks / bplmap * bplmap,
+	if (bml_find_free(0, bml_buffer + sizeof(blk_hdr), cs_addrs->ti->total_blks - cs_addrs->ti->total_blks / bplmap * bplmap,
 			  &dummy)
 	    == NO_FREE_SPACE)
 		bit_clear(blk_index / bplmap - 1, cs_addrs->bmm);

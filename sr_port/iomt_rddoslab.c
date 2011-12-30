@@ -33,7 +33,7 @@ iomt_rddoslab (io_desc *dv)
 
 	inlen = sizeof (label);
 	mt_ptr = (d_mt_struct *) dv->dev_sp;
-	incp = (unsigned char *) malloc (mt_ptr->block_sz);
+	incp = (unsigned char *) gtm_malloc_intern (mt_ptr->block_sz);
 	io_status_blk.status = 0;
 
 #ifdef UNIX
@@ -50,7 +50,7 @@ iomt_rddoslab (io_desc *dv)
 			dv->dollar.za = 1;
 		else
 			dv->dollar.za = 9;
-		free (incp);
+		gtm_free_intern (incp);
 		rts_error (VARLSTCNT (4) ERR_MTIS, 2, dv->trans_name->len, dv->trans_name->dollar_io);
 	} else
 		dv->dollar.za = 0;
@@ -58,9 +58,9 @@ iomt_rddoslab (io_desc *dv)
 	if (io_status_blk.char_ct != sizeof (label) || memcmp (incp, label, sizeof (label)))
 	{
 		dv->dollar.za = 9;
-		free (incp);
+		gtm_free_intern (incp);
 		rts_error (VARLSTCNT (6) ERR_MTDOSLAB, 0, ERR_MTIS, 2, dv->trans_name->len, dv->trans_name->dollar_io);
 	}
-	free (incp);
+	gtm_free_intern (incp);
 	return;
 }

@@ -12,9 +12,11 @@
 #include "mdef.h"
 #include "urx.h"
 
-bool azl_geturxlab (addr, rp)
-char		*addr;
-urx_rtnref	*rp;
+bool azl_geturxlab (
+		    char		*addr,
+		    urx_rtnref	*rp
+
+)
 {
 	urx_labref	*lp;
 

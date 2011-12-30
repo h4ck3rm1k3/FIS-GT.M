@@ -17,4 +17,5 @@ typedef	struct urx_addr_type
 
 void urx_putlab(char *lab, int lablen, urx_rtnref *rtn, char *addr);
 bool azl_geturxlab (char *addr, urx_rtnref *rp);
+
 bool azl_geturxrtn (char *addr, mstr *rname, urx_rtnref **rp);

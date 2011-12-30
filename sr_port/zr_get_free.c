@@ -16,7 +16,7 @@
 #include "rtnhdr.h"
 #include "zbreak.h"
 
-zbrk_struct *zr_get_gtm_free_intern(z_records *zrecs, zb_code *addr)
+zbrk_struct *zr_get_free(z_records *zrecs, zb_code *addr)
 {
 	z_records	temp;
 	zbrk_struct 	*z_ptr;

@@ -14,8 +14,7 @@
 
 GBLREF triple *curtchain;
 
-void tnxtarg(a)
-oprtype *a;
+void tnxtarg(oprtype *a)
 {
 	/*return a reference to the next triple to be produced */
 	a->oprclass = TNXT_REF;

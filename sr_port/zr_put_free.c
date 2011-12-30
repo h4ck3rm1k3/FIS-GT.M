@@ -21,7 +21,7 @@
 
 GBLREF int		cache_temp_cnt;
 
-void zr_put_gtm_free_intern(z_records *zrecs, zbrk_struct *z_ptr)
+void zr_put_free(z_records *zrecs, zbrk_struct *z_ptr)
 {
 	mstr	rtn_str;
 	int	rtn_len;

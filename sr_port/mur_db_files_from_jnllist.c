@@ -124,7 +124,7 @@ gld_dbname_list *mur_db_files_from_jnllist(char *jnl_file_list, unsigned short j
 			dblist->gd = gv_cur_region;
 			db_tot++;
 		} else
-			mu_gv_cur_reg_gtm_free_intern();
+			mu_gv_cur_reg_free();
 	}
 	*db_total = db_tot;
 	return head.next;

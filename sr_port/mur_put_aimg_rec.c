@@ -52,8 +52,12 @@ void mur_put_aimg_rec(jnl_record *rec)
 	block_id	blk_num;
 	blk_segment	*bs1, *bs_ptr;
 	cw_set_element  *cse;
-	void		gvcst_blk_build(), t_begin_crit();
-	int		t_end();
+	void		gvcst_blk_build(
+					cw_set_element *cse,
+					uchar_ptr_t,
+					trans_num
+					), t_begin_crit(int err);
+	int		t_end(srch_hist *, int x);
 
 	error_def(ERR_MURAIMGFAIL);
 

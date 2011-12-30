@@ -61,16 +61,40 @@ GBLREF	seq_num		seq_num_zero;
 GBLREF	jnl_fence_control	jnl_fence_ctl;
 LITREF	int		jrt_update[JRT_RECTYPES];
 LITREF	boolean_t	jrt_is_replicated[JRT_RECTYPES];
-static	void	(* const extraction_routine[])() =
+
+
+// error: invalid conversion from 'void (*)(fi_type*, jnl_record*, pini_list_struct*) {aka void (*)()}' 
+// to 'void (*)()' [-fpermissive]
+
+static	void	(* const extraction_routine[])(unix_file_info_struct*, jnl_record*, pini_list*) =
 {
 #define JNL_TABLE_ENTRY(rectype, extract_rtn, label, update, fixed_size, is_replicated)	extract_rtn,
 #include "jnl_rec_table.h"
 #undef JNL_TABLE_ENTRY
 };
 
+typedef void ( * func_type_test)(
+				 unix_file_info_struct* file_info, 
+				 jnl_record* rec,
+				 pini_list* plst);
+
+void DO_EXTRACT_JNLREC(jnl_record      * rec,
+		       func_type_test extract,
+		       unix_file_info_struct* file_info,
+		       uint4 status) 
+{ 
+  pini_list_struct *plst; 
+  status = mur_get_pini(
+			(rec)->prefix.pini_addr, 
+			&plst); 
+  if (SS_NORMAL == status) 
+    (*extract)(
+	       (file_info), (rec), plst); 
+}
+
 uint4	mur_forward(jnl_tm_t min_broken_time, seq_num min_broken_seqno, seq_num losttn_seqno)
 {
-	char			new;
+	bool			new_data;
 	boolean_t		process_losttn, extr_file_create[TOT_EXTR_TYPES];
 	trans_num		curr_tn, last_tn;
 	enum jnl_record_type	rectype;
@@ -96,7 +120,9 @@ uint4	mur_forward(jnl_tm_t min_broken_time, seq_num min_broken_seqno, seq_num lo
 	error_def(ERR_JNLTPNEST);
 
 	murgbl.extr_buff = (char *)gtm_malloc_intern(murgbl.max_extr_record_length);
-	for (recstat = 0; recstat < TOT_EXTR_TYPES; recstat++)
+	for (recstat = (broken_type)0; 
+	     ((int)recstat) < TOT_EXTR_TYPES; 
+	     recstat = (broken_type)(((int)recstat)+1))
 		extr_file_create[recstat] = TRUE;
 	jgbl.dont_reset_gbl_jrec_time = jgbl.forw_phase_recovery = TRUE;
 	jgbl.mur_pini_addr_reset_fnptr = (pini_addr_reset_fnptr)mur_pini_addr_reset;
@@ -291,8 +317,8 @@ uint4	mur_forward(jnl_tm_t min_broken_time, seq_num min_broken_seqno, seq_num lo
 					assert(!*inptr);
 					while (cptr < c_top)
 						*cptr++ = 0;
-					hentry = ht_put((htab_desc *)rctl->tab_ptr, &lcl_name, &new);
-					if (!new && hentry->ptr)
+					hentry = ht_put((htab_desc *)rctl->tab_ptr, &lcl_name, &new_data);
+					if (!new_data && hentry->ptr)
 					{
 						gv_target = (gv_namehead*)hentry->ptr;
 						assert(gv_target->gd_reg->open);
@@ -351,7 +377,7 @@ uint4	mur_forward(jnl_tm_t min_broken_time, seq_num min_broken_seqno, seq_num lo
 					 * have seen the record following the sequence of PBLKs.  When we encounter
 					 * it, we do the comparison.  If prev_tn == curr_tn, we delete all the records
 					 * in the queue.  If prev_tn != curr_tn, we commit all the records in the
-					 * queue, then start the process over again, queueing up the current record.
+					 * queue, then star tthe process over again, queueing up the current record.
 					 *
 					 * Similarly, although ZTCOM records do have a transaction number associated
 					 * with them, they do not represent a separate database update;  thus, the
@@ -395,7 +421,10 @@ uint4	mur_forward(jnl_tm_t min_broken_time, seq_num min_broken_seqno, seq_num lo
 					extr_file_create[recstat] = FALSE;
 				}
 				/* extract "rec" using routine "extraction_routine[rectype]" into broken transaction file */
-				EXTRACT_JNLREC(rec, extraction_routine[rectype], murgbl.file_info[recstat], status);
+				DO_EXTRACT_JNLREC(rec, 
+					       extraction_routine[rectype], 
+					       murgbl.file_info[recstat], 
+						  status);
 				if (SS_NORMAL != status)
 					break;
 			}

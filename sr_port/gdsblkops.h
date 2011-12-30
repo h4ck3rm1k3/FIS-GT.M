@@ -68,11 +68,11 @@ typedef struct
 		 * this is because tp_clean_up() (invoked in case of error handling) relies on the integrity of this 		\
 		 * update array linked list in order to do its cleanup.								\
 		 * Not following the above rules will cause difficult-to-debug memory related problems (even corruption) */	\
-		tmpua = (ua_list *)malloc(sizeof(ua_list));									\
+		tmpua = (ua_list *)gtm_malloc_intern(sizeof(ua_list));									\
 		memset(tmpua, 0, sizeof(ua_list));	/* initialize tmpua->update_array and tmpua->next_ua to NULL */		\
 		/* it is important that all parameters in the MIN-MAX calculation below be unsigned numbers */			\
 		tmpua->update_array_size = MIN(MAX(cumul_update_array_size, (space_needed)), BIG_UA);				\
-		tmpua->update_array = (char *)malloc(tmpua->update_array_size);							\
+		tmpua->update_array = (char *)gtm_malloc_intern(tmpua->update_array_size);							\
 		/* update globals only after above mallocs succeed */								\
 		update_array_size = tmpua->update_array_size;									\
 		cumul_update_array_size += update_array_size;									\

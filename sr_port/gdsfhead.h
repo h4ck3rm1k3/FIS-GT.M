@@ -19,6 +19,16 @@
 #ifdef VMS
 #include "iosb_disk.h"
 #endif
+#include "jnl_state_code.h"
+#include "repl_state_code.h"
+
+
+
+// needs typedef struct	sgmnt_addrs_struct
+//#include "../sr_unix/filestruct.h" //unix_file_info
+//#include "jnl.h"
+#include "jnl_state_code.h"
+
 
 #define CACHE_STATE_OFF sizeof(que_ent)
 
@@ -401,7 +411,7 @@ enum db_ver
         if (JNL_ENABLED(csa->hdr) && NULL != csa->jnl && NOJNL == csa->jnl->channel)  					\
         {                                                                       					\
                 bool 	was_crit;                                               					\
-		uint4	jnl_status;											\
+		jnl_state_codes	jnl_status;											\
                 was_crit = csa->now_crit;                                         					\
                 if (!was_crit)                                                  					\
                         grab_crit(reg);                                         					\
@@ -580,7 +590,7 @@ typedef struct sgmnt_data_struct
 	unsigned short	jnl_deq;
 	short		jnl_buffer_size;	/* in pages */
 	bool		jnl_before_image;
-	unsigned char	jnl_state;		/* Current journaling state */
+	jnl_state_codes	jnl_state;		/* Current journaling state */
 	bool		filler_glob_sec_init[1];/* glob_sec_init field moved to node_local */
 	unsigned char	jnl_file_len;		/* journal file name length */
 	unsigned char	jnl_file_name[JNL_NAME_SIZE];	/* journal file name */
@@ -676,8 +686,8 @@ typedef struct sgmnt_data_struct
 		int4	filler[2];	/* Filler to make sure above is okay even if takes 2 words on some platform */
 	} shm_ctime;
 	boolean_t	recov_interrupted;	/* whether a MUPIP JOURNAL -RECOVER/ROLLBACK command on this db got interrupted */
-	int4		intrpt_recov_jnl_state;		/* journaling state at start of interrupted recover/rollback */
-	int4		intrpt_recov_repl_state;	/* replication state at start of interrupted recover/rollback */
+	jnl_state_codes		intrpt_recov_jnl_state;		/* journaling state at start of interrupted recover/rollback */
+	repl_state_codes		intrpt_recov_repl_state;	/* replication state at start of interrupted recover/rollback */
 	jnl_tm_t	intrpt_recov_tp_resolve_time;	/* since-time for the interrupted recover */
 	seq_num 	intrpt_recov_resync_seqno;	/* resync/fetchresync jnl_seqno of interrupted rollback */
 	uint4		n_puts_duplicate;		/* number of duplicate sets in non-TP */
@@ -718,7 +728,7 @@ typedef struct sgmnt_data_struct
 						 * transactions were sent
 						 * from primary to secondary
 						 * - used in replication */
-	int4		repl_state;		/* state of replication whether "on" or "off" */
+	repl_state_codes		repl_state;		/* state of replication whether "on" or "off" */
 	int4            wait_disk_space;        /* seconds to wait for diskspace before giving up */
 	int4		jnl_sync_io;		/* drives sync I/O ('direct' if applicable) for journals, if set */
 	char		filler_5k[468];		/* Fill out so map sits on 8K boundary */
@@ -810,12 +820,15 @@ typedef struct
 #define FC_OPEN 2
 #define FC_CLOSE 3
 
+struct  unix_file_info_struct;
+
 typedef struct	file_control_struct
 {
 	sm_uc_ptr_t	op_buff;
 	int		op_len;
 	int		op_pos;
-	void		*file_info;   /* Pointer for OS specific struct */
+  //void		*file_info;   /* Pointer for OS specific struct */
+  unix_file_info_struct* file_info;
 	char		file_type;
 	char		op;
 } file_control;
@@ -885,7 +898,7 @@ typedef struct	gd_region_struct
 	bool			open;
 	bool			lock_write;
 	bool			null_subs;
-	unsigned char 		jnl_state;
+	jnl_state_codes 		jnl_state;
 
 	/* deleted gbl_lk_root and lcl_lk_root, obsolete fields */
 
@@ -974,8 +987,8 @@ typedef struct	sgmnt_addrs_struct
 	int4		pblk_align_jrecsize;	/* maximum size of a PBLK record with corresponding ALIGN record */
 	int4		min_total_tpjnl_rec_size;	/* minimum journal space requirement for a TP transaction */
 	int4		min_total_nontpjnl_rec_size;	/* minimum journal space requirement for a non-TP transaction */
-	int4		jnl_state;		/* journaling state: it can be 0, 1 or 2 (same as enum jnl_state_codes in jnl.h) */
-	int4		repl_state;		/* state of replication whether "on" or "off" */
+	jnl_state_codes		jnl_state;		/* journaling state: it can be 0, 1 or 2 (same as enum jnl_state_codes in jnl.h) */
+	repl_state_codes		repl_state;		/* state of replication whether "on" or "off" */
 	uint4		crit_check_cycle;	/* Used to mark which regions in a transaction legiticamtely have crit */
 	int4		backup_in_prog;		/* true if online backup in progress for this region (used in op_tcommit/tp_tend) */
 	int4		ref_cnt;		/* count of number of times csa->nl->ref_cnt was incremented by this process */

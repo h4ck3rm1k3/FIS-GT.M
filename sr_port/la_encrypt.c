@@ -31,8 +31,17 @@ char	 	*q , 				/* input sequence 		*/
 int 		len,				/* sequence length 		*/
 uint4 		bcs[])				/* result, binary form 		*/
 {
-	void		la_encrypt_table();
-	uint4		la_encrypt_value();
+  //void		la_encrypt_table();
+  void la_encrypt_table (uint4 poly, uint4 tbl[]);
+
+  //	uint4		la_encrypt_value();
+  uint4 la_encrypt_value (
+			  uint4		tbl[],			/* polynomial coefficients 		*/
+			  uint4		cs,			/* checksum initial value		*/
+			  unsigned char	*c,			/* string to compute the check sum for	*/
+			  int		len);			/* string length 			*/
+  
+
 
 	static uint4	poly0[10] = {0xEDB88320, 0xA001A001, 0x00008408, 0x00000000, 0xA001A001, 1, 1, 1, 1, 1};
 	static uint4	init0[10] = {0xFFFFFFFF, 0x00000000, 0x0000FFFF, 0xFFFFFFFF, 0x00000000, 0, 0, 0, 0, 0};

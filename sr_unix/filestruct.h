@@ -23,6 +23,8 @@
 typedef int key_t;
 #endif
 
+
+
 typedef struct unix_db_info_struct
 {	sgmnt_addrs	s_addrs;
 	char		*fn;

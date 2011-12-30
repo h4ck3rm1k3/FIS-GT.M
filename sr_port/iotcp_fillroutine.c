@@ -122,9 +122,9 @@ int	iotcp_fillroutine(void)
 	tcp_routines.aa_ntohs = ntohs;
 #endif
 	tcp_routines.aa_listen = listen;
-	tcp_routines.aa_recv = (int (*)())gtm_recv;
+	tcp_routines.aa_recv = gtm_recv;
 	tcp_routines.aa_select = select;
-	tcp_routines.aa_send = (int (*)())gtm_send;
+	tcp_routines.aa_send = gtm_send;
 	tcp_routines.aa_setsockopt = setsockopt;
 	tcp_routines.aa_socket = socket;
 

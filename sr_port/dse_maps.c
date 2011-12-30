@@ -176,7 +176,7 @@ void dse_maps(void)
                         total_blks = (cs_addrs->ti->total_blks - bml_blk);
                 else
                         total_blks = bplmap;
-                if (-1 == bml_find_gtm_free_intern(0, bp + sizeof(blk_hdr), total_blks, &dummy_bool))
+                if (-1 == bml_find_free(0, bp + sizeof(blk_hdr), total_blks, &dummy_bool))
                 {
                         bit_clear(bml_blk / bplmap, cs_addrs->bmm);
                         if (bml_blk > cs_addrs->nl->highest_lbm_blk_changed)
@@ -262,7 +262,7 @@ void dse_maps(void)
                 for (blk_index = 0, bml_index = 0;  blk_index < cs_addrs->ti->total_blks;
                         blk_index += bplmap, bml_index++)
                 {
-                        if (-1 != bml_find_gtm_free_intern(0, (bml_list + bml_index * bml_size) + sizeof(blk_hdr),
+                        if (-1 != bml_find_free(0, (bml_list + bml_index * bml_size) + sizeof(blk_hdr),
                                  bplmap, &dummy_bool))
                         {
                                 bit_set(blk_index / bplmap, cs_addrs->bmm);
@@ -276,7 +276,7 @@ void dse_maps(void)
                         }
                 }
                 /* last local map may be smaller than bplmap so redo with correct bit count */
-                if (-1 != bml_find_gtm_free_intern(0, bml_list + (bml_index - 1) * bml_size + sizeof(blk_hdr),
+                if (-1 != bml_find_free(0, bml_list + (bml_index - 1) * bml_size + sizeof(blk_hdr),
                         (cs_addrs->ti->total_blks - cs_addrs->ti->total_blks / bplmap * bplmap), &dummy_bool))
                 {
                         bit_set(blk_index / bplmap - 1, cs_addrs->bmm);
@@ -307,7 +307,7 @@ void dse_maps(void)
         util_buff[util_len] = 0;
         if (!was_crit)
                 grab_crit(gv_cur_region);
-        util_out_print(util_buff, TRUE, 4, dse_is_blk_gtm_free_intern(blk, &dummy_int, &dummy_cr) ? "free" : "busy");
+        util_out_print(util_buff, TRUE, 4, dse_is_blk_free(blk, &dummy_int, &dummy_cr) ? "free" : "busy");
         if (!was_crit)
                 rel_crit(gv_cur_region);
         return;
