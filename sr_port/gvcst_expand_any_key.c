@@ -40,7 +40,7 @@ GBLREF sgmnt_addrs      *cs_addrs;
 GBLREF sgmnt_data_ptr_t cs_data;
 GBLREF gv_namehead      *gv_target;
 GBLREF unsigned int     t_tries;
-GBLREF unsigned char    rdfail_detail;
+GBLREF cdb_sc           rdfail_detail;
 
 /*******************************************************************************************
 Input Parameter:

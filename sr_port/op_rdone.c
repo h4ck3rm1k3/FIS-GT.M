@@ -28,7 +28,7 @@ GBLREF spdesc		stringpool;
 int op_rdone(mval *v, int4 timeout)
 {
 	int4	stat;
-	int	x;
+	mint	x;
 
 	char	temp_buf[TMP_BUF_LEN];
 	unsigned char	*temp_buf_ptr;

@@ -59,7 +59,7 @@ GBLREF	int		num_additional_processors;
 #define VERIFY_QUEUE(base)
 #endif
 
-int insqhi2(que_ent_ptr_t new, que_head_ptr_t base)
+int insqhi2(que_ent_ptr_t newdata, que_head_ptr_t base)
 {
 	int	retries, spins, maxspins;
 
@@ -73,7 +73,7 @@ int insqhi2(que_ent_ptr_t new, que_head_ptr_t base)
 			{
 				LOCK_HIST("OBTN", &base->latch, process_id, retries);
 				VERIFY_QUEUE(base);
-				insqh(new, (que_ent_ptr_t)base);
+				insqh(newdata, (que_ent_ptr_t)base);
 				VERIFY_QUEUE(base);
 				LOCK_HIST("RLSE", &base->latch, process_id, retries);
                                 RELEASE_SWAPLOCK(&base->latch);
@@ -103,7 +103,7 @@ int insqhi2(que_ent_ptr_t new, que_head_ptr_t base)
 }
 
 
-int insqti2(que_ent_ptr_t new, que_head_ptr_t base)
+int insqti2(que_ent_ptr_t newdata, que_head_ptr_t base)
 {
 	int	retries, spins, maxspins;
 
@@ -117,7 +117,7 @@ int insqti2(que_ent_ptr_t new, que_head_ptr_t base)
 			{
 				LOCK_HIST("OBTN", &base->latch, process_id, retries);
 				VERIFY_QUEUE(base);
-				insqt(new, (que_ent_ptr_t)base);
+				insqt(newdata, (que_ent_ptr_t)base);
 				VERIFY_QUEUE(base);
 				LOCK_HIST("RLSE", &base->latch, process_id, retries);
                                 RELEASE_SWAPLOCK(&base->latch);

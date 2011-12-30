@@ -61,7 +61,8 @@ int tcp_open(char *host, unsigned short port, int4 timeout, boolean_t passive) /
 	boolean_t		no_time_left = FALSE, error_given = FALSE;
 	char			temp_addr[SA_MAXLEN + 1], addr[SA_MAXLEN + 1];
 	char 			*from, *to, *errptr, *temp_ch;
-	int			match, sock, sendbufsize, size, ii, on = 1, temp_1 = -2;
+	int			match, sock, sendbufsize,  ii, on = 1, temp_1 = -2;
+	size_t size;
 	int4                    errlen, rv, msec_timeout;
 	struct	sockaddr_in	sin;
 	in_addr_t		temp_sin_addr;
@@ -175,8 +176,14 @@ int tcp_open(char *host, unsigned short port, int4 timeout, boolean_t passive) /
 				FD_ZERO(&tcp_fd);
 				FD_SET(lsock, &tcp_fd);
                                 save_utimeout = utimeout;
-				rv = tcp_routines.aa_select(lsock + 1, (void *)&tcp_fd, (void *)0, (void *)0,
-					(NO_M_TIMEOUT == timeout) ? (struct timeval *)0 : &utimeout);
+				rv = 
+tcp_routines.aa_select(
+		       lsock + 1, 
+		       &tcp_fd, 
+		       (fd_set *)0, 
+		       (fd_set *)0,
+		       (NO_M_TIMEOUT == timeout) ? (struct timeval *)0 : &utimeout
+		       );
                                 utimeout = save_utimeout;
 				if ((0 <= rv) || (EINTR != errno))
 					break;
@@ -205,7 +212,11 @@ int tcp_open(char *host, unsigned short port, int4 timeout, boolean_t passive) /
 				return -1;
 			}
 			size = sizeof(struct sockaddr_in);
-			sock = tcp_routines.aa_accept(lsock, &peer, &size);
+			sock = 
+			  tcp_routines.aa_accept(
+						 lsock, 
+						 (struct sockaddr*)&peer, 
+						 &size);
 			if (-1 == sock)
 			{
 				errptr = (char *)STRERROR(errno);

@@ -112,7 +112,7 @@ void	get_entryref_information(boolean_t, struct trace_entry *);
 void	new_prof_frame(int);
 void	parse_gvn(mval *);
 void 	mprof_tree_walk(struct mprof_tree *);
-void 	*mprof_tree_find_node(struct mprof_tree *, struct trace_entry);
+mprof_tree 	*mprof_tree_find_node(struct mprof_tree *, struct trace_entry);
 void	pcurrpos(int inside_for_loop);
 void	pcfree(void);
 void	unw_prof_frame(void);

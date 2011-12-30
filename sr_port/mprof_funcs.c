@@ -141,11 +141,13 @@ void	turn_tracing_on(mval *gvn)
 	prof_fp->sys_time = curr.tms_stime;
 	prof_fp->usr_time = curr.tms_utime;
 	prof_fp->dummy_stack_count = 0;
-	POPULATE_PROFILING_TABLE();
+	//TODO:	POPULATE_PROFILING_TABLE();
 	is_tracing_on = TRUE;
 	mprof_ptr->inside_for_loop_state = 0;
 	mprof_ptr->for_level = 0;
 }
+
+void pc_free(void);
 
 void turn_tracing_off (mval *gvn)
 {
@@ -162,8 +164,9 @@ void turn_tracing_off (mval *gvn)
 	mprof_ptr->gbl_to_fill.str.addr = 0;
 	mprof_tree_walk(mprof_ptr->head_tblnd);
 	gtm_free_intern(prof_stackptr);
-	pcgtm_free_intern();
-	CLEAR_PROFILING_TABLE();
+	pc_free();
+	//TODO:
+	//CLEAR_PROFILING_TABLE();
 }
 
 void    pcurrpos(int inside_for_loop)

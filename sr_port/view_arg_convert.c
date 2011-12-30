@@ -39,7 +39,8 @@ static	int4			first_time = TRUE;
 	mstr			tmpstr;
 	gd_region		*r_top, *r_ptr;
 	mname			lcl_name;
-	unsigned char		global_names[1024], stashed;
+	unsigned char		global_names[1024];
+	bool                    stashed;
 	noisolation_element	*gvnh_entry;
 	unsigned char 		*src, *nextsrc, *src_top, *dst, *dst_top, y;
 	gd_binding		*temp_gd_map, *temp_gd_map_top;
@@ -221,7 +222,7 @@ static	int4			first_time = TRUE;
 						rts_error(VARLSTCNT(4) ERR_VIEWGVN, 2, nextsrc - src - 1, src);
 				} else
 					rts_error(VARLSTCNT(4) ERR_VIEWGVN, 2, nextsrc - src - 1, src);	/* to take care of NULL */
-				h = ht_put(gd_header->tab_ptr, &lcl_name, (char *)&stashed);
+				h = ht_put(gd_header->tab_ptr, &lcl_name, &stashed);
 				if (NULL == h->ptr)
 				{
 					temp_gd_map = gd_header->maps;

@@ -33,22 +33,22 @@
 
 
 
-void	insqh (que_ent_ptr_t new, que_ent_ptr_t base)
+void	insqh (que_ent_ptr_t newdata, que_ent_ptr_t base)
 {
-	new->bl = (int4)((uchar_ptr_t)base - (uchar_ptr_t)new);
-	new->fl = new->bl + base->fl;
-	base->fl = -new->bl;
-	((que_ent_ptr_t)((uchar_ptr_t)new + new->fl))->bl = -new->fl;
+	newdata->bl = (int4)((uchar_ptr_t)base - (uchar_ptr_t)newdata);
+	newdata->fl = newdata->bl + base->fl;
+	base->fl = -newdata->bl;
+	((que_ent_ptr_t)((uchar_ptr_t)newdata + newdata->fl))->bl = -newdata->fl;
 	return;
 }
 
 
-void	insqt (que_ent_ptr_t new, que_ent_ptr_t base)
+void	insqt (que_ent_ptr_t newdata, que_ent_ptr_t base)
 {
-	new->fl = (int4)((uchar_ptr_t)base - (uchar_ptr_t)new);
-	new->bl = new->fl + base->bl;
-	base->bl = -new->fl;
-	((que_ent_ptr_t)((uchar_ptr_t)new + new->bl))->fl = -new->bl;
+	newdata->fl = (int4)((uchar_ptr_t)base - (uchar_ptr_t)newdata);
+	newdata->bl = newdata->fl + base->bl;
+	base->bl = -newdata->fl;
+	((que_ent_ptr_t)((uchar_ptr_t)newdata + newdata->bl))->fl = -newdata->bl;
 	return;
 }
 

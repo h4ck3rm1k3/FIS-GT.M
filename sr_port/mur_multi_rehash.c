@@ -52,7 +52,7 @@ void mur_multi_rehash(void)
 	multi_struct	*multi, *next_multi;
 	htab_desc	temp_table;
 	ht_entry	*htentry, *table_base;
-	char		new;
+	bool		newdata;
 	DEBUG_ONLY(int	brkn_cnt;)
 
 	ESTABLISH(mur_multi_rehash_ch);
@@ -70,9 +70,9 @@ void mur_multi_rehash(void)
 				next_multi = (multi_struct *)multi->next;
 				if (0 < multi->partner) /* re-hash only broken transactions */
 				{
-					htentry = ht_put(&temp_table, (mname *)&multi->token, &new);
-					assert(new || NULL != htentry->ptr);
-					multi->next = (!new ? (multi_struct *)htentry->ptr : NULL);
+					htentry = ht_put(&temp_table, (mname *)&multi->token, &newdata);
+					assert(newdata || NULL != htentry->ptr);
+					multi->next = (!newdata ? (multi_struct *)htentry->ptr : NULL);
 					htentry->ptr = (char *)multi;
 					DEBUG_ONLY(brkn_cnt++;)
 				}

@@ -11,7 +11,12 @@
 
 #include "mdef.h"
 
-#define XFER(a,b) b()
+//example XFER(xf_sto, op_sto),
+//#define XFER(a,b) int b ( int,...)
+//#define XFER(a,b) int b ( int,...)
+#define XFER(a,b) b(int, ...)
+
+
 int
 #include "xfer.h"
 ;

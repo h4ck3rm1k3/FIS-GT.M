@@ -45,7 +45,7 @@ GBLREF sgmnt_addrs	*cs_addrs;
 GBLREF gv_namehead	*gv_target;
 GBLREF short		dollar_tlevel;
 GBLREF sgmnt_data_ptr_t	cs_data;
-GBLREF unsigned char	rdfail_detail;
+GBLREF cdb_sc	rdfail_detail;
 GBLREF sgm_info		*sgm_info_ptr;
 GBLREF unsigned int	t_tries;
 GBLREF boolean_t        mu_reorg_process;

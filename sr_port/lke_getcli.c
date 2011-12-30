@@ -62,7 +62,7 @@ int4 lke_getcli(bool *all,
 #ifdef HEXPID
 		if (!cli_get_hex("PID", pid))
 #else
-		if (!cli_get_int("PID", pid))
+		  if (!cli_get_num("PID", pid))// was get_int but we want an int4
 #endif
 		{	*pid = 0;
 			status = FALSE;

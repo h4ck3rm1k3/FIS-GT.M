@@ -28,7 +28,7 @@ void zco_init (void)
 	char		buf1[MAX_TRANS_NAME_LEN]; /* buffer to hold translated name */
 
 	if (dollar_zcompile.addr)
-		free (dollar_zcompile.addr);
+		gtm_free_intern (dollar_zcompile.addr);
 
 	val.addr = ZCOMPILE;
 	val.len = sizeof(ZCOMPILE) - 1;
@@ -41,7 +41,7 @@ void zco_init (void)
 	else
 	{
 		dollar_zcompile.len = tn.len;
-		dollar_zcompile.addr = (char *) malloc (tn.len);
+		dollar_zcompile.addr = (char *) gtm_malloc_intern (tn.len);
 		memcpy (dollar_zcompile.addr, buf1, tn.len);
 	}
 }

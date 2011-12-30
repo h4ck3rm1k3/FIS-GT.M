@@ -130,19 +130,8 @@ enum jnl_record_type
 	JRT_RECTYPES		/* Total number of journal record types */
 };
 
-
-enum jnl_state_codes
-{
-	jnl_notallowed,
-	jnl_closed,
-	jnl_open
-};
-
-enum repl_state_codes
-{
-	repl_closed,
-	repl_open
-};
+#include "jnl_state_code.h"
+#include "repl_state_code.h"
 
 typedef struct
 {

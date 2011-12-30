@@ -350,8 +350,8 @@ typedef struct reg_ctl_list_struct
 									keep it void *. Used for gv_target info for
 									globals in mur_output_record() */
 	jnl_tm_t 			lvrec_time;		/* Last Valid Journal Record's Time Stamp across all generations */
-	int				jnl_state;
-	int				repl_state;
+	jnl_state_codes			jnl_state;
+	repl_state_codes		repl_state;
 	int4 				lookback_count;
 	boolean_t 			before_image;		/* True if the database has before image journaling enabled */
 	boolean_t			standalone;		/* If standalone access was acheived for the region */
@@ -489,7 +489,7 @@ uint4			mur_output_pblk(void);
 uint4			mur_output_record(void);
 void			mur_output_show(void);
 void			mur_pini_addr_reset(void);
-uint4			mur_pini_state(uint4 pini_addr, int state);
+uint4			mur_pini_state(uint4 pini_addr, pini_rec_stat state);
 uint4			mur_prev(off_jnl_t dskaddr);
 uint4			mur_prev_rec(void);
 uint4			mur_process_intrpt_recov(void);

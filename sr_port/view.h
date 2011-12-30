@@ -38,8 +38,9 @@ typedef struct noisolation_list_struct
 	noisolation_element	*gvnh_list;
 } noisolation_list;
 
-typedef union
+typedef union viewparm_union
 {
+  viewparm_union (){}
 	mident			ident;
 	mval			*value;
 	struct gd_region_struct *gv_ptr;

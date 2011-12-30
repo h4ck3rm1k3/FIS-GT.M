@@ -1,7 +1,7 @@
 void DO_MAXSTR_BUFF_FINI 
 { 
   if (maxstr_buff[maxstr_stack_level].addr) { 
-    free(maxstr_buff[maxstr_stack_level].addr); 
+    gtm_free_intern(maxstr_buff[maxstr_stack_level].addr); 
     maxstr_buff[maxstr_stack_level].addr = NULL; 
   } 
   maxstr_buff[maxstr_stack_level].len = 0; maxstr_stack_level--; REVERT;
@@ -17,7 +17,7 @@ void DO_ALLOC_XFORM_BUFF(str)
     else 
       { 
 	assert(NULL != lcl_coll_xform_buff); 
-	free(lcl_coll_xform_buff); 
+	gtm_free_intern(lcl_coll_xform_buff); 
       } 
     while ((str)->len > max_lcl_coll_xform_bufsiz) 
       max_lcl_coll_xform_bufsiz += max_lcl_coll_xform_bufsiz; 

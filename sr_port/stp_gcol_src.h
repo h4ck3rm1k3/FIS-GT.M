@@ -240,7 +240,7 @@ void stp_gcol(int space_needed) /* garbage collect and create enough space for s
 	}
 
 	if (stp_array == 0)
-		stp_array = (mstr **)malloc((stp_array_size = STP_MAXITEMS) * sizeof(mstr *));
+		stp_array = (mstr **)gtm_malloc_intern((stp_array_size = STP_MAXITEMS) * sizeof(mstr *));
 
 	if (lv_dupcheck)
 		init_hashtab(&stp_duptbl, stp_array_size);
@@ -564,7 +564,7 @@ void stp_gcol(int space_needed) /* garbage collect and create enough space for s
 		{
 			stringpool.free = stringpool.base + n;
 			longcpy(stringpool.base, e, n);
-			free(e);
+			gtm_free_intern(e);
 			/*
 		 	 * NOTE: rts_stringpool must be kept up-to-date because it is used to tell whether the current
 			 * stringpool is the run-time or indirection stringpool.

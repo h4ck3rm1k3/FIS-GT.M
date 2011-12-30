@@ -127,7 +127,7 @@ void *  DO_MALLOC(size_t size)
 	addr = DO_MALLOC(size);					\
 }
 
-#  define FREE(size, addr) free(addr);
+#  define FREE(size, addr) gtm_free_intern(addr);
 #endif
 #ifdef GTM_MALLOC_REENT
 #  define GMR_ONLY(statement) statement

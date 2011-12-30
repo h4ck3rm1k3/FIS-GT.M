@@ -8,7 +8,7 @@
  *	the license, please stop and do not read further.	*
  *								*
  ****************************************************************/
-
+#include <string.h>
 #include "mdef.h"
 
 #include "startup.h"

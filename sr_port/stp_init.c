@@ -38,7 +38,7 @@ void stp_init(unsigned int size)
 	   "runaway" loops, for example) will cause ACCVIO errors.
 	*/
 	stringpool.base = stringpool.free
-			= (unsigned char *) malloc (size + sizeof(int4) + 2*OS_PAGE_SIZE);
+			= (unsigned char *) gtm_malloc_intern (size + sizeof(int4) + 2*OS_PAGE_SIZE);
 
 	na_page[0] = na_page[1]
 		   = (unsigned char *)

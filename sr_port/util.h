@@ -55,6 +55,20 @@ void util_in_open(void *);
 void util_exit_handler(void);
 void util_out_close(void);
 
+struct CLB;
+
+void util_cm_print(struct CLB* , int, char *            , int , int4&, int4&, int4&, int4&, int4&, int4&, int4&);
+void util_cm_print (struct CLB*, int x, const char * fmt, int flush, 
+		    int4 & a1,
+		    int4 & a2,
+		    int4 & a3,
+		    int4 & s4,
+		    int4 & a5,
+		    int4 & a6
+		    
+		    );
+//CLB*&, int, char [64], int, int4&, int4&, int4&, int4&, int4&, int4&, int4&
+
 void util_cm_print (const char * FormatString, ...);
 void util_out_print(const char * FormatString, ...);
 

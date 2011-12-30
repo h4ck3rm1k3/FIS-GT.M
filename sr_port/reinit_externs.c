@@ -18,5 +18,5 @@ GBLREF spdesc 		stringpool;
 void reinit_externs(void)
 {
 	stringpool.free = stringpool.base;
-	mc_free();
+	mcfree();
 }

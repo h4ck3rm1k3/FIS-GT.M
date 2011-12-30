@@ -19,7 +19,7 @@
 
 lv_val *lv_ins_num_sbs(sbs_search_status *stat, mval *key, lv_sbs_tbl *tbl)
 {
-       	sbs_blk	       	*blk, *new, *nxt, *prev;
+       	sbs_blk	       	*blk, *newdata, *nxt, *prev;
        	sbs_flt_struct 	*src, *dst, *slot;
  	short  	       	max_count;
 	lv_val		*lv;
@@ -87,22 +87,22 @@ lv_val *lv_ins_num_sbs(sbs_search_status *stat, mval *key, lv_sbs_tbl *tbl)
 	 	nxt->cnt++;
        	}else
 	{    	/* split block */
-	     	new = lv_get_sbs_blk (tbl->sym);
-		assert (new->cnt == 0);
-		assert (new->nxt == 0);
-		assert (new->sbs_que.fl && new->sbs_que.bl);
-		new->nxt = blk;
+	     	newdata = lv_get_sbs_blk (tbl->sym);
+		assert (newdata->cnt == 0);
+		assert (newdata->nxt == 0);
+		assert (newdata->sbs_que.fl && newdata->sbs_que.bl);
+		newdata->nxt = blk;
 		if (stat->prev == stat->blk)
-		{	tbl->num = new;
+		{	tbl->num = newdata;
 		}
 		else
-       	       	{      	stat->prev->nxt = new;
+       	       	{      	stat->prev->nxt = newdata;
 		}
 
-       	       	dst = &new->ptr.sbs_flt[0];
+       	       	dst = &newdata->ptr.sbs_flt[0];
        	       	if (stat->ptr == (char*)&blk->ptr.sbs_flt[0])
 	     	{	slot = dst;
-			new->cnt = 1;
+			newdata->cnt = 1;
 	     	}
 	     	else
 	     	{
@@ -110,14 +110,14 @@ lv_val *lv_ins_num_sbs(sbs_search_status *stat, mval *key, lv_sbs_tbl *tbl)
        	       	       	for ( ; src < (sbs_flt_struct *)stat->ptr; src++, dst++)
 	       	       	{      	*dst = *src;
 	     	       	}
-			new->cnt = dst - &new->ptr.sbs_flt[0];
+			newdata->cnt = dst - &newdata->ptr.sbs_flt[0];
 	     		slot = &blk->ptr.sbs_flt[0];
 	     		dst = slot + 1;
 	     		top = (char *)&blk->ptr.sbs_flt[blk->cnt];
        	       	       	for ( ; src < (sbs_flt_struct *)top; src++, dst++)
 	       	       	{      	*dst = *src;
 	     	       	}
-			blk->cnt = blk->cnt - new->cnt + 1;
+			blk->cnt = blk->cnt - newdata->cnt + 1;
 	 	}
 	}
 	MV_ASGN_MVAL2FLT(slot->flt,(*key)) ;

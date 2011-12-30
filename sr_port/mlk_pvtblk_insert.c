@@ -29,7 +29,7 @@ GBLREF bool remlkreq;
 
 int mlk_pvtblk_insert(mlk_pvtblk *pblk)
 {
-	bool new;
+	bool newdata;
 	mlk_pvtblk *temp, *inlist1, *inlist2, *save_store;
 
 	if (pblk->region->dyn.addr->acc_meth == dba_cm)
@@ -43,7 +43,7 @@ int mlk_pvtblk_insert(mlk_pvtblk *pblk)
 		mlk_pvt_root = pblk;
 		mlk_pvt_root->translev = 1;
 		mlk_pvt_root->trans = TRUE;
-		new = TRUE;
+		newdata = TRUE;
 	}
 	else
 	{
@@ -55,7 +55,7 @@ int mlk_pvtblk_insert(mlk_pvtblk *pblk)
 		}
 		if (inlist1)
 		{
-			new = FALSE;
+			newdata = FALSE;
 			if (inlist1->trans)
 			{	inlist1->translev++;
 			}
@@ -77,7 +77,7 @@ int mlk_pvtblk_insert(mlk_pvtblk *pblk)
 			pblk->trans = 1;
 			pblk->next = mlk_pvt_root;
 			mlk_pvt_root = pblk;
-			new = TRUE;
+			newdata = TRUE;
 		}
 	}
 	if (pblk->region->dyn.addr->acc_meth == dba_cm)
@@ -92,5 +92,5 @@ int mlk_pvtblk_insert(mlk_pvtblk *pblk)
 		if (mlk_pvt_root->translev == 1)
 			lks_this_cmd++;
 	}
-	return (new);
+	return (newdata);
 }

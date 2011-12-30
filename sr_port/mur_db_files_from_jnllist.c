@@ -120,7 +120,8 @@ gld_dbname_list *mur_db_files_from_jnllist(char *jnl_file_list, unsigned short j
 		{
 			dblist = dblist->next = (gld_dbname_list *)gtm_malloc_intern(sizeof(gld_dbname_list));
 			memset(dblist, 0, sizeof(gld_dbname_list));
-			gv_cur_region->stat.addr = (void *)dblist; /* is it necessary ??? */
+			gv_cur_region->stat.addr = (gd_segment*)dblist; /* is it necessary ??? */
+			//gld_dbname_list* ->gd_segment*
 			dblist->gd = gv_cur_region;
 			db_tot++;
 		} else

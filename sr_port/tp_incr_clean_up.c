@@ -161,7 +161,8 @@ void tp_incr_clean_up(short newlevel)
 					cse = tmp_cse;
 				}
 				if (NULL != tp_srch_status)
-					tp_srch_status->ptr = (void *)cse_newlvl;
+					tp_srch_status->ptr = 
+					  (cw_set_element_struct*)cse_newlvl;
 			}
 			cse = next_cse;
 		}

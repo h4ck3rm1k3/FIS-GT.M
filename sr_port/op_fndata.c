@@ -15,9 +15,9 @@
 
 LITREF mval *fndata_table[2][2];
 
-void op_fndata(x,y)
-lv_val *x;
-mval *y;
+void op_fndata(lv_val *x,
+	       mval *y)
+
 {
 	lv_val *p;
 	int r,s;

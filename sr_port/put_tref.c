@@ -12,8 +12,7 @@
 #include "mdef.h"
 #include "compiler.h"
 
-oprtype put_tref(x)
-triple *x;
+oprtype put_tref(triple *x)
 {
 oprtype a;
 a.oprclass = TRIP_REF;

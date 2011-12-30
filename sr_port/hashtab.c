@@ -70,7 +70,7 @@
 GBLDEF	void	*hash_entry;
 GBLREF	bool	view_debug1;
 
-bool add_hashtab_ent(hashtab **h, void *key, void *v)
+bool add_hashtab_ent(hashtab **h, void *key, mstr *v)
 {
 	hashtab		*hptr;
 	hashtab_ent 	*h_ent, *prev = NULL, *deleted_entry = NULL, *any_deleted_entry;
@@ -201,7 +201,7 @@ void init_hashtab(hashtab **h, int minsiz)
 	hptr = *h;
 	if (!hptr)
 	{
-		hptr = *h = (void *)gtm_malloc_intern(sizeof(hashtab));
+		hptr = *h = (hashtab *)gtm_malloc_intern(sizeof(hashtab));
 		hptr->tbl = NULL;
 	} else
 		prevsiz = hptr->size;
@@ -220,7 +220,7 @@ void init_hashtab(hashtab **h, int minsiz)
 		if (hptr->tbl)
 			gtm_free_intern(hptr->tbl);
 
-		hptr->tbl = (void *)gtm_malloc_intern(sizeof(hashtab_ent) * hptr->size);
+		hptr->tbl = (hashtab_ent *)gtm_malloc_intern(sizeof(hashtab_ent) * hptr->size);
 	}
 	longset((uchar_ptr_t)hptr->tbl, sizeof(hashtab_ent) * hptr->size, 0);
 	hptr->first = NULL;

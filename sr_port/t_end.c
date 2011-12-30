@@ -105,7 +105,7 @@ GBLREF trans_num		start_tn;
 GBLREF unsigned int		t_tries;
 GBLREF uint4			t_err, process_id;
 GBLREF unsigned char		cw_set_depth, cw_map_depth;
-GBLREF unsigned char		rdfail_detail;
+GBLREF cdb_sc		rdfail_detail;
 GBLREF jnlpool_addrs		jnlpool;
 GBLREF jnlpool_ctl_ptr_t	jnlpool_ctl, temp_jnlpool_ctl;
 GBLREF bool			is_standalone;
@@ -139,6 +139,8 @@ if (history)								\
 		}							\
 	}								\
 }
+
+block_id bm_getfree(block_id orig_hint, bool *blk_used, unsigned int cw_work, cw_set_element *cs, int *cw_depth_ptr);
 
 int	t_end(srch_hist *hist1, srch_hist *hist2)
 {
@@ -223,7 +225,13 @@ int	t_end(srch_hist *hist1, srch_hist *hist2)
 			if (gds_t_create == cs->mode)
 			{
 				int_depth = (int)cw_set_depth;
-				if (0 > (cs->blk = bm_get_free(cs->blk, &blk_used, cw_depth, cw_set, &int_depth)))
+				if (0 > (cs->blk = 
+bm_getfree(
+cs->blk, 
+&blk_used, 
+cw_depth, 
+cw_set, 
+&int_depth)))
 				{
 					if (FILE_EXTENDED == cs->blk)
 					{

@@ -23,7 +23,8 @@ GBLREF	symval	*curr_symval;
 
 mval *fgncal_lookup(mval *x)
 {
-	char		new, len, y, in, *i, *i_top, *c, *c_top;
+  bool		newdata;
+  char		 len, y, in, *i, *i_top, *c, *c_top;
 	mident		name;
 	ht_entry	*q;
 	mval		*ret_val;
@@ -55,8 +56,10 @@ mval *fgncal_lookup(mval *x)
 				{	/* we have an ident */
 					for (; i < i_top; i++)
 						*i = 0;
-					q = ht_put(&curr_symval->h_symtab , (mname *)&name , &new);
-					if (new)
+					q = ht_put(
+						   &curr_symval->h_symtab ,
+						   (mname *)&name , &newdata);
+					if (newdata)
 					{	lv_newname(q, curr_symval);
 					}
 					ret_val = (mval *) q->ptr;

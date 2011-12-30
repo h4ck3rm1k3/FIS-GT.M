@@ -135,7 +135,7 @@ GBLREF uint4		process_id;
 #   define CHECK_LATCH(X, is_exiting)
 #endif
 
-GBLDEF gd_addr		*(*get_next_gdr_addrs)();
+GBLDEF gd_addr		*(*get_next_gdr_addrs)(gd_addr		    *);
 GBLDEF cw_set_element	*cw_set_addrs;
 GBLDEF sgm_info		**first_sgm_info_addrs;
 GBLDEF unsigned char	*cw_depth_addrs;
@@ -310,7 +310,10 @@ void secshr_db_clnup(enum secshr_db_state secshr_state)
 		non_tp_update_underway = TRUE;	/* non-tp update was underway */
 		update_underway = TRUE;
 	}
-	for (gd_header = (*get_next_gdr_addrs)(NULL);  NULL != gd_header;  gd_header = (*get_next_gdr_addrs)(gd_header))
+	for (
+	     gd_header = (*get_next_gdr_addrs)(NULL); 
+	     NULL != gd_header;  
+	     gd_header = (*get_next_gdr_addrs)(gd_header))
 	{
 		if (GTM_PROBE(sizeof(gd_addr), gd_header, READ))
 		{

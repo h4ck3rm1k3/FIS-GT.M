@@ -60,7 +60,7 @@ Notes:          NONE
 typedef struct gdr_name_struct
 {
 	mstr		name;
-	struct gdr_name	*link;
+	struct gdr_name_struct	*link;
 	gd_addr		*gd_ptr;
 }gdr_name;
 
@@ -95,7 +95,7 @@ gd_addr *zgbldir(mval *v)
 	gtm_free_intern(tran_name);
 
 	if (gdr_name_head)
-		name->link = (struct gdr_name *)gdr_name_head;
+		name->link = ( gdr_name *)gdr_name_head;
 	else
 		name->link = 0;
 	gdr_name_head = name;
@@ -134,7 +134,7 @@ static gd_addr	*gd_addr_head;
 
 gd_addr *gd_load(mstr *v)
 {
-	void		*file_ptr;	/* This is a temporary structure as the file open and manipulations are currently stubs */
+  file_pointer		*file_ptr;	/* This is a temporary structure as the file open and manipulations are currently stubs */
 	header_struct	*header, temp_head;
 	gd_addr		*table, *gd_addr_ptr;
 	gd_binding	*map, *map_top;

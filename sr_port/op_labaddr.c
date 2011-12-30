@@ -19,7 +19,7 @@
 #include "rtnhdr.h"
 #include "zbreak.h"
 
-USHBIN_ONLY(static LNR_TABENT *ind_lnr;)
+static LNR_TABENT *ind_lnr;
 //lnr_tabent **op_labaddr(rhdtyp *routine, mval *label, int4 offset);
 //USHBIN_ONLY(LNR_TABENT  **) NON_USHBIN_ONLY(LNR_TABENT *)
 lnr_tabent ** op_labaddr(rhdtyp *routine, mval *label, int4 offset)
@@ -51,9 +51,9 @@ lnr_tabent ** op_labaddr(rhdtyp *routine, mval *label, int4 offset)
 	answer += offset;
 	if (answer < first_line || answer >= first_line + real_routine->lnrtab_len)
 		rts_error(VARLSTCNT(5) ERR_OFFSETINV, 3, mid_len((mident *)label->str.addr), label->str.addr, offset);
-	USHBIN_ONLY(
+	//	USHBIN_ONLY(
 		ind_lnr = answer;
 		return &ind_lnr;
-		)
-	NON_USHBIN_ONLY(return answer;)
+		//		)
+	  //	NON_USHBIN_ONLY(return answer;)
 }

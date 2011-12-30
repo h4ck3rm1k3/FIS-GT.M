@@ -50,33 +50,37 @@ int do_indir_do(mval *v, unsigned char argcode)
 				if (y != TK_UPPER && y != TK_DIGIT && y != TK_LOWER)
 					break;
 			}
+
 			if (c == c_top)
-			{	/* we have an ident */
-				if (!(cmd_qlf.qlf & CQ_LOWER_LABELS))
-					lower_to_upper((uchar_ptr_t)ident.c, (uchar_ptr_t)ident.c, sizeof(mident));
-				label.mvtype = MV_STR;
-				label.str.len = i - (char*)&ident;
-				label.str.addr = (char *) &ident;
-				addr = op_labaddr(frame_pointer->rvector, &label, 0);
-				if (argcode == indir_do)
-				{
-					if (is_tracing_on)
-						exfun_frame_sp();
-					else
-						exfun_frame();
-				}
-				current_rhead = CURRENT_RHEAD_ADR(frame_pointer->rvector);
-				frame_pointer->mpc = LINE_NUMBER_ADDR(current_rhead, USHBIN_ONLY(*)addr);
+			  {	/* we have an ident */
+			    if (!(cmd_qlf.qlf & CQ_LOWER_LABELS))
+			      lower_to_upper((uchar_ptr_t)ident.c, (uchar_ptr_t)ident.c, sizeof(mident));
+			    label.mvtype = MV_STR;
+			    label.str.len = i - (char*)&ident;
+			    label.str.addr = (char *) &ident;
+			    addr = *op_labaddr(
+					      frame_pointer->rvector, 
+					      &label, 
+					      0);
+			    if (argcode == indir_do)
+			      {
+				if (is_tracing_on)
+				  exfun_frame_sp();
+				else
+				  exfun_frame();
+			      }
+			    current_rhead = CURRENT_RHEAD_ADR(frame_pointer->rvector);
+			    frame_pointer->mpc = LINE_NUMBER_ADDR(current_rhead, USHBIN_ONLY(*)addr);
 #ifdef HAS_LITERAL_SECT
-				frame_pointer->ctxt = (unsigned char *)LINKAGE_ADR(current_rhead);
+			    frame_pointer->ctxt = (unsigned char *)LINKAGE_ADR(current_rhead);
 #else
-				frame_pointer->ctxt = PTEXT_ADR(current_rhead);
+			    frame_pointer->ctxt = PTEXT_ADR(current_rhead);
 #endif
-				return TRUE;
-			} else
-				return FALSE;
+			    return TRUE;
+			  } else
+			  return FALSE;
 			break;
-		default:
-			return FALSE;
+	default:
+	  return FALSE;
 	}
 }

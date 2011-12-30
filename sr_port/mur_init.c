@@ -51,7 +51,7 @@ void mur_init(void)
  * |   random_buff     |     aux_buff1     |    seq_buff[0]    |    seq_buff[1]    |     aux_buff2     |
  */
 	assert(MUR_BUFF_SIZE > MAX_JNL_REC_SIZE);	/* in order for a journal record to fit in one buffer */
-	mur_desc.alloc_base = gtm_malloc_intern(5 * MUR_BUFF_SIZE); /* two for double buffering, two for auxiliary, one for random */
+	mur_desc.alloc_base = (unsigned char*)gtm_malloc_intern(5 * MUR_BUFF_SIZE); /* two for double buffering, two for auxiliary, one for random */
 	mur_desc.random_buff.base = mur_desc.alloc_base;
 	mur_desc.random_buff.top  = mur_desc.aux_buff1 = mur_desc.alloc_base + MUR_BUFF_SIZE;
 	mur_desc.seq_buff[0].base = mur_desc.aux_buff1 + MUR_BUFF_SIZE;

@@ -15,8 +15,7 @@
 GBLREF mv_stent *mv_chain;
 GBLREF unsigned char *stackbase,*stacktop,*msp,*stackwarn;
 
-mval *push_mval(arg1)
-mval *arg1;
+mval *push_mval(mval *arg1)
 {
 	error_def(ERR_STACKOFLOW);
 	error_def(ERR_STACKCRIT);

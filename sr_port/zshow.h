@@ -23,7 +23,7 @@
 	GBLREF char	*zwr_output_buff;		\
 	if (NULL != zwr_output_buff)			\
 	{						\
-		free(zwr_output_buff);			\
+		gtm_free_intern(zwr_output_buff);			\
 		zwr_output_buff = NULL;			\
 	}						\
 }

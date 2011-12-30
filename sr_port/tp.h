@@ -335,7 +335,7 @@ GBLREF	short	dollar_trestart;
 	for (; ks; ks = macro_next_ks)				\
 	{							\
 		macro_next_ks = ks->next_kill_set;		\
-		free(ks);					\
+		gtm_free_intern(ks);					\
 	}							\
 }
 

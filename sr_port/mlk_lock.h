@@ -12,6 +12,6 @@
 #ifndef MLK_LOCK_INCLUDED
 #define MLK_LOCK_INCLUDED
 
-uint4 mlk_lock(mlk_pvtblk *p, uint4 auxown, bool new);
+uint4 mlk_lock(mlk_pvtblk *p, uint4 auxown, bool newdata);
 
 #endif /* MLK_LOCK_INCLUDED */

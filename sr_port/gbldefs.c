@@ -73,7 +73,7 @@
 #include "mmseg.h"
 #ifndef VMS
 
-#include <bits/sigstack.h>
+//#include <bits/sigstack.h>
 # include "gtmsiginfo.h"
 #endif
 #include "gtmimagename.h"
@@ -514,13 +514,13 @@ GBLDEF	pattern		*curr_pattern;
  * Bits 0..23 of each entry correspond with the pattern-match characters, A..X.
  */
 GBLDEF pattern mumps_pattern = {
-	(void *) 0,		/* flink */
-	(void *) 0,		/* typemask */
-	(void *) 0,		/* pat YZ name array */
-	(void *) 0,		/* pat YZ name-length array */
-	-1,			/* number of YZ patcodes */
-	1,			/* namlen */
-	{'M', '\0'}		/* name */
+  (struct pattern_struct *) 0,		/* flink */
+  (uint4 * ) 0,		/* typemask */
+  (unsigned char  *) 0,		/* pat YZ name array */
+  (int *) 0,		/* pat YZ name-length array */
+  -1,			/* number of YZ patcodes */
+  1,			/* namlen */
+  {'M', '\0'}		/* name */
 };
 
 /* mapbit is used by pattab.c and patstr.c. Note that patstr.c uses only entries until PATM_X */

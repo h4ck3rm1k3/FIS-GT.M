@@ -214,8 +214,21 @@ bool	lke_showlock(
 						if (!memcmp(name->addr, one_lock.addr, one_lock.len) || (NULL == one_lock.addr))
 							util_out_print(format, FLUSH, f[0], f[1], f[2], f[3], f[4], f[5], f[6]);
 					} else
-						util_cm_print(lnk, CMMS_V_LKESHOW, format, FLUSH,
-							      f[0], f[1], f[2], f[3], f[4], f[5], f[6]);
+					  {
+					    
+util_cm_print(
+	      lnk, 
+	      CMMS_V_LKESHOW, 
+	      format, FLUSH,
+	      f[0], 
+	      f[1], 
+	      f[2],
+	      f[3], 
+	      f[4], 
+	      f[5], 
+	      f[6]);
+					  
+					  }
 				}
 				if (memcmp(name->addr, one_lock.addr, one_lock.len) && (NULL != one_lock.addr))
 				{

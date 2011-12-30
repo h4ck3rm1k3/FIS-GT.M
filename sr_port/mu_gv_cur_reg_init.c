@@ -36,7 +36,7 @@ void mu_gv_cur_reg_init(void)
 	memset(gv_cur_region->dyn.addr->file_cntl, 0, sizeof(*gv_cur_region->dyn.addr->file_cntl));
 	gv_cur_region->dyn.addr->file_cntl->file_type = dba_bg;
 
-	gv_cur_region->dyn.addr->file_cntl->file_info = (GDS_INFO *)gtm_malloc_intern(sizeof(GDS_INFO));
+	gv_cur_region->dyn.addr->file_cntl->file_info = (unix_file_info_struct*)gtm_malloc_intern(sizeof(unix_file_info_struct*));
 	memset(gv_cur_region->dyn.addr->file_cntl->file_info, 0, sizeof(GDS_INFO));
 }
 

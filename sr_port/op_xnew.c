@@ -33,7 +33,7 @@ void op_xnew(int something,...) /* SHOULD BE MODIFIED TO USE AN EXISTING POINTER
 	mident	m;
 	int4 shift;
 	ht_entry *q,*r;
-	bool new;
+	bool new_data;
 
 	va_start(var,something);
 	argcnt = va_arg(var, int4);
@@ -47,10 +47,10 @@ void op_xnew(int something,...) /* SHOULD BE MODIFIED TO USE AN EXISTING POINTER
 		memcpy(&m.c[0], s->str.addr, (s->str.len < sizeof(mident)) ? s->str.len : sizeof(mident));
 		assert(curr_symval->last_tab);
 
-		q = ht_put(&(curr_symval->last_tab->h_symtab),(mname *)&m, &new);
-		if (new)
+		q = ht_put(&(curr_symval->last_tab->h_symtab),(mname *)&m, &new_data);
+		if (new_data)
 			lv_newname(q, curr_symval->last_tab);
-		r = ht_put(&curr_symval->h_symtab, (mname *)&m, &new);
+		r = ht_put(&curr_symval->h_symtab, (mname *)&m, &new_data);
 		r->ptr = q->ptr;
 	}
 	return;

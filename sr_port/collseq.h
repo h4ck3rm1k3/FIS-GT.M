@@ -39,7 +39,7 @@ typedef struct collseq_struct {
 	int			act;
 	int4			(*xform)();
 	int4			(*xback)();
-	int4			(*version)();
+	int4			(*version)(unsigned char def_coll);
 	int4			(*verify)();
 	int			argtype;
 } collseq;

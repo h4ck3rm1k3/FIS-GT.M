@@ -25,8 +25,8 @@
 
 #ifndef VMS
 
-int             insqhi2(que_ent_ptr_t new, que_head_ptr_t base);
-int             insqti2(que_ent_ptr_t new, que_head_ptr_t base);
+int             insqhi2(que_ent_ptr_t newdata, que_head_ptr_t base);
+int             insqti2(que_ent_ptr_t newdata, que_head_ptr_t base);
 que_ent_ptr_t   remqhi1(que_head_ptr_t base);
 que_ent_ptr_t   remqti1(que_head_ptr_t base);
 

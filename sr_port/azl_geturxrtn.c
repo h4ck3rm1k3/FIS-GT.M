@@ -14,10 +14,11 @@
 
 GBLREF urx_rtnref urx_anchor;
 
-bool azl_geturxrtn (addr, rname, rp)
-char		*addr;
-mstr		*rname;
-urx_rtnref	**rp;
+bool azl_geturxrtn (
+		    char		*addr,
+		    mstr		*rname,
+		    urx_rtnref	**rp
+)
 {
 	assert (urx_anchor.len == 0);
 	for (*rp = urx_anchor.next; *rp; *rp = (*rp)->next)

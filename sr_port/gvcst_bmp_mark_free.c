@@ -45,7 +45,7 @@ GBLREF	char			*update_array, *update_array_ptr;
 GBLREF	cw_set_element		cw_set[];
 GBLREF	sgmnt_addrs		*cs_addrs;
 GBLREF	sgmnt_data_ptr_t	cs_data;
-GBLREF	unsigned char		rdfail_detail;
+GBLREF	cdb_sc		rdfail_detail;
 GBLREF	sgm_info		*sgm_info_ptr;
 GBLREF	boolean_t		mu_reorg_process;
 

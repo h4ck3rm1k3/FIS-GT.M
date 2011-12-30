@@ -135,7 +135,7 @@ void mprof_tree_walk(struct mprof_tree *tree)
 	}
 }
 
-void *mprof_tree_find_node(struct mprof_tree *tree, struct trace_entry arg)
+mprof_tree * mprof_tree_find_node(struct mprof_tree *tree, struct trace_entry arg)
 {
 	struct mprof_tree 	*t, *s, *p, *q, *r;
 	int			diff;
@@ -283,7 +283,10 @@ void *mprof_tree_find_node(struct mprof_tree *tree, struct trace_entry arg)
 	return q;
 }
 
-struct mprof_tree  *mprof_tree_insert(struct mprof_tree *tree, struct trace_entry arg)
+struct mprof_tree  *mprof_tree_insert(
+				      
+struct mprof_tree *tree, 
+struct trace_entry arg)
 {
 	struct mprof_tree *p;
 

@@ -29,7 +29,7 @@
  * mur_forward() call to this routine does not change state of BROKEN_PROC
  * When mur_forward() finds correspinding PFIN record, it marks it FINISHED.
  */
-uint4		mur_pini_state(uint4 pini_addr, int state)
+uint4		mur_pini_state(uint4 pini_addr, pini_rec_stat state)
 {
 	pini_list_struct	*plst;
 	uint4			status;

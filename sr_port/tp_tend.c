@@ -76,7 +76,7 @@ GBLREF	sgmnt_data_ptr_t	cs_data;
 GBLREF	sgm_info		*first_sgm_info, *sgm_info_ptr;
 GBLREF	tp_region		*tp_reg_list;
 GBLREF	bool			tp_kill_bitmaps;
-GBLREF	unsigned char		t_fail_hist[CDB_MAX_TRIES];
+GBLREF	cdb_sc		t_fail_hist[CDB_MAX_TRIES];
 GBLREF	int4			n_pvtmods, n_blkmods;
 GBLREF	int			t_tries;
 GBLREF	jnl_fence_control	jnl_fence_ctl;

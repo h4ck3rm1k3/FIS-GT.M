@@ -37,7 +37,7 @@ void	op_indset(mval *target, mval *value)
 	char		*i, *i_top, *c, *c_top;
 	ht_entry 	*q;
 	lv_val		*a;
-	char 		new;
+	bool 		newdata;
 	int4		y;
 	mident		ident;
 
@@ -64,8 +64,8 @@ void	op_indset(mval *target, mval *value)
 					for (; i < i_top; i++)
 					{	*i = 0;
 					}
-					q = ht_put(&curr_symval->h_symtab , (mname *)&ident , &new);
-					if (new)
+					q = ht_put(&curr_symval->h_symtab , (mname *)&ident , &newdata);
+					if (newdata)
 					{	lv_newname(q, curr_symval);
 					}
 					a = (lv_val *)q->ptr;

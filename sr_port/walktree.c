@@ -12,12 +12,14 @@
 #include "mdef.h"
 #include "compiler.h"
 
-void walktree(mvar *n,void (*f)(),char *arg)
+void walktree(mvar *n,
+	      void (*f)(mvar * _n,char * _arg),
+	      char *arg)
 {
 if (n->lson)
-	walktree(n->lson,f,arg);
-(*f)(n,arg);
-if (n->rson)
-	walktree(n->rson,f,arg);
-return;
+  walktree(n->lson,f,arg);
+ (*f)(n,arg);
+ if (n->rson)
+   walktree(n->rson,f,arg);
+ return;
 }

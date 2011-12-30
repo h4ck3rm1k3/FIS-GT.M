@@ -59,7 +59,7 @@ boolean_t str2gvargs(char *cp, int len, gvargs_t *op_gvargs)
 		if (NULL != subsc_buffer.addr)
 			gtm_free_intern(subsc_buffer.addr);
 		subsc_buffer.len = ((MAX_ZWR_INFLATION * MAX_KEY_SZ) < len ? len : (MAX_ZWR_INFLATION * MAX_KEY_SZ));
-		subsc_buffer.addr = gtm_malloc_intern(subsc_buffer.len);
+		subsc_buffer.addr = (char*)gtm_malloc_intern(subsc_buffer.len);
 	}
 	spt = subsc;
 	count = 0;

@@ -203,7 +203,7 @@ uint4 cre_jnl_file_common(jnl_create_info *info, char *rename_fn, int rename_fn_
 		STATUS_MSG(info);
 		return EXIT_ERR;
 	}
-	jrecbuf = gtm_malloc_intern(DISK_BLOCK_SIZE);
+	jrecbuf =(char*)  gtm_malloc_intern(DISK_BLOCK_SIZE);
 	memset(jrecbuf, 0, DISK_BLOCK_SIZE);
 #elif defined(VMS)
 	nam = cc$rms_nam;

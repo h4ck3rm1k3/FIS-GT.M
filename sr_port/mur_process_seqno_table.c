@@ -70,7 +70,7 @@ void mur_process_seqno_table(seq_num *min_broken_seqno, seq_num *losttn_seqno)
 		}
 		for (index = 0; index < seq_arr_size && seq_arr[index]; index++)
 			;
-		free (seq_arr);
+		gtm_free_intern (seq_arr);
 		*losttn_seqno = min_resolve_seqno + index;
 	}
 	if (*losttn_seqno > murgbl.stop_rlbk_seqno)

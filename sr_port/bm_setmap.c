@@ -39,7 +39,7 @@ GBLREF sgmnt_addrs	*cs_addrs;
 GBLREF sgmnt_data_ptr_t cs_data;
 GBLREF char		*update_array, *update_array_ptr;
 GBLREF cw_set_element	cw_set[];
-GBLREF unsigned char	rdfail_detail;
+GBLREF cdb_sc	rdfail_detail;
 GBLREF unsigned char    *non_tp_jfb_buff_ptr;
 
 void bm_setmap(block_id bml, block_id blk, int4 busy)

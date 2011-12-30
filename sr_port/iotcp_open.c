@@ -60,12 +60,15 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 	int4			length, width;
 	unsigned short		port;
 	int4			errlen, msec_timeout;
-	int			ii, status, size,
+	socklen_t size;
+	int			ii, status, 
 				on = 1,
 				p_offset = 0,
 				temp_1 = -2;
 	TID			timer_id;
-	ABS_TIME		cur_time, end_time, time_for_read, save_time_for_read;
+	ABS_TIME		cur_time, end_time;
+	timeval  time_for_read,save_time_for_read;
+
 	d_tcp_struct		*tcpptr, newtcp;
 	io_desc			*ioptr;
 	struct sockaddr_in	peer;		/* socket address + port */
@@ -204,8 +207,8 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 				return	FALSE;	/* could not create listening socket */
 			timer_id = (TID)iotcp_open;
 			out_of_time = FALSE;
-			time_for_read.at_sec = ((NO_M_TIMEOUT == timeout) ? 0 : 1);
-			time_for_read.at_usec = 0;
+			time_for_read.tv_sec = ((NO_M_TIMEOUT == timeout) ? 0 : 1);
+			time_for_read.tv_usec = 0;
 			if (NO_M_TIMEOUT == timeout)
 			{
 				timed = FALSE;
@@ -231,7 +234,7 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 				 * function, and not all callers of aa_select behave the same when EINTR is returned.
 				 */
                                 save_time_for_read = time_for_read;
-				status = tcp_routines.aa_select(lsock + 1, (void *)&tcp_fd, (void *)0, (void *)0, &time_for_read);
+				status = tcp_routines.aa_select(lsock + 1, (fd_set *)&tcp_fd, (fd_set *)0, (fd_set *)0, &time_for_read);
                                 time_for_read = save_time_for_read;
 				if (0 > status)
 				{
@@ -259,8 +262,8 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 						break;
 				}
 #ifdef __linux__
-				time_for_read.at_sec = ((NO_M_TIMEOUT == timeout) ? 0 : 1);
-				time_for_read.at_usec = 0;
+				time_for_read.tv_sec = ((NO_M_TIMEOUT == timeout) ? 0 : 1);
+				time_for_read.tv_usec = 0;
 #endif
 			}
 			if (timed)
@@ -283,7 +286,16 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 				return FALSE;
 			}
 			size = sizeof(struct sockaddr_in);
-			status = tcp_routines.aa_accept(lsock, &peer, &size);
+
+			/*
+			  conherese http://bytes.com/topic/c/answers/213411-coerce-not-struct-sockaddr-vs-struct-sockaddr_in
+			*/
+			struct sockaddr* peer1 =  ((struct sockaddr*)&peer);
+
+			status = tcp_routines.aa_accept(
+							lsock, 
+							peer1,
+							&size);
 			if (-1 == status)
 			{
 				errptr = (char *)STRERROR(errno);
@@ -327,8 +339,14 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 					return FALSE;
 				}
 				size=sizeof(newtcp.bufsiz);
-				if (-1 == tcp_routines.aa_getsockopt(newtcp.socket, SOL_SOCKET, SO_RCVBUF, &newtcp.bufsiz, &size))
-				{
+				if (-1 == 
+tcp_routines.aa_getsockopt(
+			   newtcp.socket, 
+			   SOL_SOCKET, 
+			   SO_RCVBUF, 
+			   &newtcp.bufsiz, 
+			   &size))
+				  {
 					(void)tcp_routines.aa_close(newtcp.socket);
 					errptr = (char *)STRERROR(errno);
 					errlen = strlen(errptr);

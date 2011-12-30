@@ -67,6 +67,13 @@ typedef struct	triplesize
 
 typedef struct	oprtypestruct
 {
+  
+  // constructor
+  oprtypestruct ()
+  {
+
+  }
+  
 	char			oprclass;
 	union
 	{
@@ -287,9 +294,15 @@ void obj_code(uint4 src_lines, uint4 checksum);
 
 void for_pop(void);
 
-void walktree(mvar *n,void (*f)(),char *arg);
+
 typedef void (*walktree_func_t )(mvarstruct*, mident**);
+typedef void (*walktree_func2_t )(mlabel*, int*);
+
+void walktree(mvar *n,void (*f)(),char *arg);
 void walktree(mvar *n,walktree_func_t,char *arg);
+void walktree(mvar *n,walktree_func2_t,char *arg);
+
+
 
 
 /* VMS uses same code generator as USHBIN so treat as USHBIN for these compiler routines */

@@ -377,7 +377,7 @@ void	op_fnview(int something, ...)
 		csp = ready_collseq(n);
 		if (csp)
 		{
-			n = (*csp->version)();
+			n = (*csp->version)(0);
 			n &= 0x000000FF;	/* make an unsigned char, essentially */
 		} else
 			n = -1;

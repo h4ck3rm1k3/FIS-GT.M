@@ -50,7 +50,8 @@ boolean_t iosocket_wait(io_desc *iod, int4 timepar)
         socket_struct   	*socketptr, *newsocketptr;
         char            	*errptr;
         int4            	errlen, ii, msec_timeout;
-	int			rv, size, max_fd;
+	int			rv,max_fd;
+	size_t size;
 	short			len;
         error_def(ERR_SOCKACPT);
         error_def(ERR_SOCKWAIT);
@@ -77,8 +78,12 @@ boolean_t iosocket_wait(io_desc *iod, int4 timepar)
 	add_int_to_abs_time(&cur_time, msec_timeout, &end_time);
 	for ( ; ; )
 	{
-		rv = tcp_routines.aa_select(max_fd + 1, (void *)&tcp_fd, (void *)0, (void *)0,
-			(timepar == NO_M_TIMEOUT ? (struct timeval *)0 : &utimeout));
+		rv = 
+tcp_routines.aa_select(max_fd + 1,
+		       &tcp_fd, 
+		       (fd_set *)0, 
+		       (fd_set *)0,
+		       (timepar == NO_M_TIMEOUT ? (struct timeval *)0 : &utimeout));
 		if (0 > rv && EINTR == errno)
 		{
 			if (OUTOFBANDNOW(outofband))
@@ -122,7 +127,10 @@ boolean_t iosocket_wait(io_desc *iod, int4 timepar)
 	if (socket_listening == socketptr->state)
 	{
 		size = sizeof(struct sockaddr_in);
-		rv = tcp_routines.aa_accept(socketptr->sd, &peer, &size);
+		rv = tcp_routines.aa_accept(
+					    socketptr->sd, 
+					    (sockaddr*)&peer, 
+					    &size);
 		if (rv == -1)
 		{
 			errptr = (char *)STRERROR(errno);

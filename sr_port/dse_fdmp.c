@@ -39,7 +39,7 @@ boolean_t dse_fdmp(sm_uc_ptr_t data, int len)
 	{
 		work_buff_length = ZWR_EXP_RATIO(gv_cur_region->max_rec_size);
 		if (work_buff)
-			free (work_buff);
+			gtm_free_intern (work_buff);
 		work_buff = (unsigned char *)gtm_malloc_intern(work_buff_length);
 	}
 	work_char_ptr = work_buff;

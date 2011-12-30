@@ -58,7 +58,7 @@ void	dse_dmp(void)
 		if (OPEN_FMT == dse_dmp_format)
 		{
 			dse_dmp_format = (glo_present ? GLO_FMT : ZWR_FMT);
-			dse_fdmp_output(LIT_AND_LEN("; DSE EXTRACT"));
+			dse_fdmp_output((void*)LIT_AND_LEN("; DSE EXTRACT"));
 			dse_fdmp_output(STR_AND_LEN(format_label[dse_dmp_format]));
 		} else if ((glo_present ? GLO_FMT : ZWR_FMT) != dse_dmp_format)
 		{

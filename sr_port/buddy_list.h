@@ -68,11 +68,11 @@ char		*get_new_free_element(buddy_list *list);	/* gets a freed-up element if ava
 
 #define	FREEUP_BUDDY_LIST(list)			\
 {						\
-	void	cleanup_list();			\
+	void	cleanup_list(buddy_list * alist);			\
 						\
 	cleanup_list(list);			\
 	assert(list);				\
-	free(list);				\
+	gtm_free_intern(list);				\
 }
 
 #endif

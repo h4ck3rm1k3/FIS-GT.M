@@ -26,15 +26,15 @@
 
 gd_region *mlk_region_lookup(mval *ptr, gd_addr *addr)
 {
-	ht_entry		*h;
-	char			stashed;
-	gd_binding		*map;
-	mname			lcl_name;
-	register char		*c, *c_top, *p;
-	register unsigned char	len;
-	gv_namehead		*targ;
-	gd_region		*reg;
-
+  ht_entry		*h;
+  bool			stashed;
+  gd_binding		*map;
+  mname			lcl_name;
+  register char		*c, *c_top, *p;
+  register unsigned char	len;
+  gv_namehead		*targ;
+  gd_region		*reg;
+  
 	p = ptr->str.addr;
 	if (*p != '^')				/* is local lock */
 	{

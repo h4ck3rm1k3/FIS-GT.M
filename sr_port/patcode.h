@@ -219,7 +219,7 @@ typedef struct pte_csh_struct {
 	{															\
 		if (NULL == pte_csh_array[curalt_depth])									\
 		{														\
-			pte_csh_array[curalt_depth] = malloc(sizeof(pte_csh) * PTE_BEGIN_ENTRIES);				\
+		  pte_csh_array[curalt_depth] = (pte_csh*)gtm_malloc_intern(sizeof(pte_csh) * PTE_BEGIN_ENTRIES); \
 			pte_csh_alloc_size[curalt_depth] = PTE_BEGIN_ENTRIES;							\
 		}														\
 		pte_csh_entries_per_len[curalt_depth] = ((PTE_BEGIN_ENTRIES / PTE_FILL_RATIO_DEN) * PTE_FILL_RATIO_NUM)		\
