@@ -48,8 +48,8 @@ CONDITION_HANDLER(gtmsource_ch)
 	sgmnt_addrs	*csa;
 
 	error_def(ERR_ASSERT);
-	error_def(ERR_CTRLC);
-	error_def(ERR_FORCEDHALT);
+	//unused:	error_def(ERR_CTRLC);
+	//unused:	error_def(ERR_FORCEDHALT);
 	error_def(ERR_GTMCHECK);
 	error_def(ERR_GTMASSERT);
 	error_def(ERR_STACKOFLOW);

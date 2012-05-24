@@ -65,8 +65,7 @@ typedef struct
 	unsigned char	start_seqno[sizeof(seq_num)];
 	uint4		start_flags;
 	unsigned char	jnl_ver;
-	char		filler[MIN_REPL_MSGLEN - REPL_MSG_HDRLEN - sizeof(seq_num) -
-			       sizeof(uint4) - sizeof(unsigned char)];
+  // TODO:overflow!	char		filler[MIN_REPL_MSGLEN - REPL_MSG_HDRLEN - sizeof(seq_num) -		       sizeof(uint4) - sizeof(unsigned char)];
 } repl_start_msg_t; /* The first two fields should be as in repl_msg_t */
 
 typedef struct
@@ -84,7 +83,7 @@ typedef struct
 	int4		len;
 	unsigned char	ack_seqno[sizeof(seq_num)];
 	unsigned char	ack_time[sizeof(time_t)];
-	unsigned char	filler[MIN_REPL_MSGLEN - REPL_MSG_HDRLEN - sizeof(seq_num) - sizeof(time_t)];
+  //zero size!	unsigned char	filler[MIN_REPL_MSGLEN - REPL_MSG_HDRLEN - sizeof(seq_num) - sizeof(time_t)];
 } repl_heartbeat_msg_t; /* The first two fields should be as in repl_msg_t */
 
 typedef struct

@@ -131,7 +131,7 @@ void dse_rmrec(void)
 			{	if (((blk_hdr_ptr_t) lbp)->levl)
 					util_out_print("Warning:  removed a star record from the end of this block.", TRUE);
 				((blk_hdr_ptr_t)lbp)->bsiz = rp_base - lbp;
-				BLK_INIT(bs_ptr, bs1);
+				BLK_INIT(bs_ptr, bs1); // TODO: error: cast from 'char*' to 'int' loses precision
 				BLK_SEG(bs_ptr, (uchar_ptr_t)lbp + sizeof(blk_hdr),
 					(int)((blk_hdr_ptr_t)lbp)->bsiz - sizeof(blk_hdr));
 				if (!BLK_FINI(bs_ptr, bs1))
@@ -182,7 +182,7 @@ void dse_rmrec(void)
 		memcpy(rp_base + sizeof(rec_hdr), &patch_comp_key[i], patch_comp_count - i);
 		memcpy(rp_base + sizeof(rec_hdr) + patch_comp_count - i, key_top, b_top - key_top);
 		((blk_hdr_ptr_t)lbp)->bsiz = rp_base + rsize - lbp + b_top - r_top;
-		BLK_INIT(bs_ptr, bs1);
+		BLK_INIT(bs_ptr, bs1);// TODO: error: cast from 'char*' to 'int' loses precision
 		BLK_SEG(bs_ptr, (uchar_ptr_t)lbp + sizeof(blk_hdr), ((blk_hdr_ptr_t)lbp)->bsiz - sizeof(blk_hdr));
 		if (!BLK_FINI(bs_ptr, bs1))
 		{

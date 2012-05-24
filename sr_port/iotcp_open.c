@@ -60,7 +60,8 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 	int4			length, width;
 	unsigned short		port;
 	int4			errlen, msec_timeout;
-	socklen_t size;
+	//socklen_t size;
+	size_t size;
 	int			ii, status, 
 				on = 1,
 				p_offset = 0,
@@ -292,10 +293,12 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 			*/
 			struct sockaddr* peer1 =  ((struct sockaddr*)&peer);
 
+
 			status = tcp_routines.aa_accept(
 							lsock, 
 							peer1,
 							&size);
+
 			if (-1 == status)
 			{
 				errptr = (char *)STRERROR(errno);
@@ -338,14 +341,15 @@ short	iotcp_open(io_log_name *dev, mval *pp, int file_des, mval *mspace, int4 ti
 					rts_error(VARLSTCNT(5) ERR_SOCKINIT, 3, errno, errlen, errptr);
 					return FALSE;
 				}
-				size=sizeof(newtcp.bufsiz);
+				//size=sizeof(newtcp.bufsiz);
+				socklen_t size2=sizeof(newtcp.bufsiz);
 				if (-1 == 
 tcp_routines.aa_getsockopt(
 			   newtcp.socket, 
 			   SOL_SOCKET, 
 			   SO_RCVBUF, 
 			   &newtcp.bufsiz, 
-			   &size))
+			   &size2))
 				  {
 					(void)tcp_routines.aa_close(newtcp.socket);
 					errptr = (char *)STRERROR(errno);

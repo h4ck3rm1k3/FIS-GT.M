@@ -25,9 +25,9 @@ typedef struct mvs_pval_struct_test
 
 typedef struct mvs_nval_struct_test
 {
-	struct lv_val_struct	*mvs_val;
-	mvs_ntab_struct mvs_ptab;
-	mident		name;
+  struct lv_val_struct	*mvs_val;
+  mvs_ntab_struct mvs_ptab;
+  mident		name; // just this one creates a constructor, because I added a constructor to the object
 } mvs_nval_struct;
 
 typedef struct parm_blk_test
@@ -54,10 +54,10 @@ typedef struct mv_stent_struct
 {
 	unsigned int mv_st_type : 4;
 	unsigned int mv_st_next : 28;
-	union
+	union union_mv_st_cont
 	{
 		mval mvs_mval;
-		struct
+		struct struct_mvs_msav
 		{
 			mval v;
 			mval *addr;
@@ -72,7 +72,7 @@ typedef struct mv_stent_struct
 		mvs_parm_struct mvs_parm;
 		mvs_zintr_struct mvs_zintr;
 		mvs_pval_struct mvs_pval;
-		mvs_nval_struct mvs_nval;
+	  mvs_nval_struct mvs_nval; // has constructor?
 		struct {
 			void **mvs_stck_addr;
 			void *mvs_stck_val;

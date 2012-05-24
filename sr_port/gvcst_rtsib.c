@@ -47,7 +47,7 @@ enum cdb_sc	gvcst_rtsib(srch_hist *full_hist, int level)
 	block_id	blk;
 	unsigned short	rec_size, temp_short;
 	sm_uc_ptr_t	buffer_address;
-	int4		cycle;
+	//	int4		cycle;
 
 	new_base = &full_hist->h[level];
 	old = old_base = &gv_target->hist.h[level];
@@ -80,7 +80,7 @@ enum cdb_sc	gvcst_rtsib(srch_hist *full_hist, int level)
 	full_hist->depth = level + old - old_base;
 	(newdata--)->blk_num = 0;
 	newdata->tn = old->tn;
-	newdata->ptr = NULL;
+	newdata->ptr = (cw_set_element_struct*)NULL;
 	newdata->first_tp_srch_status = old->first_tp_srch_status;
 	assert(newdata->level == old->level);
 	assert(newdata->blk_target == old->blk_target);
@@ -112,7 +112,7 @@ enum cdb_sc	gvcst_rtsib(srch_hist *full_hist, int level)
 		}
 		GET_LONG(blk, ((sm_int_ptr_t)((sm_uc_ptr_t)rp + rec_size - sizeof(block_id))));
 		newdata->tn = cs_addrs->ti->curr_tn;
-		newdata->ptr = NULL;
+		newdata->ptr = (cw_set_element_struct*) NULL;
 		if (NULL == (buffer_address = t_qread(blk, &newdata->cycle, &newdata->cr)))
 			return(rdfail_detail);
 		newdata->first_tp_srch_status = first_tp_srch_status;

@@ -93,10 +93,10 @@ typedef int4		mint;
 
 typedef struct mident_struct
 {
-  mident_struct ()
-  : c ({ ' ',' ',' ',' ',' ',' ',' ',' ',})
-  {
-  }
+  //  mident_struct ()
+  //  : c ({ ' ',' ',' ',' ',' ',' ',' ',' ',}) this cannot be used in a union
+  //  {
+  //  }
 
   char	c[8];
 

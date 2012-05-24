@@ -639,9 +639,9 @@ typedef struct sgmnt_data_struct
 	 * fields), the character array common_filler below will become a negative sized array
 	 * which will signal a compiler error (rather than an undecipherable runtime error).
 	 */
-	char		common_filler[584-sizeof(bg_trc_rec)*n_bg_trc_rec_variable_types
-						- sizeof(db_csh_acct_rec)*n_db_csh_acct_rec_types];
-	/* Include all the db cache accounting fields below */
+  //  const int common_filler_size=584-sizeof(bg_trc_rec)*n_bg_trc_rec_variable_types - sizeof(db_csh_acct_rec)*n_db_csh_acct_rec_types;
+  //  char		common_filler[common_filler_size];
+  /* Include all the db cache accounting fields below */
 #define	TAB_DB_CSH_ACCT_REC(A,B,C)	db_csh_acct_rec	A;
 #include "tab_db_csh_acct_rec.h"
 #undef TAB_DB_CSH_ACCT_REC

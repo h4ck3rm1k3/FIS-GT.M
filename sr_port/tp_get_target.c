@@ -46,7 +46,8 @@ gv_namehead *tp_get_target(sm_uc_ptr_t buffaddr)
 	int		dummycycle, levl;
 	sm_uc_ptr_t	rp, rtop;
 	cache_rec_ptr_t	dummycr;
-	gv_namehead	*cur_gv_target, *temp_gv_target;
+	//	gv_namehead	*cur_gv_target; // unused
+	gv_namehead	 *temp_gv_target;
 	mname		lcl_name;
 	unsigned char	*c,*c_top,*in,*in_top;
 	ht_entry	*h;

@@ -94,16 +94,16 @@ typedef struct
  *	at the next octaword-aligned location in the update array and sets
  *		BNUM = &ARRAY[1]
  */
-
-#define BLK_INIT(BNUM, ARRAY) 									\
-{												\
-	update_array_ptr = (char*)ROUND_UP2((int)update_array_ptr, UPDATE_ELEMENT_ALIGN_SIZE);	\
-	(ARRAY) = (blk_segment*)update_array_ptr; 						\
-	update_array_ptr += BLK_SEG_ARRAY_SIZE*sizeof(blk_segment); 				\
-	assert((update_array + update_array_size) - update_array_ptr >= 0); 			\
-	(BNUM) = (ARRAY + 1); 									\
-	blk_seg_cnt = sizeof(blk_hdr);								\
-}
+//update_array_ptr = (char*)ROUND_UP2((int)update_array_ptr, UPDATE_ELEMENT_ALIGN_SIZE); 
+#define BLK_INIT(BNUM, ARRAY)						\
+  {									\
+    update_array_ptr = (char*)ROUND_UP2((long)update_array_ptr, UPDATE_ELEMENT_ALIGN_SIZE); \
+    (ARRAY) = (blk_segment*)update_array_ptr;				\
+    update_array_ptr += BLK_SEG_ARRAY_SIZE*sizeof(blk_segment);		\
+    assert((update_array + update_array_size) - update_array_ptr >= 0);	\
+    (BNUM) = (ARRAY + 1);						\
+    blk_seg_cnt = sizeof(blk_hdr);					\
+  }
 
 /* ***************************************************************************
  *	BLK_SEG(BNUM, ADDR, LEN) adds a new entry to the blk_segment array
